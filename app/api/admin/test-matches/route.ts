@@ -4,9 +4,10 @@ import { getSql } from '@/lib/db';
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN ?? 'admin123';
 
 const TEST_MATCHES = [
-  { id: 9000001, home: 'Česko', away: 'Slovensko', kickoff: '2026-06-02T14:00:00Z' },
-  { id: 9000002, home: 'Německo', away: 'Francie', kickoff: '2026-06-02T16:00:00Z' },
-  { id: 9000003, home: 'Brazílie', away: 'Argentina', kickoff: '2026-06-02T18:00:00Z' },
+  { id: 9000001, home: 'Chorvatsko', away: 'Belgie', kickoff: '2026-06-02T16:00:00Z' },
+  { id: 9000002, home: 'Gruzie', away: 'Rumunsko', kickoff: '2026-06-02T17:00:00Z' },
+  { id: 9000003, home: 'Maroko', away: 'Madagaskar', kickoff: '2026-06-02T17:00:00Z' },
+  { id: 9000004, home: 'Wales', away: 'Ghana', kickoff: '2026-06-02T18:45:00Z' },
 ];
 
 export async function POST(req: NextRequest) {
@@ -30,7 +31,7 @@ export async function DELETE(req: NextRequest) {
 
   const sql = getSql();
   const ids = TEST_MATCHES.map(m => m.id);
-  await sql`DELETE FROM tips WHERE match_id = ANY(${ids}::int[])`;
-  await sql`DELETE FROM matches WHERE id = ANY(${ids}::int[])`;
+  await sql`DELETE FROM tips WHERE match_id = ANY(${ids})`;
+  await sql`DELETE FROM matches WHERE id = ANY(${ids})`;
   return NextResponse.json({ ok: true });
 }
