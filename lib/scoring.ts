@@ -27,8 +27,12 @@ export function calcPoints(
   return 0;
 }
 
+function normalize(s: string): string {
+  return s.trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+}
+
 export function calcScorerBonus(scorerTip: string | null, goalScorers: string[]): number {
   if (!scorerTip || !scorerTip.trim()) return 0;
-  const tip = scorerTip.trim().toLowerCase();
-  return goalScorers.some(s => s.trim().toLowerCase() === tip) ? 3 : 0;
+  const tip = normalize(scorerTip);
+  return goalScorers.some(s => normalize(s) === tip) ? 3 : 0;
 }
