@@ -4,9 +4,9 @@ import { getSql } from '@/lib/db';
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN ?? 'admin123';
 
 const TEST_MATCHES = [
-  { id: 9000001, home: 'Česko', away: 'Slovensko', kickoff: '2099-01-01T10:00:00Z' },
-  { id: 9000002, home: 'Německo', away: 'Francie', kickoff: '2099-01-01T10:00:00Z' },
-  { id: 9000003, home: 'Brazílie', away: 'Argentina', kickoff: '2099-01-01T10:00:00Z' },
+  { id: 9000001, home: 'Česko', away: 'Slovensko', kickoff: '2026-06-02T14:00:00Z' },
+  { id: 9000002, home: 'Německo', away: 'Francie', kickoff: '2026-06-02T16:00:00Z' },
+  { id: 9000003, home: 'Brazílie', away: 'Argentina', kickoff: '2026-06-02T18:00:00Z' },
 ];
 
 export async function POST(req: NextRequest) {
