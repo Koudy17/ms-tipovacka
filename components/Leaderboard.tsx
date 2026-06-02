@@ -8,8 +8,9 @@ interface Row {
   total_points: number;
   scored_tips: number;
   exact: number;
-  diff: number;
+  six: number;
   winner: number;
+  scorer_bonus: number;
 }
 
 const MEDALS = ['🥇', '🥈', '🥉'];
@@ -42,9 +43,10 @@ export default function Leaderboard({ currentUserId }: { currentUserId: number }
               <th className="py-2 px-3 text-left">#</th>
               <th className="py-2 px-3 text-left">Hráč</th>
               <th className="py-2 px-3 text-center">Body</th>
-              <th className="py-2 px-3 text-center hidden sm:table-cell">✨</th>
-              <th className="py-2 px-3 text-center hidden sm:table-cell">~</th>
-              <th className="py-2 px-3 text-center hidden sm:table-cell">✓</th>
+              <th className="py-2 px-3 text-center hidden sm:table-cell">⚽</th>
+              <th className="py-2 px-3 text-center hidden sm:table-cell">10b</th>
+              <th className="py-2 px-3 text-center hidden sm:table-cell">6b</th>
+              <th className="py-2 px-3 text-center hidden sm:table-cell">4b</th>
             </tr>
           </thead>
           <tbody>
@@ -65,8 +67,9 @@ export default function Leaderboard({ currentUserId }: { currentUserId: number }
                   {row.id === currentUserId && <span className="ml-1 text-xs text-green-400">(ty)</span>}
                 </td>
                 <td className="py-2.5 px-3 text-center font-bold text-green-400 text-base">{row.total_points}</td>
+                <td className="py-2.5 px-3 text-center text-slate-400 hidden sm:table-cell">{row.scorer_bonus}</td>
                 <td className="py-2.5 px-3 text-center text-slate-400 hidden sm:table-cell">{row.exact}</td>
-                <td className="py-2.5 px-3 text-center text-slate-400 hidden sm:table-cell">{row.diff}</td>
+                <td className="py-2.5 px-3 text-center text-slate-400 hidden sm:table-cell">{row.six}</td>
                 <td className="py-2.5 px-3 text-center text-slate-400 hidden sm:table-cell">{row.winner}</td>
               </tr>
             ))}
@@ -78,7 +81,7 @@ export default function Leaderboard({ currentUserId }: { currentUserId: number }
           </tbody>
         </table>
         <div className="px-3 py-2 bg-slate-700/50 border-t border-slate-700 text-xs text-slate-500">
-          ✨ přesný výsledek (5b) · ~ správný rozdíl (3b) · ✓ správný vítěz (1b)
+          ⚽ střelecké bonusy (+3b) · 10b přesný výsledek · 6b správný rozdíl/remíza · 4b správný vítěz
         </div>
       </div>
     </div>

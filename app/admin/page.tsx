@@ -10,6 +10,7 @@ interface Match {
   home_score: number | null;
   away_score: number | null;
   status: string;
+  goal_scorers: string | null;
 }
 
 export default function AdminPage() {
@@ -17,6 +18,7 @@ export default function AdminPage() {
   const [authed, setAuthed] = useState(false);
   const [matches, setMatches] = useState<Match[]>([]);
   const [inputs, setInputs] = useState<Record<number, [string, string]>>({});
+  const [scorerInputs, setScorerInputs] = useState<Record<number, string>>({});
   const [msg, setMsg] = useState('');
   const [syncing, setSyncing] = useState(false);
 
@@ -25,10 +27,13 @@ export default function AdminPage() {
     const data: Match[] = await res.json();
     setMatches(data);
     const init: Record<number, [string, string]> = {};
+    const scorerInit: Record<number, string> = {};
     for (const m of data) {
       init[m.id] = [m.home_score !== null ? String(m.home_score) : '', m.away_score !== null ? String(m.away_score) : ''];
+      scorerInit[m.id] = m.goal_scorers ?? '';
     }
     setInputs(init);
+    setScorerInputs(scorerInit);
   };
 
   useEffect(() => { if (authed) loadMatches(); }, [authed]);
@@ -39,7 +44,7 @@ export default function AdminPage() {
     const res = await fetch('/api/admin/results', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
-      body: JSON.stringify({ matchId, homeScore: inp[0], awayScore: inp[1] }),
+      body: JSON.stringify({ matchId, homeScore: inp[0], awayScore: inp[1], goalScorers: scorerInputs[matchId] ?? '' }),
     });
     const data = await res.json();
     setMsg(data.ok ? `✅ Zápas ${matchId} uložen, body přepočítány.` : `❌ ${data.error}`);
@@ -119,6 +124,16 @@ export default function AdminPage() {
                 >
                   {m.status === 'finished' ? 'Upravit' : 'Uložit'}
                 </button>
+              </div>
+              <div className="mt-2 flex items-center gap-2">
+                <span className="text-xs text-gray-500">⚽ Střelci (čárkou):</span>
+                <input
+                  type="text"
+                  value={scorerInputs[m.id] ?? ''}
+                  onChange={e => setScorerInputs({ ...scorerInputs, [m.id]: e.target.value })}
+                  className="flex-1 border rounded px-2 py-1 text-xs"
+                  placeholder="Mbappe, Ronaldo, …"
+                />
               </div>
               {m.status === 'finished' && (
                 <p className="text-xs text-green-600 mt-1 text-center">✅ Výsledek uložen</p>

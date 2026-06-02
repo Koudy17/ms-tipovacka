@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSql } from '@/lib/db';
-import { calcPoints } from '@/lib/scoring';
+import { calcPoints, calcScorerBonus } from '@/lib/scoring';
 
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN ?? 'admin123';
 
@@ -10,18 +10,27 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Neautorizováno.' }, { status: 401 });
   }
 
-  const { matchId, homeScore, awayScore } = await req.json();
+  const { matchId, homeScore, awayScore, goalScorers } = await req.json();
   const sql = getSql();
 
+  const scorersList: string[] = Array.isArray(goalScorers)
+    ? goalScorers
+    : (goalScorers ?? '').split(',').map((s: string) => s.trim()).filter(Boolean);
+
   await sql`
-    UPDATE matches SET home_score = ${Number(homeScore)}, away_score = ${Number(awayScore)}, status = 'finished'
+    UPDATE matches
+    SET home_score = ${Number(homeScore)},
+        away_score = ${Number(awayScore)},
+        status = 'finished',
+        goal_scorers = ${scorersList.join(',')}
     WHERE id = ${Number(matchId)}
   `;
 
   const tips = await sql`SELECT * FROM tips WHERE match_id = ${Number(matchId)}`;
   for (const tip of tips) {
     const pts = calcPoints(Number(homeScore), Number(awayScore), tip.home_tip, tip.away_tip);
-    await sql`UPDATE tips SET points = ${pts} WHERE id = ${tip.id}`;
+    const scorerPts = calcScorerBonus(tip.scorer_tip, scorersList);
+    await sql`UPDATE tips SET points = ${pts}, scorer_points = ${scorerPts} WHERE id = ${tip.id}`;
   }
 
   return NextResponse.json({ ok: true, updated: tips.length });

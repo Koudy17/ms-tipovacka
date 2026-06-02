@@ -36,8 +36,13 @@ export async function initSchema() {
       match_id INTEGER NOT NULL REFERENCES matches(id),
       home_tip INTEGER NOT NULL,
       away_tip INTEGER NOT NULL,
+      scorer_tip TEXT,
       points INTEGER,
+      scorer_points INTEGER,
       UNIQUE(user_id, match_id)
     )
   `;
+  await sql`ALTER TABLE tips ADD COLUMN IF NOT EXISTS scorer_tip TEXT`;
+  await sql`ALTER TABLE tips ADD COLUMN IF NOT EXISTS scorer_points INTEGER`;
+  await sql`ALTER TABLE matches ADD COLUMN IF NOT EXISTS goal_scorers TEXT`;
 }

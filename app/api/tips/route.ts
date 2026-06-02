@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const { userId, matchId, homeTip, awayTip } = await req.json();
+  const { userId, matchId, homeTip, awayTip, scorerTip } = await req.json();
   const sql = getSql();
 
   const rows = await sql`SELECT kickoff FROM matches WHERE id = ${Number(matchId)}`;
@@ -20,10 +20,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Tipy jsou uzamčeny – zápas již začal.' }, { status: 403 });
   }
 
+  const scorer = scorerTip?.trim() || null;
   await sql`
-    INSERT INTO tips (user_id, match_id, home_tip, away_tip)
-    VALUES (${Number(userId)}, ${Number(matchId)}, ${Number(homeTip)}, ${Number(awayTip)})
-    ON CONFLICT (user_id, match_id) DO UPDATE SET home_tip = EXCLUDED.home_tip, away_tip = EXCLUDED.away_tip
+    INSERT INTO tips (user_id, match_id, home_tip, away_tip, scorer_tip)
+    VALUES (${Number(userId)}, ${Number(matchId)}, ${Number(homeTip)}, ${Number(awayTip)}, ${scorer})
+    ON CONFLICT (user_id, match_id) DO UPDATE SET
+      home_tip = EXCLUDED.home_tip,
+      away_tip = EXCLUDED.away_tip,
+      scorer_tip = EXCLUDED.scorer_tip
   `;
   return NextResponse.json({ ok: true });
 }

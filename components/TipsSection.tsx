@@ -19,7 +19,9 @@ interface Tip {
   match_id: number;
   home_tip: number;
   away_tip: number;
+  scorer_tip: string | null;
   points: number | null;
+  scorer_points: number | null;
 }
 
 function isLocked(kickoff: string) {
@@ -46,18 +48,23 @@ function stageLabel(stage: string) {
   return labels[stage] ?? stage;
 }
 
-function pointsBadge(points: number | null) {
+function pointsBadge(points: number | null, scorerPoints: number | null) {
   if (points === null) return null;
+  const total = points + (scorerPoints ?? 0);
   const colors: Record<number, string> = {
-    5: 'bg-yellow-500 text-black',
-    3: 'bg-blue-500 text-white',
-    1: 'bg-slate-500 text-white',
+    10: 'bg-yellow-400 text-black',
+    6: 'bg-blue-500 text-white',
+    4: 'bg-emerald-600 text-white',
+    2: 'bg-slate-500 text-white',
     0: 'bg-red-900 text-red-300',
   };
-  const labels: Record<number, string> = { 5: '5b ✨', 3: '3b', 1: '1b', 0: '0b' };
+  const labels: Record<number, string> = { 10: '10b ✨', 6: '6b', 4: '4b', 2: '2b', 0: '0b' };
+  const baseColor = colors[points] ?? 'bg-slate-600 text-white';
+  const baseLabel = labels[points] ?? `${points}b`;
   return (
-    <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${colors[points] ?? 'bg-slate-600 text-white'}`}>
-      {labels[points] ?? `${points}b`}
+    <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${baseColor}`}>
+      {scorerPoints ? `${total}b` : baseLabel}
+      {scorerPoints ? <span className="ml-1 opacity-75">⚽</span> : null}
     </span>
   );
 }
@@ -66,6 +73,7 @@ export default function TipsSection({ userId }: { userId: number }) {
   const [matches, setMatches] = useState<Match[]>([]);
   const [tips, setTips] = useState<Map<number, Tip>>(new Map());
   const [inputs, setInputs] = useState<Map<number, [string, string]>>(new Map());
+  const [scorerInputs, setScorerInputs] = useState<Map<number, string>>(new Map());
   const [saving, setSaving] = useState<number | null>(null);
   const [saved, setSaved] = useState<Set<number>>(new Set());
   const [errors, setErrors] = useState<Map<number, string>>(new Map());
@@ -88,12 +96,15 @@ export default function TipsSection({ userId }: { userId: number }) {
 
     const tMap = new Map<number, Tip>();
     const iMap = new Map<number, [string, string]>();
+    const sMap = new Map<number, string>();
     for (const t of tipData) {
       tMap.set(t.match_id, t);
       iMap.set(t.match_id, [String(t.home_tip), String(t.away_tip)]);
+      sMap.set(t.match_id, t.scorer_tip ?? '');
     }
     setTips(tMap);
     setInputs(iMap);
+    setScorerInputs(sMap);
   }, [userId]);
 
   useEffect(() => { load(); }, [load]);
@@ -116,7 +127,7 @@ export default function TipsSection({ userId }: { userId: number }) {
     const res = await fetch('/api/tips', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId, matchId, homeTip: inp[0], awayTip: inp[1] }),
+      body: JSON.stringify({ userId, matchId, homeTip: inp[0], awayTip: inp[1], scorerTip: scorerInputs.get(matchId) ?? '' }),
     });
     const data = await res.json();
     setSaving(null);
@@ -227,6 +238,17 @@ export default function TipsSection({ userId }: { userId: number }) {
                       {saving === m.id ? '…' : saved.has(m.id) ? '✓' : 'Uložit'}
                     </button>
                   </div>
+                  <div className="flex items-center gap-2 mt-2">
+                    <span className="text-xs text-slate-500">⚽ Střelec (+3b):</span>
+                    <input
+                      type="text"
+                      value={scorerInputs.get(m.id) ?? ''}
+                      onChange={e => setScorerInputs(new Map(scorerInputs.set(m.id, e.target.value)))}
+                      className="flex-1 bg-slate-900 border border-slate-600 rounded-lg px-2 py-1 text-xs text-yellow-300 placeholder-slate-600 focus:border-yellow-500 focus:outline-none"
+                      placeholder="Jméno hráče…"
+                      maxLength={50}
+                    />
+                  </div>
                   {err && <p className="text-red-400 text-xs mt-1">{err}</p>}
                 </div>
               );
@@ -254,14 +276,17 @@ export default function TipsSection({ userId }: { userId: number }) {
                         <span className="text-slate-500 text-xs">🔒 {formatKickoff(m.kickoff).split(' ').slice(-1)}</span>
                       )}
                       {tip ? (
-                        <div className="text-xs text-slate-400">{tip.home_tip}:{tip.away_tip}</div>
+                        <div className="text-xs text-slate-400">
+                          {tip.home_tip}:{tip.away_tip}
+                          {tip.scorer_tip && <span className="ml-1 text-yellow-500">⚽{tip.scorer_tip}</span>}
+                        </div>
                       ) : (
                         <div className="text-xs text-red-500">—</div>
                       )}
                     </div>
                     <span className="flex-1 font-semibold text-slate-200 text-sm leading-tight">{m.away_team}</span>
                     <div className="w-14 text-right">
-                      {tip ? pointsBadge(tip.points) : null}
+                      {tip ? pointsBadge(tip.points, tip.scorer_points) : null}
                     </div>
                   </div>
                 </div>

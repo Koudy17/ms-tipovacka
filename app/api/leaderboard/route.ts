@@ -6,11 +6,12 @@ export async function GET() {
   const rows = await sql`
     SELECT
       u.id, u.nickname,
-      COALESCE(SUM(t.points), 0) AS total_points,
+      COALESCE(SUM(COALESCE(t.points, 0) + COALESCE(t.scorer_points, 0)), 0) AS total_points,
       COUNT(CASE WHEN t.points IS NOT NULL THEN 1 END) AS scored_tips,
-      COUNT(CASE WHEN t.points = 5 THEN 1 END) AS exact,
-      COUNT(CASE WHEN t.points = 3 THEN 1 END) AS diff,
-      COUNT(CASE WHEN t.points = 1 THEN 1 END) AS winner
+      COUNT(CASE WHEN t.points = 10 THEN 1 END) AS exact,
+      COUNT(CASE WHEN t.points = 6 THEN 1 END) AS six,
+      COUNT(CASE WHEN t.points = 4 THEN 1 END) AS winner,
+      COALESCE(SUM(COALESCE(t.scorer_points, 0)), 0) AS scorer_bonus
     FROM users u
     LEFT JOIN tips t ON t.user_id = u.id
     GROUP BY u.id, u.nickname

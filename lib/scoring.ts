@@ -4,19 +4,31 @@ export function calcPoints(
   homeTip: number,
   awayTip: number
 ): number {
-  // Přesný výsledek
-  if (homeTip === homeActual && awayTip === awayActual) return 5;
-
   const actualDiff = homeActual - awayActual;
   const tipDiff = homeTip - awayTip;
-
-  // Správný rozdíl gólů
-  if (tipDiff === actualDiff) return 3;
-
-  // Správný vítěz / remíza
+  const actualTotal = homeActual + awayActual;
+  const tipTotal = homeTip + awayTip;
   const actualResult = Math.sign(actualDiff);
   const tipResult = Math.sign(tipDiff);
-  if (tipResult === actualResult) return 1;
+
+  // 10b – přesný výsledek
+  if (homeTip === homeActual && awayTip === awayActual) return 10;
+
+  // 6b – správná remíza (špatné číslo), nebo správný vítěz + správný rozdíl, nebo správný vítěz + správný celkový počet gólů
+  if (actualResult === 0 && tipResult === 0) return 6;
+  if (tipResult === actualResult && tipResult !== 0 && (tipDiff === actualDiff || tipTotal === actualTotal)) return 6;
+
+  // 4b – správný vítěz
+  if (tipResult === actualResult && tipResult !== 0) return 4;
+
+  // 2b – správný celkový počet gólů, ale špatný vítěz
+  if (tipTotal === actualTotal) return 2;
 
   return 0;
+}
+
+export function calcScorerBonus(scorerTip: string | null, goalScorers: string[]): number {
+  if (!scorerTip || !scorerTip.trim()) return 0;
+  const tip = scorerTip.trim().toLowerCase();
+  return goalScorers.some(s => s.trim().toLowerCase() === tip) ? 3 : 0;
 }
