@@ -10,6 +10,8 @@ interface Row {
   exact: number;
   six: number;
   winner: number;
+  two: number;
+  zero: number;
   scorer_bonus: number;
 }
 
@@ -47,6 +49,8 @@ export default function Leaderboard({ currentUserId }: { currentUserId: number }
               <th className="py-2 px-3 text-center hidden sm:table-cell">10b</th>
               <th className="py-2 px-3 text-center hidden sm:table-cell">6b</th>
               <th className="py-2 px-3 text-center hidden sm:table-cell">4b</th>
+              <th className="py-2 px-3 text-center hidden sm:table-cell">2b</th>
+              <th className="py-2 px-3 text-center hidden sm:table-cell">0b</th>
             </tr>
           </thead>
           <tbody>
@@ -71,6 +75,8 @@ export default function Leaderboard({ currentUserId }: { currentUserId: number }
                 <td className="py-2.5 px-3 text-center text-slate-400 hidden sm:table-cell">{row.exact}</td>
                 <td className="py-2.5 px-3 text-center text-slate-400 hidden sm:table-cell">{row.six}</td>
                 <td className="py-2.5 px-3 text-center text-slate-400 hidden sm:table-cell">{row.winner}</td>
+                <td className="py-2.5 px-3 text-center text-slate-400 hidden sm:table-cell">{row.two}</td>
+                <td className="py-2.5 px-3 text-center text-slate-400 hidden sm:table-cell">{row.zero}</td>
               </tr>
             ))}
             {rows.length === 0 && (
@@ -81,7 +87,7 @@ export default function Leaderboard({ currentUserId }: { currentUserId: number }
           </tbody>
         </table>
         <div className="px-3 py-2 bg-slate-700/50 border-t border-slate-700 text-xs text-slate-500">
-          ⚽ střelecké bonusy (+3b) · 10b přesný výsledek · 6b správný rozdíl/remíza · 4b správný vítěz
+          ⚽ střelec (+3b) · 10b přesný výsledek · 6b rozdíl/remíza · 4b vítěz · 2b počet gólů · 0b nic
         </div>
       </div>
     </div>

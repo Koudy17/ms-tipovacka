@@ -11,6 +11,8 @@ export async function GET() {
       COUNT(CASE WHEN t.points = 10 THEN 1 END) AS exact,
       COUNT(CASE WHEN t.points = 6 THEN 1 END) AS six,
       COUNT(CASE WHEN t.points = 4 THEN 1 END) AS winner,
+      COUNT(CASE WHEN t.points = 2 THEN 1 END) AS two,
+      COUNT(CASE WHEN t.points = 0 THEN 1 END) AS zero,
       COALESCE(SUM(COALESCE(t.scorer_points, 0)), 0) AS scorer_bonus
     FROM users u
     LEFT JOIN tips t ON t.user_id = u.id
