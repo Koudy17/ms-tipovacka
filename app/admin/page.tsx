@@ -51,6 +51,20 @@ export default function AdminPage() {
     if (data.ok) loadMatches();
   };
 
+  const addTestMatches = async () => {
+    const res = await fetch('/api/admin/test-matches', { method: 'POST', headers: { 'x-admin-token': token } });
+    const data = await res.json();
+    setMsg(data.ok ? '✅ Test zápasy přidány.' : `❌ ${data.error}`);
+    if (data.ok) loadMatches();
+  };
+
+  const deleteTestMatches = async () => {
+    const res = await fetch('/api/admin/test-matches', { method: 'DELETE', headers: { 'x-admin-token': token } });
+    const data = await res.json();
+    setMsg(data.ok ? '✅ Test zápasy smazány.' : `❌ ${data.error}`);
+    if (data.ok) loadMatches();
+  };
+
   const syncResults = async () => {
     setSyncing(true);
     const res = await fetch('/api/sync-results', { headers: { 'x-admin-token': token } });
@@ -88,13 +102,27 @@ export default function AdminPage() {
       <div className="max-w-2xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold">⚙️ Admin – výsledky</h1>
-          <button
-            onClick={syncResults}
-            disabled={syncing}
-            className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white px-4 py-2 rounded-lg text-sm font-semibold"
-          >
-            {syncing ? 'Synchronizuji…' : '🔄 Sync z API'}
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={addTestMatches}
+              className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-semibold"
+            >
+              ➕ Test zápasy
+            </button>
+            <button
+              onClick={deleteTestMatches}
+              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-semibold"
+            >
+              🗑️ Smazat test
+            </button>
+            <button
+              onClick={syncResults}
+              disabled={syncing}
+              className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white px-4 py-2 rounded-lg text-sm font-semibold"
+            >
+              {syncing ? 'Synchronizuji…' : '🔄 Sync z API'}
+            </button>
+          </div>
         </div>
 
         {msg && <div className="bg-white border rounded-lg p-3 mb-4 text-sm">{msg}</div>}
