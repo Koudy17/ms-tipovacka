@@ -41,6 +41,7 @@ function stageLabel(stage: string) {
     SEMI_FINALS: 'Semifinále',
     THIRD_PLACE: 'O 3. místo',
     FINAL: 'Finále',
+    TEST: '🧪 Test',
   };
   return labels[stage] ?? stage;
 }
