@@ -74,8 +74,8 @@ export default function TipsSection({ userId }: { userId: number }) {
   const [tips, setTips] = useState<Map<number, Tip>>(new Map());
   const [inputs, setInputs] = useState<Map<number, [string, string]>>(new Map());
   const [scorerInputs, setScorerInputs] = useState<Map<number, string>>(new Map());
-  const [saving, setSaving] = useState<number | null>(null);
-  const [saved, setSaved] = useState<Set<number>>(new Set());
+  const [savingAll, setSavingAll] = useState(false);
+  const [savedAll, setSavedAll] = useState(false);
   const [errors, setErrors] = useState<Map<number, string>>(new Map());
   const [activeStage, setActiveStage] = useState<string>('');
   const [activeGroup, setActiveGroup] = useState<string>('VSE');
@@ -116,28 +116,32 @@ export default function TipsSection({ userId }: { userId: number }) {
     setInputs(new Map(inputs.set(matchId, next)));
   };
 
-  const saveTip = async (matchId: number) => {
-    const inp = inputs.get(matchId);
-    if (!inp || inp[0] === '' || inp[1] === '') {
-      setErrors(new Map(errors.set(matchId, 'Vyplň obě čísla.')));
-      return;
-    }
-    setSaving(matchId);
-    setErrors(new Map(errors.set(matchId, '')));
-    const res = await fetch('/api/tips', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId, matchId, homeTip: inp[0], awayTip: inp[1], scorerTip: scorerInputs.get(matchId) ?? '' }),
+  const saveAll = async () => {
+    const upcoming = matches.filter(m => !isLocked(m.kickoff));
+    const toSave = upcoming.filter(m => {
+      const inp = inputs.get(m.id);
+      return inp && inp[0] !== '' && inp[1] !== '';
     });
-    const data = await res.json();
-    setSaving(null);
-    if (data.error) {
-      setErrors(new Map(errors.set(matchId, data.error)));
-    } else {
-      setSaved(new Set(saved.add(matchId)));
-      setTimeout(() => setSaved(s => { const n = new Set(s); n.delete(matchId); return n; }), 2000);
-      load();
+    if (toSave.length === 0) return;
+
+    setSavingAll(true);
+    const newErrors = new Map(errors);
+    for (const m of toSave) {
+      const inp = inputs.get(m.id)!;
+      const res = await fetch('/api/tips', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, matchId: m.id, homeTip: inp[0], awayTip: inp[1], scorerTip: scorerInputs.get(m.id) ?? '' }),
+      });
+      const data = await res.json();
+      if (data.error) newErrors.set(m.id, data.error);
+      else newErrors.delete(m.id);
     }
+    setErrors(newErrors);
+    setSavingAll(false);
+    setSavedAll(true);
+    setTimeout(() => setSavedAll(false), 2000);
+    load();
   };
 
   const stages = [...new Set(matches.map(m => m.stage))];
@@ -200,7 +204,6 @@ export default function TipsSection({ userId }: { userId: number }) {
             {upcoming.map(m => {
               const inp = inputs.get(m.id) ?? ['', ''];
               const err = errors.get(m.id);
-              const hasTip = inp[0] !== '' && inp[1] !== '';
               return (
                 <div key={m.id} className="bg-slate-800 rounded-xl p-3 border border-slate-700">
                   <div className="text-xs text-slate-400 mb-2">{formatKickoff(m.kickoff)}</div>
@@ -224,19 +227,6 @@ export default function TipsSection({ userId }: { userId: number }) {
                       />
                     </div>
                     <span className="flex-1 font-semibold text-slate-100 text-sm leading-tight">{m.away_team}</span>
-                    <button
-                      onClick={() => saveTip(m.id)}
-                      disabled={saving === m.id}
-                      className={`ml-1 text-xs font-bold px-3 py-1.5 rounded-lg transition disabled:opacity-50 ${
-                        saved.has(m.id)
-                          ? 'bg-green-600 text-white'
-                          : hasTip
-                          ? 'bg-green-700 hover:bg-green-600 text-white'
-                          : 'bg-slate-700 text-slate-400'
-                      }`}
-                    >
-                      {saving === m.id ? '…' : saved.has(m.id) ? '✓' : 'Uložit'}
-                    </button>
                   </div>
                   <div className="flex items-center gap-2 mt-2">
                     <span className="text-xs text-slate-500">⚽ Střelec (+3b):</span>
@@ -298,6 +288,22 @@ export default function TipsSection({ userId }: { userId: number }) {
 
       {filtered.length === 0 && (
         <div className="text-center text-slate-500 py-12">Žádné zápasy</div>
+      )}
+
+      {upcoming.length > 0 && (
+        <div className="fixed bottom-6 right-4 z-50">
+          <button
+            onClick={saveAll}
+            disabled={savingAll}
+            className={`shadow-lg text-sm font-bold px-5 py-3 rounded-full transition disabled:opacity-50 ${
+              savedAll
+                ? 'bg-green-500 text-white'
+                : 'bg-red-600 hover:bg-red-500 text-white'
+            }`}
+          >
+            {savingAll ? '⏳ Ukládám…' : savedAll ? '✓ Uloženo!' : '💾 Uložit vše'}
+          </button>
+        </div>
       )}
     </div>
   );
