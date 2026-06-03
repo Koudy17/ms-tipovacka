@@ -256,7 +256,15 @@ export default function TipsSection({ userId }: { userId: number }) {
                           key={idx}
                           type="number" min="0" max="99"
                           value={inp[idx]}
-                          onChange={e => setInput(m.id, idx, e.target.value)}
+                          onChange={e => {
+                            const val = e.target.value;
+                            // Pokud prohlížeč vrátí prázdný string (šipka dolů na 0), vymaž pole
+                            if (val === '' || Number(val) < 0) {
+                              setInput(m.id, idx, '');
+                            } else {
+                              setInput(m.id, idx, val);
+                            }
+                          }}
                           onKeyDown={e => {
                             if (e.key === 'ArrowDown' && inp[idx] === '0') {
                               e.preventDefault();
