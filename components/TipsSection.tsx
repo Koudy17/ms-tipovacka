@@ -239,8 +239,9 @@ export default function TipsSection({ userId }: { userId: number }) {
             {upcoming.map(m => {
               const inp = inputs.get(m.id) ?? ['', ''];
               const err = errors.get(m.id);
+              const hasSavedTip = tips.has(m.id);
               return (
-                <div key={m.id} className="bg-slate-800 rounded-xl p-3 border border-slate-700">
+                <div key={m.id} className={`bg-slate-800 rounded-xl p-3 border ${hasSavedTip ? 'border-slate-700' : 'border-red-700'}`}>
                   <div className="text-xs text-slate-400 mb-2">{formatKickoff(m.kickoff)}</div>
                   <div className="flex items-center gap-2">
                     <span className="flex-1 font-semibold text-slate-100 text-right text-sm leading-tight">{m.home_team}</span>
