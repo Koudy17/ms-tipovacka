@@ -24,6 +24,10 @@ const NAMES: Record<string, string> = {
   'Indonesia': 'Indonésie', 'Honduras': 'Honduras', 'Guatemala': 'Guatemala',
   'Costa Rica': 'Kostarika', 'Jamaica': 'Jamajka', 'El Salvador': 'Salvador',
   'New Zealand': 'Nový Zéland', 'Korea Republic': 'Jižní Korea',
+  'Austria': 'Rakousko', 'Iraq': 'Irák', 'Jordan': 'Jordánsko',
+  'Norway': 'Norsko', 'Scotland': 'Skotsko', 'Uzbekistan': 'Uzbekistán',
+  'Cape Verde Islands': 'Kapverdy', 'Congo DR': 'DR Kongo',
+  'South Africa': 'Jižní Afrika',
 };
 
 function czName(name: string) {

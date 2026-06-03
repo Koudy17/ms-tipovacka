@@ -82,6 +82,13 @@ const TEAM_NAME_MAP: Record<string, string> = {
   'JIŽNÍ AFRIKA': 'JIHOAFRICKÁ REPUBLIKA',
   'CAPE VERDE ISLANDS': 'KAPVERDY',
   'CONGO DR': 'DR KONGO',
+  'DR KONGO': 'DR KONGO',
+  'AUSTRIA': 'RAKOUSKO',
+  'IRAQ': 'IRÁK',
+  'JORDAN': 'JORDÁNSKO',
+  'NORWAY': 'NORSKO',
+  'SCOTLAND': 'SKOTSKO',
+  'UZBEKISTAN': 'UZBEKISTÁN',
 };
 
 export default function TipsSection({ userId, dark = true }: { userId: number; dark?: boolean }) {
