@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import ScorerSelect from '@/components/ScorerSelect';
 
 interface Match {
   id: number;
@@ -313,27 +314,15 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
                     return (
                       <div className="mt-2 space-y-1.5">
                         {hasAny && (
-                          <select
+                          <ScorerSelect
+                            homeTeam={m.home_team}
+                            awayTeam={m.away_team}
+                            homePlayers={matchPlayers.filter(p => p.team === toPlayerKey(m.home_team))}
+                            awayPlayers={matchPlayers.filter(p => p.team === toPlayerKey(m.away_team))}
                             value={isFromDropdown ? currentVal : ''}
-                            onChange={e => setScorerInputs(new Map(scorerInputs.set(m.id, e.target.value)))}
-                            className={`w-full border rounded-lg px-2 py-1.5 text-xs focus:outline-none ${d.select}`}
-                          >
-                            <option value="">⚽ Tip na střelce (+3b) — vyber ze soupisky</option>
-                            {hasHome && (
-                              <optgroup label={`— ${m.home_team} —`}>
-                                {matchPlayers.filter(p => p.team === toPlayerKey(m.home_team)).map(p => (
-                                  <option key={p.name} value={p.name}>{p.name} ({p.position[0]})</option>
-                                ))}
-                              </optgroup>
-                            )}
-                            {hasAway && (
-                              <optgroup label={`— ${m.away_team} —`}>
-                                {matchPlayers.filter(p => p.team === toPlayerKey(m.away_team)).map(p => (
-                                  <option key={p.name} value={p.name}>{p.name} ({p.position[0]})</option>
-                                ))}
-                              </optgroup>
-                            )}
-                          </select>
+                            onChange={val => setScorerInputs(new Map(scorerInputs.set(m.id, val)))}
+                            dark={dark}
+                          />
                         )}
                         {(!hasHome || !hasAway) && (
                           <input
