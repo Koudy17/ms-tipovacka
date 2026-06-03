@@ -77,6 +77,13 @@ interface Player {
 
 const POSITION_ORDER: Record<string, number> = { 'Brankář': 0, 'Obránce': 1, 'Záložník': 2, 'Útočník': 3 };
 
+// Mapování DB názvů → klíče v players.json (velkými písmeny)
+const TEAM_NAME_MAP: Record<string, string> = {
+  'JIŽNÍ AFRIKA': 'JIHOAFRICKÁ REPUBLIKA',
+  'CAPE VERDE ISLANDS': 'KAPVERDY',
+  'CONGO DR': 'DR KONGO',
+};
+
 export default function TipsSection({ userId }: { userId: number }) {
   const [matches, setMatches] = useState<Match[]>([]);
   const [tips, setTips] = useState<Map<number, Tip>>(new Map());
@@ -156,9 +163,14 @@ export default function TipsSection({ userId }: { userId: number }) {
     load();
   };
 
+  const toPlayerKey = (team: string) => {
+    const upper = team.toUpperCase();
+    return TEAM_NAME_MAP[upper] ?? upper;
+  };
+
   const getMatchPlayers = (m: Match): Player[] => {
-    const homeKey = m.home_team.toUpperCase();
-    const awayKey = m.away_team.toUpperCase();
+    const homeKey = toPlayerKey(m.home_team);
+    const awayKey = toPlayerKey(m.away_team);
     return players
       .filter(p => p.team === homeKey || p.team === awayKey)
       .sort((a, b) => {
@@ -263,12 +275,12 @@ export default function TipsSection({ userId }: { userId: number }) {
                         >
                           <option value="">⚽ Tip na střelce (+3b) — nepovinné</option>
                           <optgroup label={`— ${m.home_team} —`}>
-                            {matchPlayers.filter(p => p.team === m.home_team.toUpperCase()).map(p => (
+                            {matchPlayers.filter(p => p.team === toPlayerKey(m.home_team)).map(p => (
                               <option key={p.name} value={p.name}>{p.name} ({p.position[0]})</option>
                             ))}
                           </optgroup>
                           <optgroup label={`— ${m.away_team} —`}>
-                            {matchPlayers.filter(p => p.team === m.away_team.toUpperCase()).map(p => (
+                            {matchPlayers.filter(p => p.team === toPlayerKey(m.away_team)).map(p => (
                               <option key={p.name} value={p.name}>{p.name} ({p.position[0]})</option>
                             ))}
                           </optgroup>
