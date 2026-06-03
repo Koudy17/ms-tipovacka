@@ -251,21 +251,22 @@ export default function TipsSection({ userId }: { userId: number }) {
                   <div className="flex items-center gap-2">
                     <span className="flex-1 font-semibold text-slate-100 text-right text-sm leading-tight">{m.home_team}</span>
                     <div className="flex items-center gap-1">
-                      <input
-                        type="number" min="0" max="99"
-                        value={inp[0]}
-                        onChange={e => setInput(m.id, 0, e.target.value)}
-                        className="w-10 text-center bg-slate-900 border border-slate-600 rounded-lg py-1 text-base font-bold text-green-400 focus:border-green-500 focus:outline-none"
-                        placeholder="?"
-                      />
-                      <span className="text-slate-500 font-bold">:</span>
-                      <input
-                        type="number" min="0" max="99"
-                        value={inp[1]}
-                        onChange={e => setInput(m.id, 1, e.target.value)}
-                        className="w-10 text-center bg-slate-900 border border-slate-600 rounded-lg py-1 text-base font-bold text-green-400 focus:border-green-500 focus:outline-none"
-                        placeholder="?"
-                      />
+                      {([0, 1] as const).map(idx => (
+                        <input
+                          key={idx}
+                          type="number" min="0" max="99"
+                          value={inp[idx]}
+                          onChange={e => setInput(m.id, idx, e.target.value)}
+                          onKeyDown={e => {
+                            if (e.key === 'ArrowDown' && inp[idx] === '0') {
+                              e.preventDefault();
+                              setInput(m.id, idx, '');
+                            }
+                          }}
+                          className="w-10 text-center bg-slate-900 border border-slate-600 rounded-lg py-1 text-base font-bold text-green-400 focus:border-green-500 focus:outline-none"
+                          placeholder="?"
+                        />
+                      )).reduce((acc, el, i) => i === 0 ? [el] : [...acc, <span key="sep" className="text-slate-500 font-bold">:</span>, el], [] as React.ReactNode[])}
                     </div>
                     <span className="flex-1 font-semibold text-slate-100 text-sm leading-tight">{m.away_team}</span>
                   </div>
