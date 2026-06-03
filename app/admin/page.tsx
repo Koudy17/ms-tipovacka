@@ -97,6 +97,19 @@ export default function AdminPage() {
       });
   };
 
+  const saveLive = async (matchId: number) => {
+    const inp = inputs[matchId];
+    if (!inp || inp[0] === '' || inp[1] === '') return;
+    const res = await fetch('/api/admin/live', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+      body: JSON.stringify({ matchId, homeScore: inp[0], awayScore: inp[1] }),
+    });
+    const data = await res.json();
+    setMsg(data.ok ? `🔴 Průběžný výsledek uložen (body se nepočítají).` : `❌ ${data.error}`);
+    if (data.ok) loadMatches();
+  };
+
   const saveResult = async (matchId: number) => {
     const inp = inputs[matchId];
     if (!inp || inp[0] === '' || inp[1] === '') return;
@@ -194,10 +207,18 @@ export default function AdminPage() {
                     className="w-12 text-center bg-slate-900 border-2 border-slate-600 rounded-lg py-1 font-bold text-lg text-green-400 focus:border-green-500 focus:outline-none"
                   />
                   <span className="flex-1 font-semibold text-slate-100 text-sm">{m.away_team}</span>
-                  <button onClick={() => saveResult(m.id)}
-                    className="bg-green-700 hover:bg-green-600 text-white px-3 py-1.5 rounded-lg text-sm font-semibold">
-                    {m.status === 'finished' ? 'Upravit' : 'Uložit'}
-                  </button>
+                  <div className="flex flex-col gap-1">
+                    <button onClick={() => saveResult(m.id)}
+                      className="bg-green-700 hover:bg-green-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">
+                      {m.status === 'finished' ? '✅ Upravit' : '✅ Dokončeno'}
+                    </button>
+                    {m.status !== 'finished' && (
+                      <button onClick={() => saveLive(m.id)}
+                        className="bg-red-700 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">
+                        🔴 Živý
+                      </button>
+                    )}
+                  </div>
                 </div>
 
                 {/* Střelci */}

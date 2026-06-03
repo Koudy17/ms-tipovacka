@@ -365,13 +365,17 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
             {locked.map(m => {
               const tip = tips.get(m.id);
               const finished = m.status === 'finished';
+              const live = m.status === 'live';
               return (
-                <div key={m.id} className={`rounded-xl px-3 py-2.5 border ${d.cardLocked(finished)}`}>
+                <div key={m.id} className={`rounded-xl px-3 py-2.5 border ${live ? (dark ? 'bg-slate-800 border-red-700' : 'bg-red-50 border-red-300') : d.cardLocked(finished)}`}>
                   <div className="flex items-center gap-2">
                     <span className={`flex-1 font-semibold ${d.teamLocked} text-right text-sm leading-tight`}>{m.home_team}</span>
                     <div className="text-center min-w-[72px]">
-                      {finished && m.home_score !== null ? (
-                        <span className={`text-base font-bold ${d.score}`}>{m.home_score}:{m.away_score}</span>
+                      {(finished || live) && m.home_score !== null ? (
+                        <div>
+                          <span className={`text-base font-bold ${d.score}`}>{m.home_score}:{m.away_score}</span>
+                          {live && <span className="ml-1 text-xs font-bold text-red-500 animate-pulse">LIVE</span>}
+                        </div>
                       ) : (
                         <span className={`${d.lockIcon} text-xs`}>🔒 {formatKickoff(m.kickoff).split(' ').slice(-1)}</span>
                       )}
