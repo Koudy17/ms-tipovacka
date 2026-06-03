@@ -15,6 +15,8 @@ const TEST_MATCHES = [
   { id: 9000009, home: 'Lucembursko', away: 'Itálie', kickoff: '2026-06-03T18:45:00Z' },
   { id: 9000010, home: 'Nizozemsko', away: 'Alžírsko', kickoff: '2026-06-03T18:45:00Z' },
   { id: 9000011, home: 'Polsko', away: 'Nigérie', kickoff: '2026-06-03T18:45:00Z' },
+  { id: 9000012, home: 'Panama', away: 'Dominikánská republika', kickoff: '2026-06-04T00:45:00Z' },
+  { id: 9000013, home: 'Jižní Korea', away: 'Salvador', kickoff: '2026-06-04T01:00:00Z' },
 ];
 
 export async function POST(req: NextRequest) {
