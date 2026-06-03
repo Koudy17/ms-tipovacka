@@ -239,9 +239,14 @@ export default function TipsSection({ userId }: { userId: number }) {
             {upcoming.map(m => {
               const inp = inputs.get(m.id) ?? ['', ''];
               const err = errors.get(m.id);
-              const hasSavedTip = tips.has(m.id);
+              const savedTip = tips.get(m.id);
+              const hasSavedTip = !!savedTip;
+              const matchPlayers = getMatchPlayers(m);
+              const hasPlayers = matchPlayers.length > 0;
+              const missingScorer = hasSavedTip && hasPlayers && !savedTip?.scorer_tip;
+              const borderClass = !hasSavedTip ? 'border-red-700' : missingScorer ? 'border-orange-500' : 'border-slate-700';
               return (
-                <div key={m.id} className={`bg-slate-800 rounded-xl p-3 border ${hasSavedTip ? 'border-slate-700' : 'border-red-700'}`}>
+                <div key={m.id} className={`bg-slate-800 rounded-xl p-3 border ${borderClass}`}>
                   <div className="text-xs text-slate-400 mb-2">{formatKickoff(m.kickoff)}</div>
                   <div className="flex items-center gap-2">
                     <span className="flex-1 font-semibold text-slate-100 text-right text-sm leading-tight">{m.home_team}</span>
@@ -265,7 +270,6 @@ export default function TipsSection({ userId }: { userId: number }) {
                     <span className="flex-1 font-semibold text-slate-100 text-sm leading-tight">{m.away_team}</span>
                   </div>
                   {(() => {
-                    const matchPlayers = getMatchPlayers(m);
                     const hasHome = matchPlayers.some(p => p.team === toPlayerKey(m.home_team));
                     const hasAway = matchPlayers.some(p => p.team === toPlayerKey(m.away_team));
                     const hasAny = hasHome || hasAway;
