@@ -346,7 +346,7 @@ export default function TipsSection({ userId }: { userId: number }) {
                       )}
                     </div>
                     <span className="flex-1 font-semibold text-slate-200 text-sm leading-tight">{m.away_team}</span>
-                    <div className="w-14 text-right">
+                    <div className="min-w-[52px] text-right">
                       {tip ? pointsBadge(tip.points, tip.scorer_points) : null}
                     </div>
                   </div>
