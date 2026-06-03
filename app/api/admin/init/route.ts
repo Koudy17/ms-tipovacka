@@ -27,7 +27,6 @@ const NAMES: Record<string, string> = {
   'Austria': 'Rakousko', 'Iraq': 'Irák', 'Jordan': 'Jordánsko',
   'Norway': 'Norsko', 'Scotland': 'Skotsko', 'Uzbekistan': 'Uzbekistán',
   'Cape Verde Islands': 'Kapverdy', 'Congo DR': 'DR Kongo',
-  'South Africa': 'Jižní Afrika',
 };
 
 function czName(name: string) {

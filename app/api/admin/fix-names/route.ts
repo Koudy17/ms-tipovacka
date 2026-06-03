@@ -22,9 +22,9 @@ export async function POST(req: NextRequest) {
   const sql = getSql();
   let updated = 0;
   for (const [eng, cz] of Object.entries(FIXES)) {
-    const r1 = await sql`UPDATE matches SET home_team = ${cz} WHERE home_team = ${eng}`;
-    const r2 = await sql`UPDATE matches SET away_team = ${cz} WHERE away_team = ${eng}`;
-    updated += (r1.count ?? 0) + (r2.count ?? 0);
+    await sql`UPDATE matches SET home_team = ${cz} WHERE home_team = ${eng}`;
+    await sql`UPDATE matches SET away_team = ${cz} WHERE away_team = ${eng}`;
+    updated++;
   }
   return NextResponse.json({ ok: true, updated });
 }
