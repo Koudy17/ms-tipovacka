@@ -265,26 +265,46 @@ export default function TipsSection({ userId }: { userId: number }) {
                   </div>
                   {(() => {
                     const matchPlayers = getMatchPlayers(m);
-                    if (matchPlayers.length === 0) return null;
+                    const hasHome = matchPlayers.some(p => p.team === toPlayerKey(m.home_team));
+                    const hasAway = matchPlayers.some(p => p.team === toPlayerKey(m.away_team));
+                    const hasAny = hasHome || hasAway;
+                    const currentVal = scorerInputs.get(m.id) ?? '';
+                    // Je vybraná hodnota z dropdownu nebo ručně napsaná?
+                    const isFromDropdown = hasAny && matchPlayers.some(p => p.name === currentVal);
+                    const manualVal = isFromDropdown ? '' : currentVal;
                     return (
-                      <div className="mt-2">
-                        <select
-                          value={scorerInputs.get(m.id) ?? ''}
+                      <div className="mt-2 space-y-1.5">
+                        {hasAny && (
+                          <select
+                            value={isFromDropdown ? currentVal : ''}
+                            onChange={e => setScorerInputs(new Map(scorerInputs.set(m.id, e.target.value)))}
+                            className="w-full bg-slate-900 border border-slate-600 rounded-lg px-2 py-1.5 text-xs text-yellow-300 focus:border-yellow-500 focus:outline-none"
+                          >
+                            <option value="">⚽ Tip na střelce (+3b) — vyber ze soupisky</option>
+                            {hasHome && (
+                              <optgroup label={`— ${m.home_team} —`}>
+                                {matchPlayers.filter(p => p.team === toPlayerKey(m.home_team)).map(p => (
+                                  <option key={p.name} value={p.name}>{p.name} ({p.position[0]})</option>
+                                ))}
+                              </optgroup>
+                            )}
+                            {hasAway && (
+                              <optgroup label={`— ${m.away_team} —`}>
+                                {matchPlayers.filter(p => p.team === toPlayerKey(m.away_team)).map(p => (
+                                  <option key={p.name} value={p.name}>{p.name} ({p.position[0]})</option>
+                                ))}
+                              </optgroup>
+                            )}
+                          </select>
+                        )}
+                        <input
+                          type="text"
+                          value={manualVal}
                           onChange={e => setScorerInputs(new Map(scorerInputs.set(m.id, e.target.value)))}
-                          className="w-full bg-slate-900 border border-slate-600 rounded-lg px-2 py-1.5 text-xs text-yellow-300 focus:border-yellow-500 focus:outline-none"
-                        >
-                          <option value="">⚽ Tip na střelce (+3b) — nepovinné</option>
-                          <optgroup label={`— ${m.home_team} —`}>
-                            {matchPlayers.filter(p => p.team === toPlayerKey(m.home_team)).map(p => (
-                              <option key={p.name} value={p.name}>{p.name} ({p.position[0]})</option>
-                            ))}
-                          </optgroup>
-                          <optgroup label={`— ${m.away_team} —`}>
-                            {matchPlayers.filter(p => p.team === toPlayerKey(m.away_team)).map(p => (
-                              <option key={p.name} value={p.name}>{p.name} ({p.position[0]})</option>
-                            ))}
-                          </optgroup>
-                        </select>
+                          className="w-full bg-slate-900 border border-slate-600 rounded-lg px-2 py-1.5 text-xs text-yellow-300 placeholder-slate-600 focus:border-yellow-500 focus:outline-none"
+                          placeholder={hasAny ? 'nebo napiš ručně (hráč bez soupisky)…' : '⚽ Tip na střelce (+3b) — napiš jméno…'}
+                          maxLength={60}
+                        />
                       </div>
                     );
                   })()}
