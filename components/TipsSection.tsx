@@ -454,7 +454,7 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
                               <span className={dark ? 'text-yellow-500' : 'text-yellow-600'}>
                                 {mt.scorer_tip ? `⚽ ${mt.scorer_tip}` : ''}
                               </span>
-                              <span className="w-10 text-right">
+                              <span className="min-w-[44px] text-right">
                                 {mt.points !== null ? pointsBadge(mt.points, mt.scorer_points) : ''}
                               </span>
                             </div>
