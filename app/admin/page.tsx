@@ -40,6 +40,8 @@ export default function AdminPage() {
   const [players, setPlayers] = useState<Player[]>([]);
   const [inputs, setInputs] = useState<Record<number, [string, string]>>({});
   const [scorerInputs, setScorerInputs] = useState<Record<number, string[]>>({});
+  const [savedMatches, setSavedMatches] = useState<Set<number>>(new Set());
+  const [dirtyMatches, setDirtyMatches] = useState<Set<number>>(new Set());
   const [msg, setMsg] = useState('');
   const [syncing, setSyncing] = useState(false);
 
@@ -59,6 +61,18 @@ export default function AdminPage() {
     }
     setInputs(init);
     setScorerInputs(scorerInit);
+    setDirtyMatches(new Set());
+  };
+
+  const markDirty = (matchId: number) => {
+    setDirtyMatches(prev => new Set(prev).add(matchId));
+    setSavedMatches(prev => { const n = new Set(prev); n.delete(matchId); return n; });
+  };
+
+  const markSaved = (matchId: number) => {
+    setSavedMatches(prev => new Set(prev).add(matchId));
+    setDirtyMatches(prev => { const n = new Set(prev); n.delete(matchId); return n; });
+    setTimeout(() => setSavedMatches(prev => { const n = new Set(prev); n.delete(matchId); return n; }), 3000);
   };
 
   useEffect(() => { if (authed) loadMatches(); }, [authed]);
@@ -107,7 +121,7 @@ export default function AdminPage() {
     });
     const data = await res.json();
     setMsg(data.ok ? `🔴 Průběžný výsledek uložen (body se nepočítají).` : `❌ ${data.error}`);
-    if (data.ok) loadMatches();
+    if (data.ok) { markSaved(matchId); loadMatches(); }
   };
 
   const saveResult = async (matchId: number) => {
@@ -121,7 +135,7 @@ export default function AdminPage() {
     });
     const data = await res.json();
     setMsg(data.ok ? `✅ Uloženo, přepočítáno ${data.updated} tipů.` : `❌ ${data.error}`);
-    if (data.ok) loadMatches();
+    if (data.ok) { markSaved(matchId); loadMatches(); }
   };
 
   const syncResults = async () => {
@@ -197,20 +211,26 @@ export default function AdminPage() {
                   <span className="flex-1 font-semibold text-slate-100 text-right text-sm">{m.home_team}</span>
                   <input type="number" min="0"
                     value={inputs[m.id]?.[0] ?? ''}
-                    onChange={e => setInputs({ ...inputs, [m.id]: [e.target.value, inputs[m.id]?.[1] ?? ''] })}
+                    onChange={e => { setInputs({ ...inputs, [m.id]: [e.target.value, inputs[m.id]?.[1] ?? ''] }); markDirty(m.id); }}
                     className="w-12 text-center bg-slate-900 border-2 border-slate-600 rounded-lg py-1 font-bold text-lg text-green-400 focus:border-green-500 focus:outline-none"
                   />
                   <span className="font-bold text-slate-500">:</span>
                   <input type="number" min="0"
                     value={inputs[m.id]?.[1] ?? ''}
-                    onChange={e => setInputs({ ...inputs, [m.id]: [inputs[m.id]?.[0] ?? '', e.target.value] })}
+                    onChange={e => { setInputs({ ...inputs, [m.id]: [inputs[m.id]?.[0] ?? '', e.target.value] }); markDirty(m.id); }}
                     className="w-12 text-center bg-slate-900 border-2 border-slate-600 rounded-lg py-1 font-bold text-lg text-green-400 focus:border-green-500 focus:outline-none"
                   />
                   <span className="flex-1 font-semibold text-slate-100 text-sm">{m.away_team}</span>
                   <div className="flex flex-col gap-1">
                     <button onClick={() => saveResult(m.id)}
-                      className="bg-green-700 hover:bg-green-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">
-                      {m.status === 'finished' ? '✅ Upravit' : '✅ Dokončeno'}
+                      className={`text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
+                        savedMatches.has(m.id)
+                          ? 'bg-green-500'
+                          : dirtyMatches.has(m.id)
+                          ? 'bg-red-600 hover:bg-red-500'
+                          : 'bg-green-700 hover:bg-green-600'
+                      }`}>
+                      {savedMatches.has(m.id) ? '✅ Uloženo!' : m.status === 'finished' ? '✅ Upravit' : '✅ Dokončeno'}
                     </button>
                     {m.status !== 'finished' && (
                       <button onClick={() => saveLive(m.id)}
