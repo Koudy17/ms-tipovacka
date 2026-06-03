@@ -297,14 +297,16 @@ export default function TipsSection({ userId }: { userId: number }) {
                             )}
                           </select>
                         )}
-                        <input
-                          type="text"
-                          value={manualVal}
-                          onChange={e => setScorerInputs(new Map(scorerInputs.set(m.id, e.target.value)))}
-                          className="w-full bg-slate-900 border border-slate-600 rounded-lg px-2 py-1.5 text-xs text-yellow-300 placeholder-slate-600 focus:border-yellow-500 focus:outline-none"
-                          placeholder={hasAny ? 'nebo napiš ručně (hráč bez soupisky)…' : '⚽ Tip na střelce (+3b) — napiš jméno…'}
-                          maxLength={60}
-                        />
+                        {(!hasHome || !hasAway) && (
+                          <input
+                            type="text"
+                            value={manualVal}
+                            onChange={e => setScorerInputs(new Map(scorerInputs.set(m.id, e.target.value)))}
+                            className="w-full bg-slate-900 border border-slate-600 rounded-lg px-2 py-1.5 text-xs text-yellow-300 placeholder-slate-600 focus:border-yellow-500 focus:outline-none"
+                            placeholder={hasAny ? 'nebo napiš ručně (hráč bez soupisky)…' : '⚽ Tip na střelce (+3b) — napiš jméno…'}
+                            maxLength={60}
+                          />
+                        )}
                       </div>
                     );
                   })()}
