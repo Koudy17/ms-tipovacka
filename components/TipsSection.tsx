@@ -326,6 +326,9 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
                                 ))}
                               </optgroup>
                             )}
+                            {hasHome && hasAway && (
+                              <option disabled value="">{'─'.repeat(40)}</option>
+                            )}
                             {hasAway && (
                               <optgroup label={`— ${m.away_team} —`}>
                                 {matchPlayers.filter(p => p.team === toPlayerKey(m.away_team)).map(p => (
