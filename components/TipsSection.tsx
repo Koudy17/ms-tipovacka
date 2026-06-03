@@ -91,10 +91,22 @@ const TEAM_NAME_MAP: Record<string, string> = {
   'UZBEKISTAN': 'UZBEKISTÁN',
 };
 
+interface MatchTip {
+  nickname: string;
+  user_id: number;
+  home_tip: number;
+  away_tip: number;
+  scorer_tip: string | null;
+  points: number | null;
+  scorer_points: number | null;
+}
+
 export default function TipsSection({ userId, dark = true }: { userId: number; dark?: boolean }) {
   const [matches, setMatches] = useState<Match[]>([]);
   const [tips, setTips] = useState<Map<number, Tip>>(new Map());
   const [inputs, setInputs] = useState<Map<number, [string, string]>>(new Map());
+  const [expandedMatch, setExpandedMatch] = useState<number | null>(null);
+  const [matchTips, setMatchTips] = useState<Map<number, MatchTip[]>>(new Map());
   const [scorerInputs, setScorerInputs] = useState<Map<number, string>>(new Map());
   const [players, setPlayers] = useState<Player[]>([]);
   const [savingAll, setSavingAll] = useState(false);
@@ -140,6 +152,19 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
     const next: [string, string] = [...cur] as [string, string];
     next[idx] = val.replace(/[^0-9]/g, '').slice(0, 2);
     setInputs(new Map(inputs.set(matchId, next)));
+  };
+
+  const toggleMatchTips = async (matchId: number) => {
+    if (expandedMatch === matchId) {
+      setExpandedMatch(null);
+      return;
+    }
+    setExpandedMatch(matchId);
+    if (!matchTips.has(matchId)) {
+      const res = await fetch(`/api/match-tips?matchId=${matchId}`);
+      const data: MatchTip[] = await res.json();
+      setMatchTips(new Map(matchTips.set(matchId, data)));
+    }
   };
 
   const saveAll = async () => {
@@ -398,10 +423,46 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
                       )}
                     </div>
                     <span className={`flex-1 font-semibold ${d.teamLocked} text-sm leading-tight`}>{m.away_team}</span>
-                    <div className="min-w-[52px] text-right">
+                    <div className="min-w-[52px] text-right flex flex-col items-end gap-1">
                       {tip ? pointsBadge(tip.points, tip.scorer_points) : null}
+                      <button
+                        onClick={() => toggleMatchTips(m.id)}
+                        className={`text-[10px] px-1.5 py-0.5 rounded transition ${
+                          expandedMatch === m.id
+                            ? (dark ? 'bg-slate-600 text-white' : 'bg-gray-300 text-gray-800')
+                            : (dark ? 'text-slate-500 hover:text-slate-300' : 'text-gray-400 hover:text-gray-600')
+                        }`}
+                      >
+                        {expandedMatch === m.id ? '▲ skrýt' : '▼ tipy'}
+                      </button>
                     </div>
                   </div>
+
+                  {/* Tipy ostatních */}
+                  {expandedMatch === m.id && (
+                    <div className={`mt-2 pt-2 border-t ${dark ? 'border-slate-700' : 'border-gray-200'}`}>
+                      {(matchTips.get(m.id) ?? []).length === 0 ? (
+                        <p className={`text-xs text-center ${d.empty}`}>Nikdo netipoval</p>
+                      ) : (
+                        <div className="space-y-1">
+                          {(matchTips.get(m.id) ?? []).map(mt => (
+                            <div key={mt.user_id} className={`flex items-center justify-between text-xs ${mt.user_id === userId ? (dark ? 'text-green-400' : 'text-green-700') : (dark ? 'text-slate-300' : 'text-gray-700')}`}>
+                              <span className="font-semibold w-24 truncate">
+                                {mt.user_id === userId ? '👤 ' : ''}{mt.nickname}
+                              </span>
+                              <span className="font-bold">{mt.home_tip}:{mt.away_tip}</span>
+                              <span className={dark ? 'text-yellow-500' : 'text-yellow-600'}>
+                                {mt.scorer_tip ? `⚽ ${mt.scorer_tip}` : ''}
+                              </span>
+                              <span className="w-10 text-right">
+                                {mt.points !== null ? pointsBadge(mt.points, mt.scorer_points) : ''}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               );
             })}
