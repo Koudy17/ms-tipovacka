@@ -84,7 +84,7 @@ const TEAM_NAME_MAP: Record<string, string> = {
   'CONGO DR': 'DR KONGO',
 };
 
-export default function TipsSection({ userId }: { userId: number }) {
+export default function TipsSection({ userId, dark = true }: { userId: number; dark?: boolean }) {
   const [matches, setMatches] = useState<Match[]>([]);
   const [tips, setTips] = useState<Map<number, Tip>>(new Map());
   const [inputs, setInputs] = useState<Map<number, [string, string]>>(new Map());
@@ -193,6 +193,39 @@ export default function TipsSection({ userId }: { userId: number }) {
   const upcoming = filtered.filter(m => !isLocked(m.kickoff));
   const locked = filtered.filter(m => isLocked(m.kickoff));
 
+  const d = {
+    label: dark ? 'text-slate-400' : 'text-gray-500',
+    stageBtn: (active: boolean) => active
+      ? 'bg-green-500 text-white'
+      : dark ? 'bg-slate-700 text-slate-300 hover:bg-slate-600' : 'bg-gray-200 text-gray-600 hover:bg-gray-300',
+    groupBtn: (active: boolean) => active
+      ? 'bg-emerald-600 text-white'
+      : dark ? 'bg-slate-700 text-slate-300 hover:bg-slate-600' : 'bg-gray-200 text-gray-600 hover:bg-gray-300',
+    card: dark ? 'bg-slate-800 border-slate-700' : 'bg-white border-gray-200',
+    cardLocked: (finished: boolean) => finished
+      ? (dark ? 'bg-slate-800 border-slate-700' : 'bg-white border-gray-200')
+      : (dark ? 'bg-slate-800 border-orange-900' : 'bg-orange-50 border-orange-200'),
+    time: dark ? 'text-slate-400' : 'text-gray-400',
+    team: dark ? 'text-slate-100' : 'text-gray-900',
+    teamLocked: dark ? 'text-slate-200' : 'text-gray-700',
+    score: dark ? 'text-white' : 'text-gray-900',
+    tipText: dark ? 'text-slate-400' : 'text-gray-500',
+    noTip: 'text-red-500',
+    input: dark ? 'bg-slate-900 border-slate-600 text-green-400 focus:border-green-500' : 'bg-gray-50 border-gray-300 text-green-700 focus:border-green-500',
+    select: dark ? 'bg-slate-900 border-slate-600 text-yellow-300 focus:border-yellow-500' : 'bg-gray-50 border-gray-300 text-yellow-700 focus:border-yellow-500',
+    manualInput: dark ? 'bg-slate-900 border-slate-600 text-yellow-300 placeholder-slate-600 focus:border-yellow-500' : 'bg-gray-50 border-gray-300 text-yellow-700 placeholder-gray-400 focus:border-yellow-500',
+    saveBtn: (hasTip: boolean, isSaved: boolean) => isSaved
+      ? 'bg-green-600 text-white'
+      : hasTip ? 'bg-green-700 hover:bg-green-600 text-white' : (dark ? 'bg-slate-700 text-slate-400' : 'bg-gray-200 text-gray-400'),
+    savAllBtn: (savedAll: boolean) => savedAll
+      ? 'bg-green-500 text-white shadow-lg'
+      : 'bg-green-700 hover:bg-green-600 text-white shadow-lg',
+    lockIcon: dark ? 'text-slate-500' : 'text-gray-400',
+    scorerLabel: dark ? 'text-slate-500' : 'text-gray-400',
+    scorerVal: dark ? 'text-yellow-500' : 'text-yellow-600',
+    empty: dark ? 'text-slate-500' : 'text-gray-400',
+  };
+
   return (
     <div className="space-y-4">
       {/* Stage filtry */}
@@ -201,11 +234,7 @@ export default function TipsSection({ userId }: { userId: number }) {
           <button
             key={s}
             onClick={() => { setActiveStage(s); setActiveGroup('VSE'); }}
-            className={`whitespace-nowrap px-3 py-1.5 rounded-full text-xs font-semibold transition ${
-              activeStage === s
-                ? 'bg-green-500 text-white'
-                : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-            }`}
+            className={`whitespace-nowrap px-3 py-1.5 rounded-full text-xs font-semibold transition ${d.stageBtn(activeStage === s)}`}
           >
             {stageLabel(s)}
           </button>
@@ -219,11 +248,7 @@ export default function TipsSection({ userId }: { userId: number }) {
             <button
               key={g}
               onClick={() => setActiveGroup(g)}
-              className={`whitespace-nowrap px-3 py-1.5 rounded-full text-xs font-semibold transition ${
-                activeGroup === g
-                  ? 'bg-emerald-600 text-white'
-                  : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-              }`}
+              className={`whitespace-nowrap px-3 py-1.5 rounded-full text-xs font-semibold transition ${d.groupBtn(activeGroup === g)}`}
             >
               {g === 'VSE' ? 'Všechny' : g}
             </button>
@@ -234,7 +259,7 @@ export default function TipsSection({ userId }: { userId: number }) {
       {/* Nadcházející */}
       {upcoming.length > 0 && (
         <section>
-          <p className="text-xs text-slate-400 uppercase tracking-wider mb-2 font-semibold">Tipuj</p>
+          <p className={`text-xs ${d.label} uppercase tracking-wider mb-2 font-semibold`}>Tipuj</p>
           <div className="space-y-2">
             {upcoming.map(m => {
               const inp = inputs.get(m.id) ?? ['', ''];
@@ -244,12 +269,12 @@ export default function TipsSection({ userId }: { userId: number }) {
               const matchPlayers = getMatchPlayers(m);
               const hasPlayers = matchPlayers.length > 0;
               const missingScorer = hasSavedTip && hasPlayers && !savedTip?.scorer_tip;
-              const borderClass = !hasSavedTip ? 'border-red-700' : missingScorer ? 'border-orange-500' : 'border-slate-700';
+              const borderClass = !hasSavedTip ? 'border-red-700' : missingScorer ? 'border-orange-500' : (dark ? 'border-slate-700' : 'border-gray-200');
               return (
-                <div key={m.id} className={`bg-slate-800 rounded-xl p-3 border ${borderClass}`}>
-                  <div className="text-xs text-slate-400 mb-2">{formatKickoff(m.kickoff)}</div>
+                <div key={m.id} className={`${dark ? 'bg-slate-800' : 'bg-white'} rounded-xl p-3 border ${borderClass}`}>
+                  <div className={`text-xs ${d.time} mb-2`}>{formatKickoff(m.kickoff)}</div>
                   <div className="flex items-center gap-2">
-                    <span className="flex-1 font-semibold text-slate-100 text-right text-sm leading-tight">{m.home_team}</span>
+                    <span className={`flex-1 font-semibold ${d.team} text-right text-sm leading-tight`}>{m.home_team}</span>
                     <div className="flex items-center gap-1">
                       {([0, 1] as const).map(idx => (
                         <input
@@ -271,12 +296,12 @@ export default function TipsSection({ userId }: { userId: number }) {
                               setInput(m.id, idx, '');
                             }
                           }}
-                          className="w-10 text-center bg-slate-900 border border-slate-600 rounded-lg py-1 text-base font-bold text-green-400 focus:border-green-500 focus:outline-none"
+                          className={`w-10 text-center border rounded-lg py-1 text-base font-bold focus:outline-none ${d.input}`}
                           placeholder="?"
                         />
                       )).reduce((acc, el, i) => i === 0 ? [el] : [...acc, <span key="sep" className="text-slate-500 font-bold">:</span>, el], [] as React.ReactNode[])}
                     </div>
-                    <span className="flex-1 font-semibold text-slate-100 text-sm leading-tight">{m.away_team}</span>
+                    <span className={`flex-1 font-semibold ${d.team} text-sm leading-tight`}>{m.away_team}</span>
                   </div>
                   {(() => {
                     const hasHome = matchPlayers.some(p => p.team === toPlayerKey(m.home_team));
@@ -292,7 +317,7 @@ export default function TipsSection({ userId }: { userId: number }) {
                           <select
                             value={isFromDropdown ? currentVal : ''}
                             onChange={e => setScorerInputs(new Map(scorerInputs.set(m.id, e.target.value)))}
-                            className="w-full bg-slate-900 border border-slate-600 rounded-lg px-2 py-1.5 text-xs text-yellow-300 focus:border-yellow-500 focus:outline-none"
+                            className={`w-full border rounded-lg px-2 py-1.5 text-xs focus:outline-none ${d.select}`}
                           >
                             <option value="">⚽ Tip na střelce (+3b) — vyber ze soupisky</option>
                             {hasHome && (
@@ -335,31 +360,31 @@ export default function TipsSection({ userId }: { userId: number }) {
       {/* Uzamčené */}
       {locked.length > 0 && (
         <section>
-          <p className="text-xs text-slate-400 uppercase tracking-wider mb-2 font-semibold">Uzamčené / odehrané</p>
+          <p className={`text-xs ${d.label} uppercase tracking-wider mb-2 font-semibold`}>Uzamčené / odehrané</p>
           <div className="space-y-1.5">
             {locked.map(m => {
               const tip = tips.get(m.id);
               const finished = m.status === 'finished';
               return (
-                <div key={m.id} className={`rounded-xl px-3 py-2.5 border ${finished ? 'bg-slate-800 border-slate-700' : 'bg-slate-800 border-orange-900'}`}>
+                <div key={m.id} className={`rounded-xl px-3 py-2.5 border ${d.cardLocked(finished)}`}>
                   <div className="flex items-center gap-2">
-                    <span className="flex-1 font-semibold text-slate-200 text-right text-sm leading-tight">{m.home_team}</span>
+                    <span className={`flex-1 font-semibold ${d.teamLocked} text-right text-sm leading-tight`}>{m.home_team}</span>
                     <div className="text-center min-w-[72px]">
                       {finished && m.home_score !== null ? (
-                        <span className="text-base font-bold text-white">{m.home_score}:{m.away_score}</span>
+                        <span className={`text-base font-bold ${d.score}`}>{m.home_score}:{m.away_score}</span>
                       ) : (
-                        <span className="text-slate-500 text-xs">🔒 {formatKickoff(m.kickoff).split(' ').slice(-1)}</span>
+                        <span className={`${d.lockIcon} text-xs`}>🔒 {formatKickoff(m.kickoff).split(' ').slice(-1)}</span>
                       )}
                       {tip ? (
-                        <div className="text-xs text-slate-400">
+                        <div className={`text-xs ${d.tipText}`}>
                           {tip.home_tip}:{tip.away_tip}
-                          {tip.scorer_tip && <span className="ml-1 text-yellow-500">⚽{tip.scorer_tip}</span>}
+                          {tip.scorer_tip && <span className={`ml-1 ${d.scorerVal}`}>⚽{tip.scorer_tip}</span>}
                         </div>
                       ) : (
-                        <div className="text-xs text-red-500">—</div>
+                        <div className={`text-xs ${d.noTip}`}>—</div>
                       )}
                     </div>
-                    <span className="flex-1 font-semibold text-slate-200 text-sm leading-tight">{m.away_team}</span>
+                    <span className={`flex-1 font-semibold ${d.teamLocked} text-sm leading-tight`}>{m.away_team}</span>
                     <div className="min-w-[52px] text-right">
                       {tip ? pointsBadge(tip.points, tip.scorer_points) : null}
                     </div>
@@ -372,7 +397,7 @@ export default function TipsSection({ userId }: { userId: number }) {
       )}
 
       {filtered.length === 0 && (
-        <div className="text-center text-slate-500 py-12">Žádné zápasy</div>
+        <div className={`text-center ${d.empty} py-12`}>Žádné zápasy</div>
       )}
 
       {upcoming.length > 0 && (
