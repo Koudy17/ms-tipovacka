@@ -178,7 +178,9 @@ export default function AdminPage() {
     );
   }
 
-  const lockedMatches = matches.filter(m => new Date() >= new Date(m.kickoff));
+  const lockedMatches = matches
+    .filter(m => new Date() >= new Date(m.kickoff))
+    .sort((a, b) => new Date(b.kickoff).getTime() - new Date(a.kickoff).getTime());
 
   return (
     <div className="min-h-screen bg-slate-900 p-4">
