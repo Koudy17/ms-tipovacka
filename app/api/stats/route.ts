@@ -18,6 +18,7 @@ export async function GET(req: NextRequest) {
     FROM tips t
     JOIN matches m ON m.id = t.match_id
     WHERE t.user_id = ${Number(userId)}
+      AND m.kickoff <= NOW()
     ORDER BY m.kickoff DESC
   `;
 
