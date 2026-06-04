@@ -201,8 +201,7 @@ export default function AdminPage() {
 
         <div className="space-y-3">
           {lockedMatches.map(m => {
-            const isMS = MS_STAGES.includes(m.stage);
-            const matchPlayers = isMS ? getMatchPlayers(m) : [];
+            const matchPlayers = getMatchPlayers(m);
             const hasPlayers = matchPlayers.length > 0;
             const goals = totalGoals(m.id);
             const slots = getScorerSlots(m.id);
