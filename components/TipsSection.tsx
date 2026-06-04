@@ -475,28 +475,28 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
               const live = false;
               return (
                 <div key={m.id} className={`rounded-xl px-3 py-2.5 border ${d.cardLocked(true)}`}>
-                  <div className="flex items-start gap-2">
-                    <span className={`flex-1 font-semibold ${d.teamLocked} text-right text-sm pt-0.5`}>{m.home_team}</span>
-                    <div className="text-center min-w-[80px]">
+                  <div className="flex items-start gap-1.5">
+                    <span className={`flex-1 font-semibold ${d.teamLocked} text-right text-xs sm:text-sm pt-1 truncate`}>{m.home_team}</span>
+                    <div className="text-center min-w-[76px] shrink-0">
                       {m.home_score !== null ? (
                         <>
                           <div className={`text-base font-bold ${d.score}`}>{m.home_score}:{m.away_score}</div>
                           {tip ? (
-                            <div className={`text-xs ${d.tipText} flex items-center justify-center gap-1.5 flex-wrap`}>
-                              <span>můj tip: <span className="font-semibold">{tip.home_tip}:{tip.away_tip}</span></span>
+                            <div className={`text-[10px] sm:text-xs ${d.tipText}`}>
+                              <span>tip: <span className="font-semibold">{tip.home_tip}:{tip.away_tip}</span></span>
                               {tip.scorer_tip && (
-                                <span className={d.scorerVal}>⚽ {tip.scorer_tip}</span>
+                                <span className={`ml-1 ${d.scorerVal}`}>⚽ {tip.scorer_tip.split(' ').slice(-1)}</span>
                               )}
                             </div>
                           ) : (
-                            <div className={`text-xs ${d.noTip}`}>netipoval</div>
+                            <div className={`text-[10px] ${d.noTip}`}>netipoval</div>
                           )}
                         </>
                       ) : (
                         <span className={`${d.lockIcon} text-xs`}>🔒</span>
                       )}
                     </div>
-                    <span className={`flex-1 font-semibold ${d.teamLocked} text-sm pt-0.5`}>{m.away_team}</span>
+                    <span className={`flex-1 font-semibold ${d.teamLocked} text-xs sm:text-sm pt-1 truncate`}>{m.away_team}</span>
                     <div className="min-w-[52px] text-right flex flex-col items-end gap-1">
                       {tip ? pointsBadge(tip.points, tip.scorer_points) : null}
                       <button
