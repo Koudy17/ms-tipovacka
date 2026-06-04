@@ -474,28 +474,30 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
               const finished = true;
               const live = false;
               return (
-                <div key={m.id} className={`rounded-xl px-3 py-2.5 border ${live ? (dark ? 'bg-slate-800 border-red-700' : 'bg-red-50 border-red-300') : d.cardLocked(finished)}`}>
+                <div key={m.id} className={`rounded-xl px-3 py-2.5 border ${d.cardLocked(true)}`}>
                   <div className="flex items-center gap-2">
-                    <span className={`flex-1 font-semibold ${d.teamLocked} text-right text-sm leading-tight`}>{m.home_team}</span>
-                    <div className="text-center min-w-[72px]">
-                      {(finished || live) && m.home_score !== null ? (
-                        <div>
-                          <span className={`text-base font-bold ${d.score}`}>{m.home_score}:{m.away_score}</span>
-                          {live && <span className="ml-1 text-xs font-bold text-red-500 animate-pulse">LIVE</span>}
-                        </div>
+                    <span className={`flex-1 font-semibold ${d.teamLocked} text-right text-sm leading-tight self-center`}>{m.home_team}</span>
+                    <div className="text-center min-w-[80px]">
+                      {m.home_score !== null ? (
+                        <>
+                          <div className={`text-base font-bold ${d.score}`}>{m.home_score}:{m.away_score}</div>
+                          {tip ? (
+                            <div className={`text-xs ${d.tipText}`}>
+                              <span className="mr-0.5">tip:</span>
+                              <span className="font-semibold">{tip.home_tip}:{tip.away_tip}</span>
+                            </div>
+                          ) : (
+                            <div className={`text-xs ${d.noTip}`}>netipoval</div>
+                          )}
+                          {tip?.scorer_tip && (
+                            <div className={`text-[10px] ${d.scorerVal}`}>⚽ {tip.scorer_tip}</div>
+                          )}
+                        </>
                       ) : (
-                        <span className={`${d.lockIcon} text-xs`}>🔒 {formatKickoff(m.kickoff).split(' ').slice(-1)}</span>
-                      )}
-                      {tip ? (
-                        <div className={`text-xs ${d.tipText}`}>
-                          {tip.home_tip}:{tip.away_tip}
-                          {tip.scorer_tip && <span className={`ml-1 ${d.scorerVal}`}>⚽{tip.scorer_tip}</span>}
-                        </div>
-                      ) : (
-                        <div className={`text-xs ${d.noTip}`}>—</div>
+                        <span className={`${d.lockIcon} text-xs`}>🔒</span>
                       )}
                     </div>
-                    <span className={`flex-1 font-semibold ${d.teamLocked} text-sm leading-tight`}>{m.away_team}</span>
+                    <span className={`flex-1 font-semibold ${d.teamLocked} text-sm leading-tight self-center`}>{m.away_team}</span>
                     <div className="min-w-[52px] text-right flex flex-col items-end gap-1">
                       {tip ? pointsBadge(tip.points, tip.scorer_points) : null}
                       <button
