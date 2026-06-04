@@ -161,9 +161,6 @@ export default function Leaderboard({ currentUserId, dark }: { currentUserId: nu
                     style={{ width: `${pct}%` }}
                   />
                 </div>
-                {row.scorer_bonus > 0 && (
-                  <p className={`text-xs mt-0.5 ${d.chartPts}`}>⚽ z toho {row.scorer_bonus}b za střelce</p>
-                )}
               </div>
             );
           })}
