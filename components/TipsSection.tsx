@@ -475,8 +475,8 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
               const live = false;
               return (
                 <div key={m.id} className={`rounded-xl px-3 py-2.5 border ${d.cardLocked(true)}`}>
-                  <div className="flex items-center gap-2">
-                    <span className={`flex-1 font-semibold ${d.teamLocked} text-right text-sm leading-tight self-center`}>{m.home_team}</span>
+                  <div className="flex items-start gap-2">
+                    <span className={`flex-1 font-semibold ${d.teamLocked} text-right text-sm pt-0.5`}>{m.home_team}</span>
                     <div className="text-center min-w-[80px]">
                       {m.home_score !== null ? (
                         <>
@@ -497,7 +497,7 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
                         <span className={`${d.lockIcon} text-xs`}>🔒</span>
                       )}
                     </div>
-                    <span className={`flex-1 font-semibold ${d.teamLocked} text-sm leading-tight self-center`}>{m.away_team}</span>
+                    <span className={`flex-1 font-semibold ${d.teamLocked} text-sm pt-0.5`}>{m.away_team}</span>
                     <div className="min-w-[52px] text-right flex flex-col items-end gap-1">
                       {tip ? pointsBadge(tip.points, tip.scorer_points) : null}
                       <button
