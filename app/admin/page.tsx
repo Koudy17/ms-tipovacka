@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import ScorerSelect from '@/components/ScorerSelect';
 
 interface Match {
   id: number;
@@ -251,31 +252,25 @@ export default function AdminPage() {
                       <div key={idx} className="flex items-center gap-2">
                         <span className="text-xs text-slate-500 w-4">{idx + 1}.</span>
                         {hasPlayers ? (
-                          <>
-                            <select
+                          <div className="flex-1">
+                            <ScorerSelect
+                              homeTeam={m.home_team}
+                              awayTeam={m.away_team}
+                              homePlayers={matchPlayers.filter(p => p.team === toPlayerKey(m.home_team))}
+                              awayPlayers={matchPlayers.filter(p => p.team === toPlayerKey(m.away_team))}
                               value={matchPlayers.some(p => p.name === val) ? val : ''}
-                              onChange={e => updateScorer(m.id, idx, e.target.value)}
-                              className="flex-1 bg-slate-900 border border-slate-600 rounded-lg px-2 py-1 text-xs text-yellow-300 focus:border-yellow-500 focus:outline-none"
-                            >
-                              <option value="">— vyber ze soupisky —</option>
-                              <optgroup label={`${m.home_team}`}>
-                                {matchPlayers.filter(p => p.team === toPlayerKey(m.home_team)).map(p => (
-                                  <option key={p.name} value={p.name}>{p.name} ({p.position[0]})</option>
-                                ))}
-                              </optgroup>
-                              <optgroup label={`${m.away_team}`}>
-                                {matchPlayers.filter(p => p.team === toPlayerKey(m.away_team)).map(p => (
-                                  <option key={p.name} value={p.name}>{p.name} ({p.position[0]})</option>
-                                ))}
-                              </optgroup>
-                            </select>
-                            <input type="text"
-                              value={matchPlayers.some(p => p.name === val) ? '' : val}
-                              onChange={e => updateScorer(m.id, idx, e.target.value)}
-                              className="w-32 bg-slate-900 border border-slate-600 rounded-lg px-2 py-1 text-xs text-yellow-300 placeholder-slate-600 focus:border-yellow-500 focus:outline-none"
-                              placeholder="nebo ručně…"
+                              onChange={v => updateScorer(m.id, idx, v)}
+                              dark={true}
                             />
-                          </>
+                            {!matchPlayers.some(p => p.name === val) && (
+                              <input type="text"
+                                value={val}
+                                onChange={e => updateScorer(m.id, idx, e.target.value)}
+                                className="mt-1 w-full bg-slate-900 border border-slate-600 rounded-lg px-2 py-1 text-xs text-yellow-300 placeholder-slate-600 focus:border-yellow-500 focus:outline-none"
+                                placeholder="nebo napiš ručně…"
+                              />
+                            )}
+                          </div>
                         ) : (
                           <input type="text" value={val}
                             onChange={e => updateScorer(m.id, idx, e.target.value)}
