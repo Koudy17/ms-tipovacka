@@ -125,7 +125,7 @@ export default function Leaderboard({ currentUserId, dark }: { currentUserId: nu
             </tbody>
           </table>
           <div className={`px-3 py-2 border-t text-xs ${d.footer}`}>
-            ⚽ střelec (+3b) · 10b přesný výsledek · 6b rozdíl/remíza · 4b vítěz · 2b počet gólů · 0b nic
+            ⚽ střelec (+3b) · 10b přesný výsledek · 6b rozdíl nebo remíza · 4b správný vítěz · 2b počet gólů · 0b nic
           </div>
         </div>
       )}
@@ -162,7 +162,7 @@ export default function Leaderboard({ currentUserId, dark }: { currentUserId: nu
                   />
                 </div>
                 {row.scorer_bonus > 0 && (
-                  <p className={`text-xs mt-0.5 ${d.chartPts}`}>⚽ +{row.scorer_bonus}b za střelce</p>
+                  <p className={`text-xs mt-0.5 ${d.chartPts}`}>⚽ z toho {row.scorer_bonus}b za střelce</p>
                 )}
               </div>
             );
