@@ -520,15 +520,16 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
                       ) : (
                         <div className="space-y-1">
                           {(matchTips.get(m.id) ?? []).map(mt => (
-                            <div key={mt.user_id} className={`flex items-center justify-between text-xs ${mt.user_id === userId ? (dark ? 'text-green-400' : 'text-green-700') : (dark ? 'text-slate-300' : 'text-gray-700')}`}>
-                              <span className="font-semibold w-24 truncate">
+                            <div key={mt.user_id} className={`grid text-xs gap-1 ${mt.user_id === userId ? (dark ? 'text-green-400' : 'text-green-700') : (dark ? 'text-slate-300' : 'text-gray-700')}`}
+                              style={{ gridTemplateColumns: '1fr 3rem 1fr 3rem' }}>
+                              <span className="font-semibold truncate">
                                 {mt.user_id === userId ? '👤 ' : ''}{mt.nickname}
                               </span>
-                              <span className="font-bold">{mt.home_tip}:{mt.away_tip}</span>
-                              <span className={dark ? 'text-yellow-500' : 'text-yellow-600'}>
+                              <span className="font-bold text-center">{mt.home_tip}:{mt.away_tip}</span>
+                              <span className={`truncate ${dark ? 'text-yellow-500' : 'text-yellow-600'}`}>
                                 {mt.scorer_tip ? `⚽ ${mt.scorer_tip}` : ''}
                               </span>
-                              <span className="min-w-[44px] text-right">
+                              <span className="text-right">
                                 {mt.points !== null ? pointsBadge(mt.points, mt.scorer_points) : ''}
                               </span>
                             </div>
