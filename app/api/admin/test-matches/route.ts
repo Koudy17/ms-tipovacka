@@ -17,6 +17,13 @@ const TEST_MATCHES = [
   { id: 9000011, home: 'Polsko', away: 'Nigérie', kickoff: '2026-06-03T18:45:00Z' },
   { id: 9000012, home: 'Panama', away: 'Dominikánská republika', kickoff: '2026-06-04T00:45:00Z' },
   { id: 9000013, home: 'Jižní Korea', away: 'Salvador', kickoff: '2026-06-04T01:00:00Z' },
+  { id: 9000014, home: 'Severní Irsko', away: 'Guinea', kickoff: '2026-06-04T16:00:00Z' },
+  { id: 9000015, home: 'Slovinsko', away: 'Kypr', kickoff: '2026-06-04T16:00:00Z' },
+  { id: 9000016, home: 'Írán', away: 'Mali', kickoff: '2026-06-04T16:30:00Z' },
+  { id: 9000017, home: 'Andorra', away: 'Lichtenštejnsko', kickoff: '2026-06-04T17:00:00Z' },
+  { id: 9000018, home: 'Švédsko', away: 'Řecko', kickoff: '2026-06-04T17:00:00Z' },
+  { id: 9000019, home: 'Španělsko', away: 'Irák', kickoff: '2026-06-04T19:00:00Z' },
+  { id: 9000020, home: 'Francie', away: 'Pobřeží slonoviny', kickoff: '2026-06-04T19:10:00Z' },
 ];
 
 export async function POST(req: NextRequest) {
