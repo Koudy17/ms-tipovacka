@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import PlayerStats from '@/components/PlayerStats';
 
 interface Row {
   id: number;
@@ -24,6 +25,7 @@ const BAR_COLORS = [
 export default function Leaderboard({ currentUserId, dark }: { currentUserId: number; dark: boolean }) {
   const [rows, setRows] = useState<Row[]>([]);
   const [tab, setTab] = useState<'table' | 'chart'>('table');
+  const [selectedPlayer, setSelectedPlayer] = useState<{ id: number; nickname: string } | null>(null);
 
   const load = useCallback(async () => {
     const res = await fetch('/api/leaderboard');
@@ -98,8 +100,13 @@ export default function Leaderboard({ currentUserId, dark }: { currentUserId: nu
                 <tr key={row.id} className={`border-t ${d.rowBorder} ${row.id === currentUserId ? d.rowMe : d.rowNormal}`}>
                   <td className={`py-2.5 px-3 font-bold ${d.sub}`}>{MEDALS[i] ?? i + 1}</td>
                   <td className="py-2.5 px-3 font-semibold">
-                    {row.nickname}
-                    {row.id === currentUserId && <span className="ml-1 text-xs text-green-400">(ty)</span>}
+                    <button
+                      onClick={() => setSelectedPlayer({ id: row.id, nickname: row.nickname })}
+                      className="hover:underline text-left"
+                    >
+                      {row.nickname}
+                      {row.id === currentUserId && <span className="ml-1 text-xs text-green-400">(ty)</span>}
+                    </button>
                   </td>
                   <td className={`py-2.5 px-3 text-center font-bold ${d.points} text-base`}>{row.total_points}</td>
                   <td className={`py-2.5 px-3 text-center ${d.sub} hidden sm:table-cell`}>{row.scorer_bonus}</td>
@@ -138,10 +145,13 @@ export default function Leaderboard({ currentUserId, dark }: { currentUserId: nu
                 <div className="flex items-center justify-between mb-1.5">
                   <div className="flex items-center gap-2">
                     <span className={`text-sm ${d.sub}`}>{MEDALS[i] ?? i + 1}</span>
-                    <span className={`text-sm font-semibold ${d.chartName}`}>
+                    <button
+                      onClick={() => setSelectedPlayer({ id: row.id, nickname: row.nickname })}
+                      className={`text-sm font-semibold ${d.chartName} hover:underline`}
+                    >
                       {row.nickname}
                       {isMe && <span className="ml-1 text-xs text-green-400">(ty)</span>}
-                    </span>
+                    </button>
                   </div>
                   <span className={`text-sm font-bold ${d.points}`}>{row.total_points} b</span>
                 </div>
@@ -158,6 +168,14 @@ export default function Leaderboard({ currentUserId, dark }: { currentUserId: nu
             );
           })}
         </div>
+      )}
+      {selectedPlayer && (
+        <PlayerStats
+          userId={selectedPlayer.id}
+          nickname={selectedPlayer.nickname}
+          dark={dark}
+          onClose={() => setSelectedPlayer(null)}
+        />
       )}
     </div>
   );
