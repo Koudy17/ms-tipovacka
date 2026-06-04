@@ -482,15 +482,17 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
                         <>
                           <div className={`text-base font-bold ${d.score}`}>{m.home_score}:{m.away_score}</div>
                           {tip ? (
-                            <div className={`text-xs ${d.tipText}`}>
-                              <span className="mr-0.5">tip:</span>
-                              <span className="font-semibold">{tip.home_tip}:{tip.away_tip}</span>
-                            </div>
+                            <>
+                              <div className={`text-xs ${d.tipText}`}>
+                                <span className="mr-0.5">můj tip:</span>
+                                <span className="font-semibold">{tip.home_tip}:{tip.away_tip}</span>
+                              </div>
+                              {tip.scorer_tip && (
+                                <div className={`text-[10px] ${d.scorerVal}`}>⚽ {tip.scorer_tip}</div>
+                              )}
+                            </>
                           ) : (
                             <div className={`text-xs ${d.noTip}`}>netipoval</div>
-                          )}
-                          {tip?.scorer_tip && (
-                            <div className={`text-[10px] ${d.scorerVal}`}>⚽ {tip.scorer_tip}</div>
                           )}
                         </>
                       ) : (
