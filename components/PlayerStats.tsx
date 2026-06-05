@@ -126,14 +126,14 @@ export default function PlayerStats({ userId, nickname, dark, onClose }: Props) 
           <div className="space-y-1.5">
             {stats?.tips.map(t => (
               <div key={t.match_id} className={`rounded-lg border px-3 py-2 ${d.row}`}>
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-3">
                   <div className="flex-1 min-w-0">
                     <div className={`text-xs font-semibold ${d.team} truncate`}>
                       {t.home_team} vs {t.away_team}
                     </div>
                     <div className={`text-[10px] ${d.sub}`}>{formatKickoff(t.kickoff)}</div>
                   </div>
-                  <div className="w-[100px] shrink-0 text-right">
+                  <div className="w-[90px] shrink-0 text-center">
                     {t.status === 'finished' && t.home_score !== null ? (
                       <div className={`text-sm font-bold tabular-nums ${d.text}`}>{t.home_score} : {t.away_score}</div>
                     ) : (
@@ -145,7 +145,7 @@ export default function PlayerStats({ userId, nickname, dark, onClose }: Props) 
                       {t.scorer_tip && <span className={`ml-1 ${d.scorer}`}>⚽ {t.scorer_tip}</span>}
                     </div>
                   </div>
-                  <div className="text-right min-w-[52px]">
+                  <div className="w-[52px] shrink-0 text-right">
                     {t.status === 'finished' ? pointsBadge(t.points, t.scorer_points) : (
                       <span className={`text-[10px] ${d.sub}`}>čeká</span>
                     )}
