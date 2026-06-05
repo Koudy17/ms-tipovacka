@@ -267,7 +267,7 @@ export default function TipsSection({ userId }: { userId: number }) {
                       )}
                       {tip ? (
                         <div className="text-xs text-slate-400">
-                          {tip.home_tip}:{tip.away_tip}
+                          <span className="text-slate-500">tip: </span>{tip.home_tip}:{tip.away_tip}
                           {tip.scorer_tip && <span className="ml-1 text-yellow-500">⚽{tip.scorer_tip}</span>}
                         </div>
                       ) : (
