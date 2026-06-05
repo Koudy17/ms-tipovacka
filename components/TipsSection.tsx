@@ -252,7 +252,7 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
 
   const upcoming = filtered.filter(m => !isLocked(m.kickoff));
   const playing = filtered.filter(m => isLocked(m.kickoff) && m.status !== 'finished');
-  const finished = filtered.filter(m => m.status === 'finished');
+  const finished = filtered.filter(m => m.status === 'finished').sort((a, b) => new Date(b.kickoff).getTime() - new Date(a.kickoff).getTime());
 
   const d = {
     label: dark ? 'text-slate-400' : 'text-gray-500',
