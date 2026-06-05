@@ -18,6 +18,8 @@ const TEST_MATCHES = [
   { id: 9000010, home: 'Argentina',   away: 'Honduras',            kickoff: '2026-06-07T00:00:00Z' }, // 02:00 CEST
   { id: 9000011, home: 'Chorvatsko',  away: 'Slovinsko',           kickoff: '2026-06-07T18:45:00Z' }, // 20:45 CEST
   { id: 9000012, home: 'Maroko',      away: 'Norsko',              kickoff: '2026-06-07T19:00:00Z' }, // 21:00 CEST
+  // 8.6. (CEST → UTC)
+  { id: 9000013, home: 'Kolumbie',   away: 'Jordánsko',           kickoff: '2026-06-07T23:00:00Z' }, // 01:00 CEST
 ];
 
 export async function POST(req: NextRequest) {
