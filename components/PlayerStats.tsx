@@ -133,15 +133,15 @@ export default function PlayerStats({ userId, nickname, dark, onClose }: Props) 
                     </div>
                     <div className={`text-[10px] ${d.sub}`}>{formatKickoff(t.kickoff)}</div>
                   </div>
-                  <div className="text-center min-w-[90px]">
+                  <div className="w-[100px] shrink-0 text-right">
                     {t.status === 'finished' && t.home_score !== null ? (
-                      <div className={`text-sm font-bold ${d.text}`}>{t.home_score} : {t.away_score}</div>
+                      <div className={`text-sm font-bold tabular-nums ${d.text}`}>{t.home_score} : {t.away_score}</div>
                     ) : (
                       <div className={`text-xs ${d.sub}`}>—</div>
                     )}
                     <div className={`text-xs ${d.tip}`}>
                       <span className="opacity-60">tip</span>{' '}
-                      {t.home_tip} : {t.away_tip}
+                      <span className="tabular-nums">{t.home_tip} : {t.away_tip}</span>
                       {t.scorer_tip && <span className={`ml-1 ${d.scorer}`}>⚽ {t.scorer_tip}</span>}
                     </div>
                   </div>
