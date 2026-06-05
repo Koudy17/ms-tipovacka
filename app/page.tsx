@@ -60,7 +60,8 @@ export default function Home() {
   if (!user) {
     return (
       <div className={`min-h-screen flex items-center justify-center p-4 ${dark ? 'bg-gradient-to-br from-slate-900 via-slate-900 to-green-950' : 'bg-gradient-to-br from-gray-100 via-gray-100 to-green-50'}`}>
-        <div className={`${dark ? 'bg-slate-800 border border-slate-700' : 'bg-white border border-gray-200'} rounded-2xl shadow-2xl p-8 w-full max-w-sm`}>
+        <div className={`${dark ? 'bg-slate-800' : 'bg-white'} border border-green-500 rounded-2xl shadow-2xl p-8 w-full max-w-sm`}
+          style={{ boxShadow: '0 0 24px 2px rgba(34,197,94,0.18)' }}>
           <div className="text-center mb-6">
             <div className="text-5xl mb-2">⚽</div>
             <h1 className={`text-2xl font-bold ${t.headerText}`}>MS 2026 Tipovačka</h1>
@@ -81,6 +82,9 @@ export default function Home() {
           >
             Vstoupit
           </button>
+          <p className="text-center text-green-500 text-xs mt-4 opacity-80">
+            ⏳ MS začíná za {Math.ceil((new Date('2026-06-11T19:00:00Z').getTime() - Date.now()) / (1000 * 60 * 60 * 24))} dní
+          </p>
         </div>
       </div>
     );
