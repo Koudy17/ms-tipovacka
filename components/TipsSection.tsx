@@ -39,7 +39,7 @@ function stageLabel(stage: string) {
   const labels: Record<string, string> = {
     GROUP_STAGE: 'Skupinová fáze',
     LAST_16: 'Osmifinále',
-    LAST_32: 'Osmifinále',
+    LAST_32: 'Šestnáctifinále',
     QUARTER_FINALS: 'Čtvrtfinále',
     SEMI_FINALS: 'Semifinále',
     THIRD_PLACE: 'O 3. místo',
