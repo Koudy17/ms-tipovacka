@@ -3,6 +3,15 @@
 import { useState, useEffect } from 'react';
 import ScorerSelect from '@/components/ScorerSelect';
 
+interface AuditEntry {
+  id: number;
+  ts: string;
+  action: string;
+  entity: string;
+  details: Record<string, unknown>;
+  actor: string;
+}
+
 interface Match {
   id: number;
   home_team: string;
@@ -45,6 +54,8 @@ export default function AdminPage() {
   const [dirtyMatches, setDirtyMatches] = useState<Set<number>>(new Set());
   const [msg, setMsg] = useState('');
   const [syncing, setSyncing] = useState(false);
+  const [auditLog, setAuditLog] = useState<AuditEntry[]>([]);
+  const [showLog, setShowLog] = useState(false);
 
   const loadMatches = async () => {
     const [mRes, pRes] = await Promise.all([fetch('/api/matches'), fetch('/api/players')]);
@@ -139,6 +150,13 @@ export default function AdminPage() {
     if (data.ok) { markSaved(matchId); loadMatches(); }
   };
 
+  const loadAuditLog = async () => {
+    const res = await fetch('/api/admin/audit-log?limit=50', { headers: { 'x-admin-token': token } });
+    const data = await res.json();
+    setAuditLog(data);
+    setShowLog(true);
+  };
+
   const syncResults = async () => {
     setSyncing(true);
     const res = await fetch('/api/sync-results', { headers: { 'x-admin-token': token } });
@@ -194,10 +212,35 @@ export default function AdminPage() {
             <button onClick={syncResults} disabled={syncing} className="bg-blue-700 hover:bg-blue-600 disabled:opacity-50 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">
               {syncing ? 'Sync…' : '🔄 Sync z API'}
             </button>
+            <button onClick={loadAuditLog} className="bg-slate-600 hover:bg-slate-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">
+              📋 Log
+            </button>
           </div>
         </div>
 
         {msg && <div className="bg-slate-800 border border-slate-600 rounded-lg p-3 mb-4 text-sm text-white">{msg}</div>}
+
+        {showLog && (
+          <div className="mb-4">
+            <div className="flex items-center justify-between mb-2">
+              <h2 className="text-sm font-bold text-white">📋 Audit log (posledních 50)</h2>
+              <button onClick={() => setShowLog(false)} className="text-xs text-slate-400 hover:text-white">✕ zavřít</button>
+            </div>
+            <div className="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden text-xs font-mono">
+              {auditLog.length === 0 ? (
+                <p className="text-slate-500 p-3">Zatím žádné záznamy.</p>
+              ) : auditLog.map(e => (
+                <div key={e.id} className="flex gap-2 px-3 py-1.5 border-b border-slate-700 last:border-0 hover:bg-slate-700">
+                  <span className="text-slate-500 shrink-0">{new Date(e.ts).toLocaleString('cs-CZ', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
+                  <span className={`shrink-0 font-bold ${e.action === 'DELETE' ? 'text-red-400' : e.action === 'RESULT' ? 'text-green-400' : e.action === 'UPSERT' ? 'text-blue-400' : 'text-yellow-400'}`}>{e.action}</span>
+                  <span className="text-slate-300 shrink-0">{e.entity}</span>
+                  <span className="text-slate-500 truncate">{JSON.stringify(e.details)}</span>
+                  <span className="text-slate-600 shrink-0 ml-auto">{e.actor}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="space-y-3">
           {lockedMatches.map(m => {

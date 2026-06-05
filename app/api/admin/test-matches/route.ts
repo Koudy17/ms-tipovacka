@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSql } from '@/lib/db';
+import { getSql, auditLog } from '@/lib/db';
 
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN ?? 'admin123';
 
@@ -40,6 +40,7 @@ export async function POST(req: NextRequest) {
       ON CONFLICT (id) DO NOTHING
     `;
   }
+  await auditLog('INSERT', 'test-matches', { count: TEST_MATCHES.length }, 'admin');
   return NextResponse.json({ ok: true });
 }
 
@@ -51,5 +52,6 @@ export async function DELETE(req: NextRequest) {
   const ids = TEST_MATCHES.map(m => m.id);
   await sql`DELETE FROM tips WHERE match_id = ANY(${ids})`;
   await sql`DELETE FROM matches WHERE id = ANY(${ids})`;
+  await auditLog('DELETE', 'test-matches', { ids, count: ids.length }, 'admin');
   return NextResponse.json({ ok: true });
 }

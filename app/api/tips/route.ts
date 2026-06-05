@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSql } from '@/lib/db';
+import { getSql, auditLog } from '@/lib/db';
 
 export async function GET(req: NextRequest) {
   const userId = req.nextUrl.searchParams.get('userId');
@@ -29,5 +29,6 @@ export async function POST(req: NextRequest) {
       away_tip = EXCLUDED.away_tip,
       scorer_tip = EXCLUDED.scorer_tip
   `;
+  await auditLog('UPSERT', 'tip', { userId, matchId, homeTip, awayTip, scorerTip: scorer }, `user:${userId}`);
   return NextResponse.json({ ok: true });
 }
