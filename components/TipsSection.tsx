@@ -521,7 +521,7 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
                         <div className="space-y-1">
                           {(matchTips.get(m.id) ?? []).map(mt => (
                             <div key={mt.user_id} className={`grid text-xs gap-1 ${mt.user_id === userId ? (dark ? 'text-green-400' : 'text-green-700') : (dark ? 'text-slate-300' : 'text-gray-700')}`}
-                              style={{ gridTemplateColumns: '1fr 3rem 1fr 3rem' }}>
+                              style={{ gridTemplateColumns: '1fr 3rem 1fr 4.5rem' }}>
                               <span className="font-semibold truncate">
                                 {mt.user_id === userId ? '👤 ' : ''}{mt.nickname}
                               </span>
