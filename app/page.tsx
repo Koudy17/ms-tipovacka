@@ -15,12 +15,31 @@ export default function Home() {
   const [error, setError] = useState('');
   const [tab, setTab] = useState<'tips' | 'leaderboard'>('tips');
   const [dark, setDark] = useState(true);
+  const [countdown, setCountdown] = useState({ d: 0, h: 0, m: 0, s: 0, started: false });
 
   useEffect(() => {
     const stored = localStorage.getItem('wc_user');
     if (stored) setUser(JSON.parse(stored));
     const savedTheme = localStorage.getItem('wc_theme');
     if (savedTheme) setDark(savedTheme === 'dark');
+  }, []);
+
+  useEffect(() => {
+    const MS_START = new Date('2026-06-11T19:00:00Z').getTime();
+    const tick = () => {
+      const diff = MS_START - Date.now();
+      if (diff <= 0) { setCountdown({ d: 0, h: 0, m: 0, s: 0, started: true }); return; }
+      setCountdown({
+        d: Math.floor(diff / 86400000),
+        h: Math.floor((diff % 86400000) / 3600000),
+        m: Math.floor((diff % 3600000) / 60000),
+        s: Math.floor((diff % 60000) / 1000),
+        started: false,
+      });
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
   }, []);
 
   const toggleTheme = () => {
@@ -87,9 +106,21 @@ export default function Home() {
           >
             Vstoupit
           </button>
-          <p className="text-center text-green-500 text-xs mt-4 opacity-80">
-            ⏳ MS začíná za {Math.ceil((new Date('2026-06-11T19:00:00Z').getTime() - Date.now()) / (1000 * 60 * 60 * 24))} dní
-          </p>
+          {countdown.started ? (
+            <p className="text-center text-green-400 text-xs mt-4 font-semibold">🟢 MS právě probíhá!</p>
+          ) : (
+            <div className="mt-4 text-center">
+              <p className="text-green-600 text-xs mb-1 opacity-70">⏳ Do prvního zápasu</p>
+              <div className="flex justify-center gap-2">
+                {[{ v: countdown.d, l: 'dní' }, { v: countdown.h, l: 'hod' }, { v: countdown.m, l: 'min' }, { v: countdown.s, l: 'sek' }].map(({ v, l }) => (
+                  <div key={l} className={`flex flex-col items-center ${dark ? 'bg-slate-900' : 'bg-gray-100'} rounded-lg px-2 py-1 min-w-[40px]`}>
+                    <span className="text-green-400 font-bold text-sm tabular-nums">{String(v).padStart(2, '0')}</span>
+                    <span className="text-slate-500 text-[10px]">{l}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );
