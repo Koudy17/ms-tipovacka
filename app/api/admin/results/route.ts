@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSql } from '@/lib/db';
+import { getSql, auditLog } from '@/lib/db';
 import { calcPoints, calcScorerBonus } from '@/lib/scoring';
 
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN ?? 'admin123';
@@ -33,5 +33,6 @@ export async function POST(req: NextRequest) {
     await sql`UPDATE tips SET points = ${pts}, scorer_points = ${scorerPts} WHERE id = ${tip.id}`;
   }
 
+  await auditLog('RESULT', 'match', { matchId, homeScore, awayScore, goalScorers: scorersList, tipsUpdated: tips.length }, 'admin');
   return NextResponse.json({ ok: true, updated: tips.length });
 }

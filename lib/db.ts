@@ -45,4 +45,31 @@ export async function initSchema() {
   await sql`ALTER TABLE tips ADD COLUMN IF NOT EXISTS scorer_tip TEXT`;
   await sql`ALTER TABLE tips ADD COLUMN IF NOT EXISTS scorer_points INTEGER`;
   await sql`ALTER TABLE matches ADD COLUMN IF NOT EXISTS goal_scorers TEXT`;
+  await sql`
+    CREATE TABLE IF NOT EXISTS audit_log (
+      id SERIAL PRIMARY KEY,
+      ts TIMESTAMP DEFAULT NOW(),
+      action TEXT NOT NULL,
+      entity TEXT,
+      details JSONB,
+      actor TEXT
+    )
+  `;
+}
+
+export async function auditLog(
+  action: string,
+  entity: string,
+  details: Record<string, unknown>,
+  actor: string = 'system'
+) {
+  try {
+    const sql = getSql();
+    await sql`
+      INSERT INTO audit_log (action, entity, details, actor)
+      VALUES (${action}, ${entity}, ${JSON.stringify(details)}, ${actor})
+    `;
+  } catch {
+    // audit log nikdy nesmí shodit hlavní operaci
+  }
 }

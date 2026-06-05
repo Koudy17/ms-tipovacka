@@ -1,0 +1,6262 @@
+[
+  {
+    "team": "ČESKO",
+    "name": "Lukáš Horníček",
+    "position": "Brankář"
+  },
+  {
+    "team": "ČESKO",
+    "name": "Matěj Kovář",
+    "position": "Brankář"
+  },
+  {
+    "team": "ČESKO",
+    "name": "Jindřich Staněk",
+    "position": "Brankář"
+  },
+  {
+    "team": "ČESKO",
+    "name": "Vladimír Coufal",
+    "position": "Obránce"
+  },
+  {
+    "team": "ČESKO",
+    "name": "David Douděra",
+    "position": "Obránce"
+  },
+  {
+    "team": "ČESKO",
+    "name": "Tomáš Holeš",
+    "position": "Obránce"
+  },
+  {
+    "team": "ČESKO",
+    "name": "Robin Hranáč",
+    "position": "Obránce"
+  },
+  {
+    "team": "ČESKO",
+    "name": "Štěpán Chaloupek",
+    "position": "Obránce"
+  },
+  {
+    "team": "ČESKO",
+    "name": "David Jurásek",
+    "position": "Obránce"
+  },
+  {
+    "team": "ČESKO",
+    "name": "Ladislav Krejčí",
+    "position": "Obránce"
+  },
+  {
+    "team": "ČESKO",
+    "name": "Jaroslav Zelený",
+    "position": "Obránce"
+  },
+  {
+    "team": "ČESKO",
+    "name": "David Zima",
+    "position": "Obránce"
+  },
+  {
+    "team": "ČESKO",
+    "name": "Lukáš Červ",
+    "position": "Záložník"
+  },
+  {
+    "team": "ČESKO",
+    "name": "Vladimír Darida",
+    "position": "Záložník"
+  },
+  {
+    "team": "ČESKO",
+    "name": "Lukáš Provod",
+    "position": "Záložník"
+  },
+  {
+    "team": "ČESKO",
+    "name": "Michal Sadílek",
+    "position": "Záložník"
+  },
+  {
+    "team": "ČESKO",
+    "name": "Hugo Sochůrek",
+    "position": "Záložník"
+  },
+  {
+    "team": "ČESKO",
+    "name": "Alexandr Sojka",
+    "position": "Záložník"
+  },
+  {
+    "team": "ČESKO",
+    "name": "Tomáš Souček",
+    "position": "Záložník"
+  },
+  {
+    "team": "ČESKO",
+    "name": "Pavel Šulc",
+    "position": "Záložník"
+  },
+  {
+    "team": "ČESKO",
+    "name": "Denis Višinský",
+    "position": "Záložník"
+  },
+  {
+    "team": "ČESKO",
+    "name": "Adam Hložek",
+    "position": "Útočník"
+  },
+  {
+    "team": "ČESKO",
+    "name": "Tomáš Chorý",
+    "position": "Útočník"
+  },
+  {
+    "team": "ČESKO",
+    "name": "Mojmír Chytil",
+    "position": "Útočník"
+  },
+  {
+    "team": "ČESKO",
+    "name": "Jan Kuchta",
+    "position": "Útočník"
+  },
+  {
+    "team": "ČESKO",
+    "name": "Patrik Schick",
+    "position": "Útočník"
+  },
+  {
+    "team": "MEXIKO",
+    "name": "Raúl Rangel",
+    "position": "Brankář"
+  },
+  {
+    "team": "MEXIKO",
+    "name": "Guillermo Ochoa",
+    "position": "Brankář"
+  },
+  {
+    "team": "MEXIKO",
+    "name": "Carlos Acevedo",
+    "position": "Brankář"
+  },
+  {
+    "team": "MEXIKO",
+    "name": "Jesús Gallardo",
+    "position": "Obránce"
+  },
+  {
+    "team": "MEXIKO",
+    "name": "Johan Vásquez",
+    "position": "Obránce"
+  },
+  {
+    "team": "MEXIKO",
+    "name": "Israel Reyes",
+    "position": "Obránce"
+  },
+  {
+    "team": "MEXIKO",
+    "name": "César Montes",
+    "position": "Obránce"
+  },
+  {
+    "team": "MEXIKO",
+    "name": "Jorge Sánchez",
+    "position": "Obránce"
+  },
+  {
+    "team": "MEXIKO",
+    "name": "Mateo Chávez",
+    "position": "Obránce"
+  },
+  {
+    "team": "MEXIKO",
+    "name": "Edson Álvarez",
+    "position": "Záložník"
+  },
+  {
+    "team": "MEXIKO",
+    "name": "Érik Lira",
+    "position": "Záložník"
+  },
+  {
+    "team": "MEXIKO",
+    "name": "Álvaro Fidalgo",
+    "position": "Záložník"
+  },
+  {
+    "team": "MEXIKO",
+    "name": "Gilberto Mora",
+    "position": "Záložník"
+  },
+  {
+    "team": "MEXIKO",
+    "name": "Brian Gutiérrez",
+    "position": "Záložník"
+  },
+  {
+    "team": "MEXIKO",
+    "name": "Luis Romo",
+    "position": "Záložník"
+  },
+  {
+    "team": "MEXIKO",
+    "name": "Orbelín Pineda",
+    "position": "Záložník"
+  },
+  {
+    "team": "MEXIKO",
+    "name": "Alexis Vega",
+    "position": "Záložník"
+  },
+  {
+    "team": "MEXIKO",
+    "name": "Obed Vargas",
+    "position": "Záložník"
+  },
+  {
+    "team": "MEXIKO",
+    "name": "Luis Chávez",
+    "position": "Záložník"
+  },
+  {
+    "team": "MEXIKO",
+    "name": "Roberto Alvarado",
+    "position": "Útočník"
+  },
+  {
+    "team": "MEXIKO",
+    "name": "Santiago Giménez",
+    "position": "Útočník"
+  },
+  {
+    "team": "MEXIKO",
+    "name": "Raúl Jiménez",
+    "position": "Útočník"
+  },
+  {
+    "team": "MEXIKO",
+    "name": "Julián Quiñones",
+    "position": "Útočník"
+  },
+  {
+    "team": "MEXIKO",
+    "name": "Armando González",
+    "position": "Útočník"
+  },
+  {
+    "team": "MEXIKO",
+    "name": "Guillermo Martínez",
+    "position": "Útočník"
+  },
+  {
+    "team": "MEXIKO",
+    "name": "César Huerta",
+    "position": "Útočník"
+  },
+  {
+    "team": "JIŽNÍ KOREA",
+    "name": "Cho Hyun-woo",
+    "position": "Brankář"
+  },
+  {
+    "team": "JIŽNÍ KOREA",
+    "name": "Kim Seung-gyu",
+    "position": "Brankář"
+  },
+  {
+    "team": "JIŽNÍ KOREA",
+    "name": "Song Bum-keun",
+    "position": "Brankář"
+  },
+  {
+    "team": "JIŽNÍ KOREA",
+    "name": "Kim Moon-hwan",
+    "position": "Obránce"
+  },
+  {
+    "team": "JIŽNÍ KOREA",
+    "name": "Kim Min-jae",
+    "position": "Obránce"
+  },
+  {
+    "team": "JIŽNÍ KOREA",
+    "name": "Kim Tae-hyeon",
+    "position": "Obránce"
+  },
+  {
+    "team": "JIŽNÍ KOREA",
+    "name": "Park Jin-seop",
+    "position": "Obránce"
+  },
+  {
+    "team": "JIŽNÍ KOREA",
+    "name": "Seol Young-woo",
+    "position": "Obránce"
+  },
+  {
+    "team": "JIŽNÍ KOREA",
+    "name": "Jens Castrop",
+    "position": "Obránce"
+  },
+  {
+    "team": "JIŽNÍ KOREA",
+    "name": "Lee Ki-hyeok",
+    "position": "Obránce"
+  },
+  {
+    "team": "JIŽNÍ KOREA",
+    "name": "Lee Tae-seok",
+    "position": "Obránce"
+  },
+  {
+    "team": "JIŽNÍ KOREA",
+    "name": "Lee Han-beom",
+    "position": "Obránce"
+  },
+  {
+    "team": "JIŽNÍ KOREA",
+    "name": "Cho Yu-min",
+    "position": "Obránce"
+  },
+  {
+    "team": "JIŽNÍ KOREA",
+    "name": "Kim Jin-gyu",
+    "position": "Záložník"
+  },
+  {
+    "team": "JIŽNÍ KOREA",
+    "name": "Bae Jun-ho",
+    "position": "Záložník"
+  },
+  {
+    "team": "JIŽNÍ KOREA",
+    "name": "Park Seung-ho",
+    "position": "Záložník"
+  },
+  {
+    "team": "JIŽNÍ KOREA",
+    "name": "Yang Hyun-jun",
+    "position": "Záložník"
+  },
+  {
+    "team": "JIŽNÍ KOREA",
+    "name": "Lee Kang-in",
+    "position": "Záložník"
+  },
+  {
+    "team": "JIŽNÍ KOREA",
+    "name": "Lee Dong-gyeong",
+    "position": "Záložník"
+  },
+  {
+    "team": "JIŽNÍ KOREA",
+    "name": "Lee Jae-sung",
+    "position": "Záložník"
+  },
+  {
+    "team": "JIŽNÍ KOREA",
+    "name": "Hwang In-beom",
+    "position": "Záložník"
+  },
+  {
+    "team": "JIŽNÍ KOREA",
+    "name": "Son Heung-min",
+    "position": "Útočník"
+  },
+  {
+    "team": "JIŽNÍ KOREA",
+    "name": "Oh Hyeon-gyu",
+    "position": "Útočník"
+  },
+  {
+    "team": "JIŽNÍ KOREA",
+    "name": "Cho Gue-sung",
+    "position": "Útočník"
+  },
+  {
+    "team": "JIŽNÍ KOREA",
+    "name": "Um Ji-sung",
+    "position": "Útočník"
+  },
+  {
+    "team": "JIŽNÍ KOREA",
+    "name": "Hwang Hee-chan",
+    "position": "Útočník"
+  },
+  {
+    "team": "JIHOAFRICKÁ REPUBLIKA",
+    "name": "Ronwen Williams",
+    "position": "Brankář"
+  },
+  {
+    "team": "JIHOAFRICKÁ REPUBLIKA",
+    "name": "Ricardo Goss",
+    "position": "Brankář"
+  },
+  {
+    "team": "JIHOAFRICKÁ REPUBLIKA",
+    "name": "Sipho Chaine",
+    "position": "Brankář"
+  },
+  {
+    "team": "JIHOAFRICKÁ REPUBLIKA",
+    "name": "Khuliso Mudau",
+    "position": "Obránce"
+  },
+  {
+    "team": "JIHOAFRICKÁ REPUBLIKA",
+    "name": "Aubrey Modiba",
+    "position": "Obránce"
+  },
+  {
+    "team": "JIHOAFRICKÁ REPUBLIKA",
+    "name": "Khulumani Ndamane",
+    "position": "Obránce"
+  },
+  {
+    "team": "JIHOAFRICKÁ REPUBLIKA",
+    "name": "Olwethu Makhanya",
+    "position": "Obránce"
+  },
+  {
+    "team": "JIHOAFRICKÁ REPUBLIKA",
+    "name": "Bradley Cross",
+    "position": "Obránce"
+  },
+  {
+    "team": "JIHOAFRICKÁ REPUBLIKA",
+    "name": "Thabang Matuludi",
+    "position": "Obránce"
+  },
+  {
+    "team": "JIHOAFRICKÁ REPUBLIKA",
+    "name": "Nkosinathi Sibisi",
+    "position": "Obránce"
+  },
+  {
+    "team": "JIHOAFRICKÁ REPUBLIKA",
+    "name": "Kamogelo Sebelebele",
+    "position": "Obránce"
+  },
+  {
+    "team": "JIHOAFRICKÁ REPUBLIKA",
+    "name": "Ime Okon",
+    "position": "Obránce"
+  },
+  {
+    "team": "JIHOAFRICKÁ REPUBLIKA",
+    "name": "Samukele Kabini",
+    "position": "Obránce"
+  },
+  {
+    "team": "JIHOAFRICKÁ REPUBLIKA",
+    "name": "Mbekezeli Mbokazi",
+    "position": "Obránce"
+  },
+  {
+    "team": "JIHOAFRICKÁ REPUBLIKA",
+    "name": "Teboho Mokoena",
+    "position": "Záložník"
+  },
+  {
+    "team": "JIHOAFRICKÁ REPUBLIKA",
+    "name": "Jayden Adams",
+    "position": "Záložník"
+  },
+  {
+    "team": "JIHOAFRICKÁ REPUBLIKA",
+    "name": "Thalente Mbatha",
+    "position": "Záložník"
+  },
+  {
+    "team": "JIHOAFRICKÁ REPUBLIKA",
+    "name": "Sphephelo Sithole",
+    "position": "Záložník"
+  },
+  {
+    "team": "JIHOAFRICKÁ REPUBLIKA",
+    "name": "Oswin Appollis",
+    "position": "Útočník"
+  },
+  {
+    "team": "JIHOAFRICKÁ REPUBLIKA",
+    "name": "Tshepang Moremi",
+    "position": "Útočník"
+  },
+  {
+    "team": "JIHOAFRICKÁ REPUBLIKA",
+    "name": "Evidence Makgopa",
+    "position": "Útočník"
+  },
+  {
+    "team": "JIHOAFRICKÁ REPUBLIKA",
+    "name": "Relebohile Mofokeng",
+    "position": "Útočník"
+  },
+  {
+    "team": "JIHOAFRICKÁ REPUBLIKA",
+    "name": "Lyle Foster",
+    "position": "Útočník"
+  },
+  {
+    "team": "JIHOAFRICKÁ REPUBLIKA",
+    "name": "Iqraam Rayners",
+    "position": "Útočník"
+  },
+  {
+    "team": "JIHOAFRICKÁ REPUBLIKA",
+    "name": "Themba Zwane",
+    "position": "Útočník"
+  },
+  {
+    "team": "JIHOAFRICKÁ REPUBLIKA",
+    "name": "Thapelo Maseko",
+    "position": "Útočník"
+  },
+  {
+    "team": "KANADA",
+    "name": "Dayne St. Clair",
+    "position": "Brankář"
+  },
+  {
+    "team": "KANADA",
+    "name": "Maxime Crepeau",
+    "position": "Brankář"
+  },
+  {
+    "team": "KANADA",
+    "name": "Owen Goodman",
+    "position": "Brankář"
+  },
+  {
+    "team": "KANADA",
+    "name": "Alistair Johnston",
+    "position": "Obránce"
+  },
+  {
+    "team": "KANADA",
+    "name": "Derek Cornelius",
+    "position": "Obránce"
+  },
+  {
+    "team": "KANADA",
+    "name": "Richie Laryea",
+    "position": "Obránce"
+  },
+  {
+    "team": "KANADA",
+    "name": "Niko Sigur",
+    "position": "Obránce"
+  },
+  {
+    "team": "KANADA",
+    "name": "Joel Waterman",
+    "position": "Obránce"
+  },
+  {
+    "team": "KANADA",
+    "name": "Luc De Fougerolles",
+    "position": "Obránce"
+  },
+  {
+    "team": "KANADA",
+    "name": "Moise Bombito",
+    "position": "Obránce"
+  },
+  {
+    "team": "KANADA",
+    "name": "Alphonso Davies",
+    "position": "Obránce"
+  },
+  {
+    "team": "KANADA",
+    "name": "Alfie Jones",
+    "position": "Obránce"
+  },
+  {
+    "team": "KANADA",
+    "name": "Stephen Eustaquio",
+    "position": "Záložník"
+  },
+  {
+    "team": "KANADA",
+    "name": "Ismael Kone",
+    "position": "Záložník"
+  },
+  {
+    "team": "KANADA",
+    "name": "Tajon Buchanan",
+    "position": "Záložník"
+  },
+  {
+    "team": "KANADA",
+    "name": "Mathieu Choiniere",
+    "position": "Záložník"
+  },
+  {
+    "team": "KANADA",
+    "name": "Ali Ahmed",
+    "position": "Záložník"
+  },
+  {
+    "team": "KANADA",
+    "name": "Nathan Saliba",
+    "position": "Záložník"
+  },
+  {
+    "team": "KANADA",
+    "name": "Liam Millar",
+    "position": "Záložník"
+  },
+  {
+    "team": "KANADA",
+    "name": "Jacob Shaffelburg",
+    "position": "Záložník"
+  },
+  {
+    "team": "KANADA",
+    "name": "Jonathan Osorio",
+    "position": "Záložník"
+  },
+  {
+    "team": "KANADA",
+    "name": "Jonathan David",
+    "position": "Útočník"
+  },
+  {
+    "team": "KANADA",
+    "name": "Cyle Larin",
+    "position": "Útočník"
+  },
+  {
+    "team": "KANADA",
+    "name": "Tani Oluwaseyi",
+    "position": "Útočník"
+  },
+  {
+    "team": "KANADA",
+    "name": "Promise David",
+    "position": "Útočník"
+  },
+  {
+    "team": "KATAR",
+    "name": "Mahmoud Abunada",
+    "position": "Brankář"
+  },
+  {
+    "team": "KATAR",
+    "name": "Meshaal Barsham",
+    "position": "Brankář"
+  },
+  {
+    "team": "KATAR",
+    "name": "Salah Zakaria",
+    "position": "Brankář"
+  },
+  {
+    "team": "KATAR",
+    "name": "Ayoub Al Oui",
+    "position": "Obránce"
+  },
+  {
+    "team": "KATAR",
+    "name": "Boualem Khoukhi",
+    "position": "Obránce"
+  },
+  {
+    "team": "KATAR",
+    "name": "Homam Al Amin",
+    "position": "Obránce"
+  },
+  {
+    "team": "KATAR",
+    "name": "Lucas Mendes",
+    "position": "Obránce"
+  },
+  {
+    "team": "KATAR",
+    "name": "Laye Gueye",
+    "position": "Obránce"
+  },
+  {
+    "team": "KATAR",
+    "name": "Pedro Miguel",
+    "position": "Obránce"
+  },
+  {
+    "team": "KATAR",
+    "name": "Al Hasmi Al Hussain",
+    "position": "Obránce"
+  },
+  {
+    "team": "KATAR",
+    "name": "Sultan Al Brake",
+    "position": "Obránce"
+  },
+  {
+    "team": "KATAR",
+    "name": "Assim Madibo",
+    "position": "Záložník"
+  },
+  {
+    "team": "KATAR",
+    "name": "Abdulaziz Hatim",
+    "position": "Záložník"
+  },
+  {
+    "team": "KATAR",
+    "name": "Ahmed Fathi",
+    "position": "Záložník"
+  },
+  {
+    "team": "KATAR",
+    "name": "Karim Boudiaf",
+    "position": "Záložník"
+  },
+  {
+    "team": "KATAR",
+    "name": "Jassem Gaber",
+    "position": "Záložník"
+  },
+  {
+    "team": "KATAR",
+    "name": "Mohammed Al Mannai",
+    "position": "Záložník"
+  },
+  {
+    "team": "KATAR",
+    "name": "Ahmed Al Ganehi",
+    "position": "Útočník"
+  },
+  {
+    "team": "KATAR",
+    "name": "Ahmed Alaaeldin",
+    "position": "Útočník"
+  },
+  {
+    "team": "KATAR",
+    "name": "Akram Afif",
+    "position": "Útočník"
+  },
+  {
+    "team": "KATAR",
+    "name": "Almoez Ali",
+    "position": "Útočník"
+  },
+  {
+    "team": "KATAR",
+    "name": "Edmilson Junior",
+    "position": "Útočník"
+  },
+  {
+    "team": "KATAR",
+    "name": "Hassan Al Haydos",
+    "position": "Útočník"
+  },
+  {
+    "team": "KATAR",
+    "name": "Mohammed Muntari",
+    "position": "Útočník"
+  },
+  {
+    "team": "KATAR",
+    "name": "Tahsin Mohammed",
+    "position": "Útočník"
+  },
+  {
+    "team": "KATAR",
+    "name": "Yusuf Abdurisag",
+    "position": "Útočník"
+  },
+  {
+    "team": "ŠVÝCARSKO",
+    "name": "Gregor Kobel",
+    "position": "Brankář"
+  },
+  {
+    "team": "ŠVÝCARSKO",
+    "name": "Yvon Mvogo",
+    "position": "Brankář"
+  },
+  {
+    "team": "ŠVÝCARSKO",
+    "name": "Marvin Keller",
+    "position": "Brankář"
+  },
+  {
+    "team": "ŠVÝCARSKO",
+    "name": "Manuel Akanji",
+    "position": "Obránce"
+  },
+  {
+    "team": "ŠVÝCARSKO",
+    "name": "Aurèle Amenda",
+    "position": "Obránce"
+  },
+  {
+    "team": "ŠVÝCARSKO",
+    "name": "Eray Cömert",
+    "position": "Obránce"
+  },
+  {
+    "team": "ŠVÝCARSKO",
+    "name": "Nico Elvedi",
+    "position": "Obránce"
+  },
+  {
+    "team": "ŠVÝCARSKO",
+    "name": "Miro Muheim",
+    "position": "Obránce"
+  },
+  {
+    "team": "ŠVÝCARSKO",
+    "name": "Luca Jaquez",
+    "position": "Obránce"
+  },
+  {
+    "team": "ŠVÝCARSKO",
+    "name": "Ricardo Rodriguez",
+    "position": "Obránce"
+  },
+  {
+    "team": "ŠVÝCARSKO",
+    "name": "Silvan Widmer",
+    "position": "Obránce"
+  },
+  {
+    "team": "ŠVÝCARSKO",
+    "name": "Michel Aebischer",
+    "position": "Záložník"
+  },
+  {
+    "team": "ŠVÝCARSKO",
+    "name": "Christian Fassnacht",
+    "position": "Záložník"
+  },
+  {
+    "team": "ŠVÝCARSKO",
+    "name": "Remo Freuler",
+    "position": "Záložník"
+  },
+  {
+    "team": "ŠVÝCARSKO",
+    "name": "Ardon Jashari",
+    "position": "Záložník"
+  },
+  {
+    "team": "ŠVÝCARSKO",
+    "name": "Johan Manzambi",
+    "position": "Záložník"
+  },
+  {
+    "team": "ŠVÝCARSKO",
+    "name": "Fabian Rieder",
+    "position": "Záložník"
+  },
+  {
+    "team": "ŠVÝCARSKO",
+    "name": "Djibril Sow",
+    "position": "Záložník"
+  },
+  {
+    "team": "ŠVÝCARSKO",
+    "name": "Granit Xhaka",
+    "position": "Záložník"
+  },
+  {
+    "team": "ŠVÝCARSKO",
+    "name": "Denis Zakaria",
+    "position": "Záložník"
+  },
+  {
+    "team": "ŠVÝCARSKO",
+    "name": "Zeki Amdouni",
+    "position": "Útočník"
+  },
+  {
+    "team": "ŠVÝCARSKO",
+    "name": "Breel Embolo",
+    "position": "Útočník"
+  },
+  {
+    "team": "ŠVÝCARSKO",
+    "name": "Dan Ndoye",
+    "position": "Útočník"
+  },
+  {
+    "team": "ŠVÝCARSKO",
+    "name": "Cedric Itten",
+    "position": "Útočník"
+  },
+  {
+    "team": "ŠVÝCARSKO",
+    "name": "Noah Okafor",
+    "position": "Útočník"
+  },
+  {
+    "team": "ŠVÝCARSKO",
+    "name": "Rubén Vargas",
+    "position": "Útočník"
+  },
+  {
+    "team": "BOSNA A HERCEGOVINA",
+    "name": "Nikola Vasilj",
+    "position": "Brankář"
+  },
+  {
+    "team": "BOSNA A HERCEGOVINA",
+    "name": "Martin Zlomislič",
+    "position": "Brankář"
+  },
+  {
+    "team": "BOSNA A HERCEGOVINA",
+    "name": "Osman Hadžikič",
+    "position": "Brankář"
+  },
+  {
+    "team": "BOSNA A HERCEGOVINA",
+    "name": "Sead Kolašinac",
+    "position": "Obránce"
+  },
+  {
+    "team": "BOSNA A HERCEGOVINA",
+    "name": "Amar Dedič",
+    "position": "Obránce"
+  },
+  {
+    "team": "BOSNA A HERCEGOVINA",
+    "name": "Nihad Mujakič",
+    "position": "Obránce"
+  },
+  {
+    "team": "BOSNA A HERCEGOVINA",
+    "name": "Nikola Katič",
+    "position": "Obránce"
+  },
+  {
+    "team": "BOSNA A HERCEGOVINA",
+    "name": "Tarik Muharemovič",
+    "position": "Obránce"
+  },
+  {
+    "team": "BOSNA A HERCEGOVINA",
+    "name": "Stjepan Radeljič",
+    "position": "Obránce"
+  },
+  {
+    "team": "BOSNA A HERCEGOVINA",
+    "name": "Dennis Hadžikadunič",
+    "position": "Obránce"
+  },
+  {
+    "team": "BOSNA A HERCEGOVINA",
+    "name": "Nidal Čelik",
+    "position": "Obránce"
+  },
+  {
+    "team": "BOSNA A HERCEGOVINA",
+    "name": "Amir Hadžiahmetovič",
+    "position": "Záložník"
+  },
+  {
+    "team": "BOSNA A HERCEGOVINA",
+    "name": "Ivan Šunjič",
+    "position": "Záložník"
+  },
+  {
+    "team": "BOSNA A HERCEGOVINA",
+    "name": "Ivan Bašič",
+    "position": "Záložník"
+  },
+  {
+    "team": "BOSNA A HERCEGOVINA",
+    "name": "Dženis Burnič",
+    "position": "Záložník"
+  },
+  {
+    "team": "BOSNA A HERCEGOVINA",
+    "name": "Ermin Mahmič",
+    "position": "Záložník"
+  },
+  {
+    "team": "BOSNA A HERCEGOVINA",
+    "name": "Benjamin Tahirovič",
+    "position": "Záložník"
+  },
+  {
+    "team": "BOSNA A HERCEGOVINA",
+    "name": "Amar Memič",
+    "position": "Záložník"
+  },
+  {
+    "team": "BOSNA A HERCEGOVINA",
+    "name": "Armin Gigovič",
+    "position": "Záložník"
+  },
+  {
+    "team": "BOSNA A HERCEGOVINA",
+    "name": "Kerim Alajbegovič",
+    "position": "Záložník"
+  },
+  {
+    "team": "BOSNA A HERCEGOVINA",
+    "name": "Esmir Bajraktarevič",
+    "position": "Záložník"
+  },
+  {
+    "team": "BOSNA A HERCEGOVINA",
+    "name": "Ermedin Demirovič",
+    "position": "Útočník"
+  },
+  {
+    "team": "BOSNA A HERCEGOVINA",
+    "name": "Jovo Lukič",
+    "position": "Útočník"
+  },
+  {
+    "team": "BOSNA A HERCEGOVINA",
+    "name": "Samed Baždar",
+    "position": "Útočník"
+  },
+  {
+    "team": "BOSNA A HERCEGOVINA",
+    "name": "Haris Tabakovič",
+    "position": "Útočník"
+  },
+  {
+    "team": "BOSNA A HERCEGOVINA",
+    "name": "Edin Džeko",
+    "position": "Útočník"
+  },
+  {
+    "team": "BRAZÍLIE",
+    "name": "Alisson",
+    "position": "Brankář"
+  },
+  {
+    "team": "BRAZÍLIE",
+    "name": "Ederson",
+    "position": "Brankář"
+  },
+  {
+    "team": "BRAZÍLIE",
+    "name": "Weverton",
+    "position": "Brankář"
+  },
+  {
+    "team": "BRAZÍLIE",
+    "name": "Alex Sandro",
+    "position": "Obránce"
+  },
+  {
+    "team": "BRAZÍLIE",
+    "name": "Danilo",
+    "position": "Obránce"
+  },
+  {
+    "team": "BRAZÍLIE",
+    "name": "Léo Pereira",
+    "position": "Obránce"
+  },
+  {
+    "team": "BRAZÍLIE",
+    "name": "Bremer",
+    "position": "Obránce"
+  },
+  {
+    "team": "BRAZÍLIE",
+    "name": "Douglas Santos",
+    "position": "Obránce"
+  },
+  {
+    "team": "BRAZÍLIE",
+    "name": "Gabriel Magalhães",
+    "position": "Obránce"
+  },
+  {
+    "team": "BRAZÍLIE",
+    "name": "Ibañez",
+    "position": "Obránce"
+  },
+  {
+    "team": "BRAZÍLIE",
+    "name": "Marquinhos",
+    "position": "Obránce"
+  },
+  {
+    "team": "BRAZÍLIE",
+    "name": "Wesley",
+    "position": "Obránce"
+  },
+  {
+    "team": "BRAZÍLIE",
+    "name": "Bruno Guimarães",
+    "position": "Záložník"
+  },
+  {
+    "team": "BRAZÍLIE",
+    "name": "Casemiro",
+    "position": "Záložník"
+  },
+  {
+    "team": "BRAZÍLIE",
+    "name": "Danilo",
+    "position": "Záložník"
+  },
+  {
+    "team": "BRAZÍLIE",
+    "name": "Fabinho",
+    "position": "Záložník"
+  },
+  {
+    "team": "BRAZÍLIE",
+    "name": "Lucas Paquetá",
+    "position": "Záložník"
+  },
+  {
+    "team": "BRAZÍLIE",
+    "name": "Endrick",
+    "position": "Útočník"
+  },
+  {
+    "team": "BRAZÍLIE",
+    "name": "Gabriel Martinelli",
+    "position": "Útočník"
+  },
+  {
+    "team": "BRAZÍLIE",
+    "name": "Igor Thiago",
+    "position": "Útočník"
+  },
+  {
+    "team": "BRAZÍLIE",
+    "name": "Luiz Henrique",
+    "position": "Útočník"
+  },
+  {
+    "team": "BRAZÍLIE",
+    "name": "Matheus Cunha",
+    "position": "Útočník"
+  },
+  {
+    "team": "BRAZÍLIE",
+    "name": "Neymar",
+    "position": "Útočník"
+  },
+  {
+    "team": "BRAZÍLIE",
+    "name": "Raphinha",
+    "position": "Útočník"
+  },
+  {
+    "team": "BRAZÍLIE",
+    "name": "Rayan",
+    "position": "Útočník"
+  },
+  {
+    "team": "BRAZÍLIE",
+    "name": "Vinícius Júnior",
+    "position": "Útočník"
+  },
+  {
+    "team": "MAROKO",
+    "name": "Yassine Bounou",
+    "position": "Brankář"
+  },
+  {
+    "team": "MAROKO",
+    "name": "Munir Mohamedi",
+    "position": "Brankář"
+  },
+  {
+    "team": "MAROKO",
+    "name": "Ahmed Reda Tagnaouti",
+    "position": "Brankář"
+  },
+  {
+    "team": "MAROKO",
+    "name": "Achraf Hakimi",
+    "position": "Obránce"
+  },
+  {
+    "team": "MAROKO",
+    "name": "Nayef Aguerd",
+    "position": "Obránce"
+  },
+  {
+    "team": "MAROKO",
+    "name": "Noussair Mazraoui",
+    "position": "Obránce"
+  },
+  {
+    "team": "MAROKO",
+    "name": "Youssef Belammari",
+    "position": "Obránce"
+  },
+  {
+    "team": "MAROKO",
+    "name": "Anass Salah-Eddine",
+    "position": "Obránce"
+  },
+  {
+    "team": "MAROKO",
+    "name": "Chadi Riad",
+    "position": "Obránce"
+  },
+  {
+    "team": "MAROKO",
+    "name": "Issa Diop",
+    "position": "Obránce"
+  },
+  {
+    "team": "MAROKO",
+    "name": "Zakaria El Ouahdi",
+    "position": "Obránce"
+  },
+  {
+    "team": "MAROKO",
+    "name": "Redouane Halhal",
+    "position": "Obránce"
+  },
+  {
+    "team": "MAROKO",
+    "name": "Sofyan Amrabat",
+    "position": "Záložník"
+  },
+  {
+    "team": "MAROKO",
+    "name": "Azzedine Ounahi",
+    "position": "Záložník"
+  },
+  {
+    "team": "MAROKO",
+    "name": "Bilal El Khannouss",
+    "position": "Záložník"
+  },
+  {
+    "team": "MAROKO",
+    "name": "Ismael Saibari",
+    "position": "Záložník"
+  },
+  {
+    "team": "MAROKO",
+    "name": "Neil El Aynaoui",
+    "position": "Záložník"
+  },
+  {
+    "team": "MAROKO",
+    "name": "Samir El Mourabet",
+    "position": "Záložník"
+  },
+  {
+    "team": "MAROKO",
+    "name": "Ayyoub Bouaddi",
+    "position": "Záložník"
+  },
+  {
+    "team": "MAROKO",
+    "name": "Ayoub El Kaabi",
+    "position": "Útočník"
+  },
+  {
+    "team": "MAROKO",
+    "name": "Abde Ezzalzouli",
+    "position": "Útočník"
+  },
+  {
+    "team": "MAROKO",
+    "name": "Soufiane Rahimi",
+    "position": "Útočník"
+  },
+  {
+    "team": "MAROKO",
+    "name": "Brahim Díaz",
+    "position": "Útočník"
+  },
+  {
+    "team": "MAROKO",
+    "name": "Chemsdine Talbi",
+    "position": "Útočník"
+  },
+  {
+    "team": "MAROKO",
+    "name": "Gessime Yassine",
+    "position": "Útočník"
+  },
+  {
+    "team": "MAROKO",
+    "name": "Ayoube Amaimouni",
+    "position": "Útočník"
+  },
+  {
+    "team": "HAITI",
+    "name": "Johnny Placide",
+    "position": "Brankář"
+  },
+  {
+    "team": "HAITI",
+    "name": "Alexandre Pierre",
+    "position": "Brankář"
+  },
+  {
+    "team": "HAITI",
+    "name": "Josué Duverger",
+    "position": "Brankář"
+  },
+  {
+    "team": "HAITI",
+    "name": "Carlens Arcus",
+    "position": "Obránce"
+  },
+  {
+    "team": "HAITI",
+    "name": "Wilguens Pauguain",
+    "position": "Obránce"
+  },
+  {
+    "team": "HAITI",
+    "name": "Duke Lacroix",
+    "position": "Obránce"
+  },
+  {
+    "team": "HAITI",
+    "name": "Martin Expérience",
+    "position": "Obránce"
+  },
+  {
+    "team": "HAITI",
+    "name": "Jean-Kévin Duverne",
+    "position": "Obránce"
+  },
+  {
+    "team": "HAITI",
+    "name": "Ricardo Adé",
+    "position": "Obránce"
+  },
+  {
+    "team": "HAITI",
+    "name": "Hannes Delcroix",
+    "position": "Obránce"
+  },
+  {
+    "team": "HAITI",
+    "name": "Keeto Thermoncy",
+    "position": "Obránce"
+  },
+  {
+    "team": "HAITI",
+    "name": "Leverton Pierre",
+    "position": "Záložník"
+  },
+  {
+    "team": "HAITI",
+    "name": "Carl-Fred Sainté",
+    "position": "Záložník"
+  },
+  {
+    "team": "HAITI",
+    "name": "Jean-Jacques Danley",
+    "position": "Záložník"
+  },
+  {
+    "team": "HAITI",
+    "name": "Jean-Ricner Bellegarde",
+    "position": "Záložník"
+  },
+  {
+    "team": "HAITI",
+    "name": "Pierre Woodensky",
+    "position": "Záložník"
+  },
+  {
+    "team": "HAITI",
+    "name": "Dominique Simon",
+    "position": "Záložník"
+  },
+  {
+    "team": "HAITI",
+    "name": "Louicius Deedson",
+    "position": "Útočník"
+  },
+  {
+    "team": "HAITI",
+    "name": "Ruben Providence",
+    "position": "Útočník"
+  },
+  {
+    "team": "HAITI",
+    "name": "Josué Casimir",
+    "position": "Útočník"
+  },
+  {
+    "team": "HAITI",
+    "name": "Derrick Etienne",
+    "position": "Útočník"
+  },
+  {
+    "team": "HAITI",
+    "name": "Wilson Isidor",
+    "position": "Útočník"
+  },
+  {
+    "team": "HAITI",
+    "name": "Duckens Nazon",
+    "position": "Útočník"
+  },
+  {
+    "team": "HAITI",
+    "name": "Frantzdy Pierrot",
+    "position": "Útočník"
+  },
+  {
+    "team": "HAITI",
+    "name": "Yassin Fortune",
+    "position": "Útočník"
+  },
+  {
+    "team": "HAITI",
+    "name": "Lenny Joseph",
+    "position": "Útočník"
+  },
+  {
+    "team": "SKOTSKO",
+    "name": "Craig Gordon",
+    "position": "Brankář"
+  },
+  {
+    "team": "SKOTSKO",
+    "name": "Angus Gunn",
+    "position": "Brankář"
+  },
+  {
+    "team": "SKOTSKO",
+    "name": "Liam Kelly",
+    "position": "Brankář"
+  },
+  {
+    "team": "SKOTSKO",
+    "name": "Grant Hanley",
+    "position": "Obránce"
+  },
+  {
+    "team": "SKOTSKO",
+    "name": "Jack Hendry",
+    "position": "Obránce"
+  },
+  {
+    "team": "SKOTSKO",
+    "name": "Aaron Hickey",
+    "position": "Obránce"
+  },
+  {
+    "team": "SKOTSKO",
+    "name": "Dominic Hyam",
+    "position": "Obránce"
+  },
+  {
+    "team": "SKOTSKO",
+    "name": "Scott McKenna",
+    "position": "Obránce"
+  },
+  {
+    "team": "SKOTSKO",
+    "name": "Nathan Patterson",
+    "position": "Obránce"
+  },
+  {
+    "team": "SKOTSKO",
+    "name": "Anthony Ralston",
+    "position": "Obránce"
+  },
+  {
+    "team": "SKOTSKO",
+    "name": "Andy Robertson",
+    "position": "Obránce"
+  },
+  {
+    "team": "SKOTSKO",
+    "name": "John Souttar",
+    "position": "Obránce"
+  },
+  {
+    "team": "SKOTSKO",
+    "name": "Kieran Tierney",
+    "position": "Obránce"
+  },
+  {
+    "team": "SKOTSKO",
+    "name": "Ryan Christie",
+    "position": "Záložník"
+  },
+  {
+    "team": "SKOTSKO",
+    "name": "Findlay Curtis",
+    "position": "Záložník"
+  },
+  {
+    "team": "SKOTSKO",
+    "name": "Lewis Ferguson",
+    "position": "Záložník"
+  },
+  {
+    "team": "SKOTSKO",
+    "name": "Ben Gannon-Doak",
+    "position": "Záložník"
+  },
+  {
+    "team": "SKOTSKO",
+    "name": "Tyler Fletcher",
+    "position": "Záložník"
+  },
+  {
+    "team": "SKOTSKO",
+    "name": "John McGinn",
+    "position": "Záložník"
+  },
+  {
+    "team": "SKOTSKO",
+    "name": "Kenny McLean",
+    "position": "Záložník"
+  },
+  {
+    "team": "SKOTSKO",
+    "name": "Scott McTominay",
+    "position": "Záložník"
+  },
+  {
+    "team": "SKOTSKO",
+    "name": "Che Adams",
+    "position": "Útočník"
+  },
+  {
+    "team": "SKOTSKO",
+    "name": "Lyndon Dykes",
+    "position": "Útočník"
+  },
+  {
+    "team": "SKOTSKO",
+    "name": "George Hirst",
+    "position": "Útočník"
+  },
+  {
+    "team": "SKOTSKO",
+    "name": "Lawrence Shankland",
+    "position": "Útočník"
+  },
+  {
+    "team": "SKOTSKO",
+    "name": "Ross Stewart",
+    "position": "Útočník"
+  },
+  {
+    "team": "USA",
+    "name": "Matt Turner",
+    "position": "Brankář"
+  },
+  {
+    "team": "USA",
+    "name": "Matt Freese",
+    "position": "Brankář"
+  },
+  {
+    "team": "USA",
+    "name": "Chris Brady",
+    "position": "Brankář"
+  },
+  {
+    "team": "USA",
+    "name": "Tim Ream",
+    "position": "Obránce"
+  },
+  {
+    "team": "USA",
+    "name": "Antonee Robinson",
+    "position": "Obránce"
+  },
+  {
+    "team": "USA",
+    "name": "Miles Robinson",
+    "position": "Obránce"
+  },
+  {
+    "team": "USA",
+    "name": "Sergiño Dest",
+    "position": "Obránce"
+  },
+  {
+    "team": "USA",
+    "name": "Chris Richards",
+    "position": "Obránce"
+  },
+  {
+    "team": "USA",
+    "name": "Mark McKenzie",
+    "position": "Obránce"
+  },
+  {
+    "team": "USA",
+    "name": "Joe Scally",
+    "position": "Obránce"
+  },
+  {
+    "team": "USA",
+    "name": "Maximilian Arfsten",
+    "position": "Obránce"
+  },
+  {
+    "team": "USA",
+    "name": "Alex Freeman",
+    "position": "Obránce"
+  },
+  {
+    "team": "USA",
+    "name": "Auston Trusty",
+    "position": "Obránce"
+  },
+  {
+    "team": "USA",
+    "name": "Weston McKennie",
+    "position": "Záložník"
+  },
+  {
+    "team": "USA",
+    "name": "Tyler Adams",
+    "position": "Záložník"
+  },
+  {
+    "team": "USA",
+    "name": "Cristian Roldan",
+    "position": "Záložník"
+  },
+  {
+    "team": "USA",
+    "name": "Giovanni Reyna",
+    "position": "Záložník"
+  },
+  {
+    "team": "USA",
+    "name": "Malik Tillman",
+    "position": "Záložník"
+  },
+  {
+    "team": "USA",
+    "name": "Sebastian Berhalter",
+    "position": "Záložník"
+  },
+  {
+    "team": "USA",
+    "name": "Christian Pulisic",
+    "position": "Útočník"
+  },
+  {
+    "team": "USA",
+    "name": "Brenden Aaronson",
+    "position": "Útočník"
+  },
+  {
+    "team": "USA",
+    "name": "Timothy Weah",
+    "position": "Útočník"
+  },
+  {
+    "team": "USA",
+    "name": "Ricardo Pepi",
+    "position": "Útočník"
+  },
+  {
+    "team": "USA",
+    "name": "Folarin Balogun",
+    "position": "Útočník"
+  },
+  {
+    "team": "USA",
+    "name": "Haji Wright",
+    "position": "Útočník"
+  },
+  {
+    "team": "USA",
+    "name": "Alejandro Zendejas",
+    "position": "Útočník"
+  },
+  {
+    "team": "PARAGUAY",
+    "name": "Gatito Fernández",
+    "position": "Brankář"
+  },
+  {
+    "team": "PARAGUAY",
+    "name": "Orlando Gill",
+    "position": "Brankář"
+  },
+  {
+    "team": "PARAGUAY",
+    "name": "Gastón Olveira",
+    "position": "Brankář"
+  },
+  {
+    "team": "PARAGUAY",
+    "name": "Juan Cáceres",
+    "position": "Obránce"
+  },
+  {
+    "team": "PARAGUAY",
+    "name": "Gustavo Gómez",
+    "position": "Obránce"
+  },
+  {
+    "team": "PARAGUAY",
+    "name": "Gustavo Velázquez",
+    "position": "Obránce"
+  },
+  {
+    "team": "PARAGUAY",
+    "name": "Fabián Balbuena",
+    "position": "Obránce"
+  },
+  {
+    "team": "PARAGUAY",
+    "name": "Júnior Alonso",
+    "position": "Obránce"
+  },
+  {
+    "team": "PARAGUAY",
+    "name": "Omar Alderete",
+    "position": "Obránce"
+  },
+  {
+    "team": "PARAGUAY",
+    "name": "José Canale",
+    "position": "Obránce"
+  },
+  {
+    "team": "PARAGUAY",
+    "name": "Alexandro Maidana",
+    "position": "Obránce"
+  },
+  {
+    "team": "PARAGUAY",
+    "name": "Damián Bobadilla",
+    "position": "Záložník"
+  },
+  {
+    "team": "PARAGUAY",
+    "name": "Andrés Cubas",
+    "position": "Záložník"
+  },
+  {
+    "team": "PARAGUAY",
+    "name": "Diego Gómez",
+    "position": "Záložník"
+  },
+  {
+    "team": "PARAGUAY",
+    "name": "Matías Galarza",
+    "position": "Záložník"
+  },
+  {
+    "team": "PARAGUAY",
+    "name": "Alejandro Romero Gamarra",
+    "position": "Záložník"
+  },
+  {
+    "team": "PARAGUAY",
+    "name": "Braian Ojeda",
+    "position": "Záložník"
+  },
+  {
+    "team": "PARAGUAY",
+    "name": "Maurício Magalhães",
+    "position": "Záložník"
+  },
+  {
+    "team": "PARAGUAY",
+    "name": "Alex Arce",
+    "position": "Útočník"
+  },
+  {
+    "team": "PARAGUAY",
+    "name": "Miguel Almirón",
+    "position": "Útočník"
+  },
+  {
+    "team": "PARAGUAY",
+    "name": "Isidro Pitta",
+    "position": "Útočník"
+  },
+  {
+    "team": "PARAGUAY",
+    "name": "Ramón Sosa",
+    "position": "Útočník"
+  },
+  {
+    "team": "PARAGUAY",
+    "name": "Gabriel Ávalos",
+    "position": "Útočník"
+  },
+  {
+    "team": "PARAGUAY",
+    "name": "Antonio Sanabria",
+    "position": "Útočník"
+  },
+  {
+    "team": "PARAGUAY",
+    "name": "Julio Enciso",
+    "position": "Útočník"
+  },
+  {
+    "team": "PARAGUAY",
+    "name": "Gustavo Caballero",
+    "position": "Útočník"
+  },
+  {
+    "team": "AUSTRÁLIE",
+    "name": "Patrick Beach",
+    "position": "Brankář"
+  },
+  {
+    "team": "AUSTRÁLIE",
+    "name": "Paul Izzo",
+    "position": "Brankář"
+  },
+  {
+    "team": "AUSTRÁLIE",
+    "name": "Mat Ryan",
+    "position": "Brankář"
+  },
+  {
+    "team": "AUSTRÁLIE",
+    "name": "Aziz Behich",
+    "position": "Obránce"
+  },
+  {
+    "team": "AUSTRÁLIE",
+    "name": "Jordan Bos",
+    "position": "Obránce"
+  },
+  {
+    "team": "AUSTRÁLIE",
+    "name": "Cameron Burgess",
+    "position": "Obránce"
+  },
+  {
+    "team": "AUSTRÁLIE",
+    "name": "Alessandro Circati",
+    "position": "Obránce"
+  },
+  {
+    "team": "AUSTRÁLIE",
+    "name": "Milos Degenek",
+    "position": "Obránce"
+  },
+  {
+    "team": "AUSTRÁLIE",
+    "name": "Jason Geria",
+    "position": "Obránce"
+  },
+  {
+    "team": "AUSTRÁLIE",
+    "name": "Lucas Herrington",
+    "position": "Obránce"
+  },
+  {
+    "team": "AUSTRÁLIE",
+    "name": "Jacob Italiano",
+    "position": "Obránce"
+  },
+  {
+    "team": "AUSTRÁLIE",
+    "name": "Harry Souttar",
+    "position": "Obránce"
+  },
+  {
+    "team": "AUSTRÁLIE",
+    "name": "Kai Trewin",
+    "position": "Obránce"
+  },
+  {
+    "team": "AUSTRÁLIE",
+    "name": "Cameron Devlin",
+    "position": "Záložník"
+  },
+  {
+    "team": "AUSTRÁLIE",
+    "name": "Jackson Irvine",
+    "position": "Záložník"
+  },
+  {
+    "team": "AUSTRÁLIE",
+    "name": "Mathew Leckie",
+    "position": "Záložník"
+  },
+  {
+    "team": "AUSTRÁLIE",
+    "name": "Connor Metcalfe",
+    "position": "Záložník"
+  },
+  {
+    "team": "AUSTRÁLIE",
+    "name": "Aiden O'Neill",
+    "position": "Záložník"
+  },
+  {
+    "team": "AUSTRÁLIE",
+    "name": "Paul Okon-Engstler",
+    "position": "Záložník"
+  },
+  {
+    "team": "AUSTRÁLIE",
+    "name": "Ajdin Hrustic",
+    "position": "Útočník"
+  },
+  {
+    "team": "AUSTRÁLIE",
+    "name": "Nestory Irankunda",
+    "position": "Útočník"
+  },
+  {
+    "team": "AUSTRÁLIE",
+    "name": "Awer Mabil",
+    "position": "Útočník"
+  },
+  {
+    "team": "AUSTRÁLIE",
+    "name": "Mohamed Touré",
+    "position": "Útočník"
+  },
+  {
+    "team": "AUSTRÁLIE",
+    "name": "Nishan Velupillay",
+    "position": "Útočník"
+  },
+  {
+    "team": "AUSTRÁLIE",
+    "name": "Cristian Volpato",
+    "position": "Útočník"
+  },
+  {
+    "team": "AUSTRÁLIE",
+    "name": "Tete Yengi",
+    "position": "Útočník"
+  },
+  {
+    "team": "TURECKO",
+    "name": "Ugurcan Cakir",
+    "position": "Brankář"
+  },
+  {
+    "team": "TURECKO",
+    "name": "Altay Bayindir",
+    "position": "Brankář"
+  },
+  {
+    "team": "TURECKO",
+    "name": "Mert Gunok",
+    "position": "Brankář"
+  },
+  {
+    "team": "TURECKO",
+    "name": "Ferdi Kadioglu",
+    "position": "Obránce"
+  },
+  {
+    "team": "TURECKO",
+    "name": "Merih Demiral",
+    "position": "Obránce"
+  },
+  {
+    "team": "TURECKO",
+    "name": "Zeki Celik",
+    "position": "Obránce"
+  },
+  {
+    "team": "TURECKO",
+    "name": "Ozan Kabak",
+    "position": "Obránce"
+  },
+  {
+    "team": "TURECKO",
+    "name": "Mert Muldur",
+    "position": "Obránce"
+  },
+  {
+    "team": "TURECKO",
+    "name": "Abdulkerim Bardakci",
+    "position": "Obránce"
+  },
+  {
+    "team": "TURECKO",
+    "name": "Eren Elmali",
+    "position": "Obránce"
+  },
+  {
+    "team": "TURECKO",
+    "name": "Caglar Soyuncu",
+    "position": "Obránce"
+  },
+  {
+    "team": "TURECKO",
+    "name": "Samet Akaydin",
+    "position": "Obránce"
+  },
+  {
+    "team": "TURECKO",
+    "name": "Arda Guler",
+    "position": "Záložník"
+  },
+  {
+    "team": "TURECKO",
+    "name": "Can Uzun",
+    "position": "Záložník"
+  },
+  {
+    "team": "TURECKO",
+    "name": "Orkun Kokcu",
+    "position": "Záložník"
+  },
+  {
+    "team": "TURECKO",
+    "name": "Hakan Calhanoglu",
+    "position": "Záložník"
+  },
+  {
+    "team": "TURECKO",
+    "name": "Ismail Yuksek",
+    "position": "Záložník"
+  },
+  {
+    "team": "TURECKO",
+    "name": "Kaan Ayhan",
+    "position": "Záložník"
+  },
+  {
+    "team": "TURECKO",
+    "name": "Salih Ozcan",
+    "position": "Záložník"
+  },
+  {
+    "team": "TURECKO",
+    "name": "Kenan Yildiz",
+    "position": "Útočník"
+  },
+  {
+    "team": "TURECKO",
+    "name": "Baris Alper Yilmaz",
+    "position": "Útočník"
+  },
+  {
+    "team": "TURECKO",
+    "name": "Kerem Akturkoglu",
+    "position": "Útočník"
+  },
+  {
+    "team": "TURECKO",
+    "name": "Yunus Akgun",
+    "position": "Útočník"
+  },
+  {
+    "team": "TURECKO",
+    "name": "Oguz Aydin",
+    "position": "Útočník"
+  },
+  {
+    "team": "TURECKO",
+    "name": "Deniz Gul",
+    "position": "Útočník"
+  },
+  {
+    "team": "TURECKO",
+    "name": "Irfan Can Kahveci",
+    "position": "Útočník"
+  },
+  {
+    "team": "NĚMECKO",
+    "name": "Oliver Baumann",
+    "position": "Brankář"
+  },
+  {
+    "team": "NĚMECKO",
+    "name": "Manuel Neuer",
+    "position": "Brankář"
+  },
+  {
+    "team": "NĚMECKO",
+    "name": "Alexander Nübel",
+    "position": "Brankář"
+  },
+  {
+    "team": "NĚMECKO",
+    "name": "Waldemar Anton",
+    "position": "Obránce"
+  },
+  {
+    "team": "NĚMECKO",
+    "name": "Nico Schlotterbeck",
+    "position": "Obránce"
+  },
+  {
+    "team": "NĚMECKO",
+    "name": "Nathaniel Brown",
+    "position": "Obránce"
+  },
+  {
+    "team": "NĚMECKO",
+    "name": "Pascal Gross",
+    "position": "Obránce"
+  },
+  {
+    "team": "NĚMECKO",
+    "name": "Joshua Kimmich",
+    "position": "Obránce"
+  },
+  {
+    "team": "NĚMECKO",
+    "name": "Jonathan Tah",
+    "position": "Obránce"
+  },
+  {
+    "team": "NĚMECKO",
+    "name": "David Raum",
+    "position": "Obránce"
+  },
+  {
+    "team": "NĚMECKO",
+    "name": "Antonio Rüdiger",
+    "position": "Obránce"
+  },
+  {
+    "team": "NĚMECKO",
+    "name": "Malick Thiaw",
+    "position": "Obránce"
+  },
+  {
+    "team": "NĚMECKO",
+    "name": "Aleksandar Pavlovič",
+    "position": "Záložník"
+  },
+  {
+    "team": "NĚMECKO",
+    "name": "Jamal Musiala",
+    "position": "Záložník"
+  },
+  {
+    "team": "NĚMECKO",
+    "name": "Leon Goretzka",
+    "position": "Záložník"
+  },
+  {
+    "team": "NĚMECKO",
+    "name": "Lennart Karl",
+    "position": "Záložník"
+  },
+  {
+    "team": "NĚMECKO",
+    "name": "Nadiem Amiri",
+    "position": "Záložník"
+  },
+  {
+    "team": "NĚMECKO",
+    "name": "Jamie Leweling",
+    "position": "Záložník"
+  },
+  {
+    "team": "NĚMECKO",
+    "name": "Angelo Stiller",
+    "position": "Záložník"
+  },
+  {
+    "team": "NĚMECKO",
+    "name": "Felix Nmecha",
+    "position": "Záložník"
+  },
+  {
+    "team": "NĚMECKO",
+    "name": "Florian Wirtz",
+    "position": "Záložník"
+  },
+  {
+    "team": "NĚMECKO",
+    "name": "Deniz Undav",
+    "position": "Útočník"
+  },
+  {
+    "team": "NĚMECKO",
+    "name": "Kai Havertz",
+    "position": "Útočník"
+  },
+  {
+    "team": "NĚMECKO",
+    "name": "Maximilian Beier",
+    "position": "Útočník"
+  },
+  {
+    "team": "NĚMECKO",
+    "name": "Leroy Sané",
+    "position": "Útočník"
+  },
+  {
+    "team": "NĚMECKO",
+    "name": "Nick Woltemade",
+    "position": "Útočník"
+  },
+  {
+    "team": "POBŘEŽÍ SLONOVINY",
+    "name": "Yahia Fofana",
+    "position": "Brankář"
+  },
+  {
+    "team": "POBŘEŽÍ SLONOVINY",
+    "name": "Mohamed Koné",
+    "position": "Brankář"
+  },
+  {
+    "team": "POBŘEŽÍ SLONOVINY",
+    "name": "Alban Lafont",
+    "position": "Brankář"
+  },
+  {
+    "team": "POBŘEŽÍ SLONOVINY",
+    "name": "Emmanuel Agbadou",
+    "position": "Obránce"
+  },
+  {
+    "team": "POBŘEŽÍ SLONOVINY",
+    "name": "Christopher Opéri",
+    "position": "Obránce"
+  },
+  {
+    "team": "POBŘEŽÍ SLONOVINY",
+    "name": "Ousmane Diomande",
+    "position": "Obránce"
+  },
+  {
+    "team": "POBŘEŽÍ SLONOVINY",
+    "name": "Guela Doué",
+    "position": "Obránce"
+  },
+  {
+    "team": "POBŘEŽÍ SLONOVINY",
+    "name": "Ghislain Konan",
+    "position": "Obránce"
+  },
+  {
+    "team": "POBŘEŽÍ SLONOVINY",
+    "name": "Odilon Kossounou",
+    "position": "Obránce"
+  },
+  {
+    "team": "POBŘEŽÍ SLONOVINY",
+    "name": "Evan Ndicka",
+    "position": "Obránce"
+  },
+  {
+    "team": "POBŘEŽÍ SLONOVINY",
+    "name": "Wilfried Singo",
+    "position": "Obránce"
+  },
+  {
+    "team": "POBŘEŽÍ SLONOVINY",
+    "name": "Seko Fofana",
+    "position": "Záložník"
+  },
+  {
+    "team": "POBŘEŽÍ SLONOVINY",
+    "name": "Parfait Guiagon",
+    "position": "Záložník"
+  },
+  {
+    "team": "POBŘEŽÍ SLONOVINY",
+    "name": "Christ Inao Oulai",
+    "position": "Záložník"
+  },
+  {
+    "team": "POBŘEŽÍ SLONOVINY",
+    "name": "Franck Kessié",
+    "position": "Záložník"
+  },
+  {
+    "team": "POBŘEŽÍ SLONOVINY",
+    "name": "Ibrahim Sangaré",
+    "position": "Záložník"
+  },
+  {
+    "team": "POBŘEŽÍ SLONOVINY",
+    "name": "Jean-Mickael Seri",
+    "position": "Záložník"
+  },
+  {
+    "team": "POBŘEŽÍ SLONOVINY",
+    "name": "Simon Adingra",
+    "position": "Útočník"
+  },
+  {
+    "team": "POBŘEŽÍ SLONOVINY",
+    "name": "Ange-Yoan Bonny",
+    "position": "Útočník"
+  },
+  {
+    "team": "POBŘEŽÍ SLONOVINY",
+    "name": "Amad Diallo",
+    "position": "Útočník"
+  },
+  {
+    "team": "POBŘEŽÍ SLONOVINY",
+    "name": "Oumar Diakité",
+    "position": "Útočník"
+  },
+  {
+    "team": "POBŘEŽÍ SLONOVINY",
+    "name": "Yan Diomande",
+    "position": "Útočník"
+  },
+  {
+    "team": "POBŘEŽÍ SLONOVINY",
+    "name": "Evann Guessand",
+    "position": "Útočník"
+  },
+  {
+    "team": "POBŘEŽÍ SLONOVINY",
+    "name": "Nicolás Pépé",
+    "position": "Útočník"
+  },
+  {
+    "team": "POBŘEŽÍ SLONOVINY",
+    "name": "Bazoumana Touré",
+    "position": "Útočník"
+  },
+  {
+    "team": "POBŘEŽÍ SLONOVINY",
+    "name": "Elye Wahi",
+    "position": "Útočník"
+  },
+  {
+    "team": "EKVÁDOR",
+    "name": "Hernán Galíndez",
+    "position": "Brankář"
+  },
+  {
+    "team": "EKVÁDOR",
+    "name": "Moisés Ramírez",
+    "position": "Brankář"
+  },
+  {
+    "team": "EKVÁDOR",
+    "name": "Gonzalo Valle",
+    "position": "Brankář"
+  },
+  {
+    "team": "EKVÁDOR",
+    "name": "Willian Pacho",
+    "position": "Obránce"
+  },
+  {
+    "team": "EKVÁDOR",
+    "name": "Piero Hincapié",
+    "position": "Obránce"
+  },
+  {
+    "team": "EKVÁDOR",
+    "name": "Joel Ordóñez",
+    "position": "Obránce"
+  },
+  {
+    "team": "EKVÁDOR",
+    "name": "Félix Torres",
+    "position": "Obránce"
+  },
+  {
+    "team": "EKVÁDOR",
+    "name": "Pervis Estupiñán",
+    "position": "Obránce"
+  },
+  {
+    "team": "EKVÁDOR",
+    "name": "Yaimar Medina",
+    "position": "Obránce"
+  },
+  {
+    "team": "EKVÁDOR",
+    "name": "Ángelo Preciado",
+    "position": "Obránce"
+  },
+  {
+    "team": "EKVÁDOR",
+    "name": "Jackson Porozo",
+    "position": "Obránce"
+  },
+  {
+    "team": "EKVÁDOR",
+    "name": "Alan Minda",
+    "position": "Záložník"
+  },
+  {
+    "team": "EKVÁDOR",
+    "name": "Moisés Caicedo",
+    "position": "Záložník"
+  },
+  {
+    "team": "EKVÁDOR",
+    "name": "Jordy Alcívar",
+    "position": "Záložník"
+  },
+  {
+    "team": "EKVÁDOR",
+    "name": "Denil Castillo",
+    "position": "Záložník"
+  },
+  {
+    "team": "EKVÁDOR",
+    "name": "John Yeboah",
+    "position": "Záložník"
+  },
+  {
+    "team": "EKVÁDOR",
+    "name": "Alan Franco",
+    "position": "Záložník"
+  },
+  {
+    "team": "EKVÁDOR",
+    "name": "Pedro Vite",
+    "position": "Záložník"
+  },
+  {
+    "team": "EKVÁDOR",
+    "name": "Kendry Páez",
+    "position": "Záložník"
+  },
+  {
+    "team": "EKVÁDOR",
+    "name": "Nilson Angulo",
+    "position": "Záložník"
+  },
+  {
+    "team": "EKVÁDOR",
+    "name": "Gonzalo Plata",
+    "position": "Záložník"
+  },
+  {
+    "team": "EKVÁDOR",
+    "name": "Kevin Rodríguez",
+    "position": "Útočník"
+  },
+  {
+    "team": "EKVÁDOR",
+    "name": "Anthony Valencia",
+    "position": "Útočník"
+  },
+  {
+    "team": "EKVÁDOR",
+    "name": "Enner Valencia",
+    "position": "Útočník"
+  },
+  {
+    "team": "EKVÁDOR",
+    "name": "Jordy Caicedo",
+    "position": "Útočník"
+  },
+  {
+    "team": "EKVÁDOR",
+    "name": "Jeremy Arévalo",
+    "position": "Útočník"
+  },
+  {
+    "team": "CURAÇAO",
+    "name": "Tyrick Bodak",
+    "position": "Brankář"
+  },
+  {
+    "team": "CURAÇAO",
+    "name": "Trevor Doornbusch",
+    "position": "Brankář"
+  },
+  {
+    "team": "CURAÇAO",
+    "name": "Eloy Room",
+    "position": "Brankář"
+  },
+  {
+    "team": "CURAÇAO",
+    "name": "Riechedly Bazoer",
+    "position": "Obránce"
+  },
+  {
+    "team": "CURAÇAO",
+    "name": "Joshua Brenet",
+    "position": "Obránce"
+  },
+  {
+    "team": "CURAÇAO",
+    "name": "Roshon van Eijma",
+    "position": "Obránce"
+  },
+  {
+    "team": "CURAÇAO",
+    "name": "Sherel Floranus",
+    "position": "Obránce"
+  },
+  {
+    "team": "CURAÇAO",
+    "name": "Deveron Fonville",
+    "position": "Obránce"
+  },
+  {
+    "team": "CURAÇAO",
+    "name": "Juriën Gaari",
+    "position": "Obránce"
+  },
+  {
+    "team": "CURAÇAO",
+    "name": "Armando Obispo",
+    "position": "Obránce"
+  },
+  {
+    "team": "CURAÇAO",
+    "name": "Shurandy Sambo",
+    "position": "Obránce"
+  },
+  {
+    "team": "CURAÇAO",
+    "name": "Juninho Bacuna",
+    "position": "Záložník"
+  },
+  {
+    "team": "CURAÇAO",
+    "name": "Leandro Bacuna",
+    "position": "Záložník"
+  },
+  {
+    "team": "CURAÇAO",
+    "name": "Livano Comenencia",
+    "position": "Záložník"
+  },
+  {
+    "team": "CURAÇAO",
+    "name": "Kevin Felida",
+    "position": "Záložník"
+  },
+  {
+    "team": "CURAÇAO",
+    "name": "Ar'jany Martha",
+    "position": "Záložník"
+  },
+  {
+    "team": "CURAÇAO",
+    "name": "Tyrese Noslin",
+    "position": "Záložník"
+  },
+  {
+    "team": "CURAÇAO",
+    "name": "Godfried Roemeratoe",
+    "position": "Záložník"
+  },
+  {
+    "team": "CURAÇAO",
+    "name": "Jeremy Antonisse",
+    "position": "Útočník"
+  },
+  {
+    "team": "CURAÇAO",
+    "name": "Tahith Chong",
+    "position": "Útočník"
+  },
+  {
+    "team": "CURAÇAO",
+    "name": "Kenji Gorré",
+    "position": "Útočník"
+  },
+  {
+    "team": "CURAÇAO",
+    "name": "Sontje Hansen",
+    "position": "Útočník"
+  },
+  {
+    "team": "CURAÇAO",
+    "name": "Gervane Kastaneer",
+    "position": "Útočník"
+  },
+  {
+    "team": "CURAÇAO",
+    "name": "Brandley Kuwas",
+    "position": "Útočník"
+  },
+  {
+    "team": "CURAÇAO",
+    "name": "Jürgen Locadia",
+    "position": "Útočník"
+  },
+  {
+    "team": "CURAÇAO",
+    "name": "Jearl Margaritha",
+    "position": "Útočník"
+  },
+  {
+    "team": "NIZOZEMSKO",
+    "name": "Mark Flekken",
+    "position": "Brankář"
+  },
+  {
+    "team": "NIZOZEMSKO",
+    "name": "Robin Roefs",
+    "position": "Brankář"
+  },
+  {
+    "team": "NIZOZEMSKO",
+    "name": "Bart Verbruggen",
+    "position": "Brankář"
+  },
+  {
+    "team": "NIZOZEMSKO",
+    "name": "Nathan Aké",
+    "position": "Obránce"
+  },
+  {
+    "team": "NIZOZEMSKO",
+    "name": "Sven Botman",
+    "position": "Obránce"
+  },
+  {
+    "team": "NIZOZEMSKO",
+    "name": "Denzel Dumfries",
+    "position": "Obránce"
+  },
+  {
+    "team": "NIZOZEMSKO",
+    "name": "Jorrel Hato",
+    "position": "Obránce"
+  },
+  {
+    "team": "NIZOZEMSKO",
+    "name": "Jurriën Timber",
+    "position": "Obránce"
+  },
+  {
+    "team": "NIZOZEMSKO",
+    "name": "Micky van de Ven",
+    "position": "Obránce"
+  },
+  {
+    "team": "NIZOZEMSKO",
+    "name": "Virgil van Dijk",
+    "position": "Obránce"
+  },
+  {
+    "team": "NIZOZEMSKO",
+    "name": "Jan Paul van Hecke",
+    "position": "Obránce"
+  },
+  {
+    "team": "NIZOZEMSKO",
+    "name": "Mats Wieffer",
+    "position": "Obránce"
+  },
+  {
+    "team": "NIZOZEMSKO",
+    "name": "Frenkie de Jong",
+    "position": "Záložník"
+  },
+  {
+    "team": "NIZOZEMSKO",
+    "name": "Marten de Roon",
+    "position": "Záložník"
+  },
+  {
+    "team": "NIZOZEMSKO",
+    "name": "Ryan Gravenberch",
+    "position": "Záložník"
+  },
+  {
+    "team": "NIZOZEMSKO",
+    "name": "Justin Kluivert",
+    "position": "Záložník"
+  },
+  {
+    "team": "NIZOZEMSKO",
+    "name": "Teun Koopmeiners",
+    "position": "Záložník"
+  },
+  {
+    "team": "NIZOZEMSKO",
+    "name": "Tijjani Reijnders",
+    "position": "Záložník"
+  },
+  {
+    "team": "NIZOZEMSKO",
+    "name": "Guus Til",
+    "position": "Záložník"
+  },
+  {
+    "team": "NIZOZEMSKO",
+    "name": "Quinten Timber",
+    "position": "Záložník"
+  },
+  {
+    "team": "NIZOZEMSKO",
+    "name": "Brian Brobbey",
+    "position": "Útočník"
+  },
+  {
+    "team": "NIZOZEMSKO",
+    "name": "Memphis Depay",
+    "position": "Útočník"
+  },
+  {
+    "team": "NIZOZEMSKO",
+    "name": "Cody Gakpo",
+    "position": "Útočník"
+  },
+  {
+    "team": "NIZOZEMSKO",
+    "name": "Noa Lang",
+    "position": "Útočník"
+  },
+  {
+    "team": "NIZOZEMSKO",
+    "name": "Donyell Malen",
+    "position": "Útočník"
+  },
+  {
+    "team": "NIZOZEMSKO",
+    "name": "Crysencio Summerville",
+    "position": "Útočník"
+  },
+  {
+    "team": "NIZOZEMSKO",
+    "name": "Wout Weghorst",
+    "position": "Útočník"
+  },
+  {
+    "team": "JAPONSKO",
+    "name": "Zion Suzuki",
+    "position": "Brankář"
+  },
+  {
+    "team": "JAPONSKO",
+    "name": "Tomoki Hayakawa",
+    "position": "Brankář"
+  },
+  {
+    "team": "JAPONSKO",
+    "name": "Keisuke Osako",
+    "position": "Brankář"
+  },
+  {
+    "team": "JAPONSKO",
+    "name": "Yuto Nagatomo",
+    "position": "Obránce"
+  },
+  {
+    "team": "JAPONSKO",
+    "name": "Shogo Taniguchi",
+    "position": "Obránce"
+  },
+  {
+    "team": "JAPONSKO",
+    "name": "Ko Itakura",
+    "position": "Obránce"
+  },
+  {
+    "team": "JAPONSKO",
+    "name": "Tsuyoshi Watanabe",
+    "position": "Obránce"
+  },
+  {
+    "team": "JAPONSKO",
+    "name": "Takehiro Tomiyasu",
+    "position": "Obránce"
+  },
+  {
+    "team": "JAPONSKO",
+    "name": "Hiroki Ito",
+    "position": "Obránce"
+  },
+  {
+    "team": "JAPONSKO",
+    "name": "Ayumu Seko",
+    "position": "Obránce"
+  },
+  {
+    "team": "JAPONSKO",
+    "name": "Yukinari Sugawara",
+    "position": "Obránce"
+  },
+  {
+    "team": "JAPONSKO",
+    "name": "Junnosuke Suzuki",
+    "position": "Obránce"
+  },
+  {
+    "team": "JAPONSKO",
+    "name": "Wataru Endo",
+    "position": "Záložník"
+  },
+  {
+    "team": "JAPONSKO",
+    "name": "Junya Ito",
+    "position": "Záložník"
+  },
+  {
+    "team": "JAPONSKO",
+    "name": "Daichi Kamada",
+    "position": "Záložník"
+  },
+  {
+    "team": "JAPONSKO",
+    "name": "Ritsu Doan",
+    "position": "Záložník"
+  },
+  {
+    "team": "JAPONSKO",
+    "name": "Ao Tanaka",
+    "position": "Záložník"
+  },
+  {
+    "team": "JAPONSKO",
+    "name": "Kaishu Sano",
+    "position": "Záložník"
+  },
+  {
+    "team": "JAPONSKO",
+    "name": "Koki Ogawa",
+    "position": "Útočník"
+  },
+  {
+    "team": "JAPONSKO",
+    "name": "Daizen Maeda",
+    "position": "Útočník"
+  },
+  {
+    "team": "JAPONSKO",
+    "name": "Ayase Ueda",
+    "position": "Útočník"
+  },
+  {
+    "team": "JAPONSKO",
+    "name": "Keito Nakamura",
+    "position": "Útočník"
+  },
+  {
+    "team": "JAPONSKO",
+    "name": "Takefusa Kubo",
+    "position": "Útočník"
+  },
+  {
+    "team": "JAPONSKO",
+    "name": "Yuito Suzuki",
+    "position": "Útočník"
+  },
+  {
+    "team": "JAPONSKO",
+    "name": "Kento Shiogai",
+    "position": "Útočník"
+  },
+  {
+    "team": "JAPONSKO",
+    "name": "Keisuke Goto",
+    "position": "Útočník"
+  },
+  {
+    "team": "ŠVÉDSKO",
+    "name": "Viktor Johansson",
+    "position": "Brankář"
+  },
+  {
+    "team": "ŠVÉDSKO",
+    "name": "Kristoffer Nordfeldt",
+    "position": "Brankář"
+  },
+  {
+    "team": "ŠVÉDSKO",
+    "name": "Jacob Widell Zetterström",
+    "position": "Brankář"
+  },
+  {
+    "team": "ŠVÉDSKO",
+    "name": "Hjalmar Ekdal",
+    "position": "Obránce"
+  },
+  {
+    "team": "ŠVÉDSKO",
+    "name": "Gabriel Gudmundsson",
+    "position": "Obránce"
+  },
+  {
+    "team": "ŠVÉDSKO",
+    "name": "Isak Hien",
+    "position": "Obránce"
+  },
+  {
+    "team": "ŠVÉDSKO",
+    "name": "Emil Holm",
+    "position": "Obránce"
+  },
+  {
+    "team": "ŠVÉDSKO",
+    "name": "Gustaf Lagerbielke",
+    "position": "Obránce"
+  },
+  {
+    "team": "ŠVÉDSKO",
+    "name": "Victor Lindelöf",
+    "position": "Obránce"
+  },
+  {
+    "team": "ŠVÉDSKO",
+    "name": "Eric Smith",
+    "position": "Obránce"
+  },
+  {
+    "team": "ŠVÉDSKO",
+    "name": "Carl Starfelt",
+    "position": "Obránce"
+  },
+  {
+    "team": "ŠVÉDSKO",
+    "name": "Elliot Stroud",
+    "position": "Obránce"
+  },
+  {
+    "team": "ŠVÉDSKO",
+    "name": "Daniel Svensson",
+    "position": "Obránce"
+  },
+  {
+    "team": "ŠVÉDSKO",
+    "name": "Taha Ali",
+    "position": "Záložník"
+  },
+  {
+    "team": "ŠVÉDSKO",
+    "name": "Yasin Ayari",
+    "position": "Záložník"
+  },
+  {
+    "team": "ŠVÉDSKO",
+    "name": "Lucas Bergvall",
+    "position": "Záložník"
+  },
+  {
+    "team": "ŠVÉDSKO",
+    "name": "Jesper Karlström",
+    "position": "Záložník"
+  },
+  {
+    "team": "ŠVÉDSKO",
+    "name": "Ken Sema",
+    "position": "Záložník"
+  },
+  {
+    "team": "ŠVÉDSKO",
+    "name": "Mattias Svanberg",
+    "position": "Záložník"
+  },
+  {
+    "team": "ŠVÉDSKO",
+    "name": "Besfort Zeneli",
+    "position": "Záložník"
+  },
+  {
+    "team": "ŠVÉDSKO",
+    "name": "Alexander Bernhardsson",
+    "position": "Útočník"
+  },
+  {
+    "team": "ŠVÉDSKO",
+    "name": "Anthony Elanga",
+    "position": "Útočník"
+  },
+  {
+    "team": "ŠVÉDSKO",
+    "name": "Viktor Gyökeres",
+    "position": "Útočník"
+  },
+  {
+    "team": "ŠVÉDSKO",
+    "name": "Alexander Isak",
+    "position": "Útočník"
+  },
+  {
+    "team": "ŠVÉDSKO",
+    "name": "Gustaf Nilsson",
+    "position": "Útočník"
+  },
+  {
+    "team": "ŠVÉDSKO",
+    "name": "Benjamin Nygren",
+    "position": "Útočník"
+  },
+  {
+    "team": "TUNISKO",
+    "name": "Aymen Dahmen",
+    "position": "Brankář"
+  },
+  {
+    "team": "TUNISKO",
+    "name": "Sabri Ben Hessen",
+    "position": "Brankář"
+  },
+  {
+    "team": "TUNISKO",
+    "name": "Mouhib Chamakh",
+    "position": "Brankář"
+  },
+  {
+    "team": "TUNISKO",
+    "name": "Montassar Talbi",
+    "position": "Obránce"
+  },
+  {
+    "team": "TUNISKO",
+    "name": "Dylan Bronn",
+    "position": "Obránce"
+  },
+  {
+    "team": "TUNISKO",
+    "name": "Ali Abdi",
+    "position": "Obránce"
+  },
+  {
+    "team": "TUNISKO",
+    "name": "Yan Valery",
+    "position": "Obránce"
+  },
+  {
+    "team": "TUNISKO",
+    "name": "Mohamed Amine Ben Hamida",
+    "position": "Obránce"
+  },
+  {
+    "team": "TUNISKO",
+    "name": "Moutaz Neffati",
+    "position": "Obránce"
+  },
+  {
+    "team": "TUNISKO",
+    "name": "Omar Rekik",
+    "position": "Obránce"
+  },
+  {
+    "team": "TUNISKO",
+    "name": "Adem Arous",
+    "position": "Obránce"
+  },
+  {
+    "team": "TUNISKO",
+    "name": "Raed Chikhaoui",
+    "position": "Obránce"
+  },
+  {
+    "team": "TUNISKO",
+    "name": "Ellyes Skhiri",
+    "position": "Záložník"
+  },
+  {
+    "team": "TUNISKO",
+    "name": "Hannibal Mejbri",
+    "position": "Záložník"
+  },
+  {
+    "team": "TUNISKO",
+    "name": "Anis Ben Slimane",
+    "position": "Záložník"
+  },
+  {
+    "team": "TUNISKO",
+    "name": "Mortadha Ben Ouanes",
+    "position": "Záložník"
+  },
+  {
+    "team": "TUNISKO",
+    "name": "Ismaël Gharbi",
+    "position": "Záložník"
+  },
+  {
+    "team": "TUNISKO",
+    "name": "Hadj Mahmoud",
+    "position": "Záložník"
+  },
+  {
+    "team": "TUNISKO",
+    "name": "Rani Khedira",
+    "position": "Záložník"
+  },
+  {
+    "team": "TUNISKO",
+    "name": "Elias Achouri",
+    "position": "Útočník"
+  },
+  {
+    "team": "TUNISKO",
+    "name": "Firas Chaouat",
+    "position": "Útočník"
+  },
+  {
+    "team": "TUNISKO",
+    "name": "Hazem Mastouri",
+    "position": "Útočník"
+  },
+  {
+    "team": "TUNISKO",
+    "name": "Elias Saad",
+    "position": "Útočník"
+  },
+  {
+    "team": "TUNISKO",
+    "name": "Sebastian Tounekti",
+    "position": "Útočník"
+  },
+  {
+    "team": "TUNISKO",
+    "name": "Khalil Ayari",
+    "position": "Útočník"
+  },
+  {
+    "team": "TUNISKO",
+    "name": "Rayan Elloumi",
+    "position": "Útočník"
+  },
+  {
+    "team": "BELGIE",
+    "name": "Thibaut Courtois",
+    "position": "Brankář"
+  },
+  {
+    "team": "BELGIE",
+    "name": "Senne Lammens",
+    "position": "Brankář"
+  },
+  {
+    "team": "BELGIE",
+    "name": "Mike Penders",
+    "position": "Brankář"
+  },
+  {
+    "team": "BELGIE",
+    "name": "Timothy Castagne",
+    "position": "Obránce"
+  },
+  {
+    "team": "BELGIE",
+    "name": "Zeno Debast",
+    "position": "Obránce"
+  },
+  {
+    "team": "BELGIE",
+    "name": "Maxim De Cuyper",
+    "position": "Obránce"
+  },
+  {
+    "team": "BELGIE",
+    "name": "Koni De Winter",
+    "position": "Obránce"
+  },
+  {
+    "team": "BELGIE",
+    "name": "Brandon Mechele",
+    "position": "Obránce"
+  },
+  {
+    "team": "BELGIE",
+    "name": "Thomas Meunier",
+    "position": "Obránce"
+  },
+  {
+    "team": "BELGIE",
+    "name": "Nathan Ngoy",
+    "position": "Obránce"
+  },
+  {
+    "team": "BELGIE",
+    "name": "Joaquin Seys",
+    "position": "Obránce"
+  },
+  {
+    "team": "BELGIE",
+    "name": "Arthur Theate",
+    "position": "Obránce"
+  },
+  {
+    "team": "BELGIE",
+    "name": "Kevin De Bruyne",
+    "position": "Záložník"
+  },
+  {
+    "team": "BELGIE",
+    "name": "Amadou Onana",
+    "position": "Záložník"
+  },
+  {
+    "team": "BELGIE",
+    "name": "Nicolas Raskin",
+    "position": "Záložník"
+  },
+  {
+    "team": "BELGIE",
+    "name": "Youri Tielemans",
+    "position": "Záložník"
+  },
+  {
+    "team": "BELGIE",
+    "name": "Hans Vanaken",
+    "position": "Záložník"
+  },
+  {
+    "team": "BELGIE",
+    "name": "Axel Witsel",
+    "position": "Záložník"
+  },
+  {
+    "team": "BELGIE",
+    "name": "Charles De Ketelaere",
+    "position": "Útočník"
+  },
+  {
+    "team": "BELGIE",
+    "name": "Jeremy Doku",
+    "position": "Útočník"
+  },
+  {
+    "team": "BELGIE",
+    "name": "Matias Fernandez-Pardo",
+    "position": "Útočník"
+  },
+  {
+    "team": "BELGIE",
+    "name": "Romelu Lukaku",
+    "position": "Útočník"
+  },
+  {
+    "team": "BELGIE",
+    "name": "Dodi Lukebakio",
+    "position": "Útočník"
+  },
+  {
+    "team": "BELGIE",
+    "name": "Diego Moreira",
+    "position": "Útočník"
+  },
+  {
+    "team": "BELGIE",
+    "name": "Alexis Saelemaekers",
+    "position": "Útočník"
+  },
+  {
+    "team": "BELGIE",
+    "name": "Leandro Trossard",
+    "position": "Útočník"
+  },
+  {
+    "team": "ÍRÁN",
+    "name": "Alireza Beiranvand",
+    "position": "Brankář"
+  },
+  {
+    "team": "ÍRÁN",
+    "name": "Hossein Hosseini",
+    "position": "Brankář"
+  },
+  {
+    "team": "ÍRÁN",
+    "name": "Payam Niazmand",
+    "position": "Brankář"
+  },
+  {
+    "team": "ÍRÁN",
+    "name": "Danial Eiri",
+    "position": "Obránce"
+  },
+  {
+    "team": "ÍRÁN",
+    "name": "Ehsan Hajsafi",
+    "position": "Obránce"
+  },
+  {
+    "team": "ÍRÁN",
+    "name": "Saleh Hardani",
+    "position": "Obránce"
+  },
+  {
+    "team": "ÍRÁN",
+    "name": "Hossein Kanaani",
+    "position": "Obránce"
+  },
+  {
+    "team": "ÍRÁN",
+    "name": "Shoja Khalilzadeh",
+    "position": "Obránce"
+  },
+  {
+    "team": "ÍRÁN",
+    "name": "Milad Mohammadi",
+    "position": "Obránce"
+  },
+  {
+    "team": "ÍRÁN",
+    "name": "Ali Nemati",
+    "position": "Obránce"
+  },
+  {
+    "team": "ÍRÁN",
+    "name": "Ramin Rezaeian",
+    "position": "Obránce"
+  },
+  {
+    "team": "ÍRÁN",
+    "name": "Rouzbeh Cheshmi",
+    "position": "Záložník"
+  },
+  {
+    "team": "ÍRÁN",
+    "name": "Saeid Ezatolahi",
+    "position": "Záložník"
+  },
+  {
+    "team": "ÍRÁN",
+    "name": "Mehdi Ghaedi",
+    "position": "Záložník"
+  },
+  {
+    "team": "ÍRÁN",
+    "name": "Saman Ghoddos",
+    "position": "Záložník"
+  },
+  {
+    "team": "ÍRÁN",
+    "name": "Mohammad Ghorbani",
+    "position": "Záložník"
+  },
+  {
+    "team": "ÍRÁN",
+    "name": "Alireza Jahanbakhsh",
+    "position": "Záložník"
+  },
+  {
+    "team": "ÍRÁN",
+    "name": "Mohammad Mohebi",
+    "position": "Záložník"
+  },
+  {
+    "team": "ÍRÁN",
+    "name": "Amir Mohammad Razzaghinia",
+    "position": "Záložník"
+  },
+  {
+    "team": "ÍRÁN",
+    "name": "Mehdi Torabi",
+    "position": "Záložník"
+  },
+  {
+    "team": "ÍRÁN",
+    "name": "Aria Yousefi",
+    "position": "Záložník"
+  },
+  {
+    "team": "ÍRÁN",
+    "name": "Ali Alipour",
+    "position": "Útočník"
+  },
+  {
+    "team": "ÍRÁN",
+    "name": "Dennis Eckert Dargahi",
+    "position": "Útočník"
+  },
+  {
+    "team": "ÍRÁN",
+    "name": "Amirhossein Hosseinzadeh",
+    "position": "Útočník"
+  },
+  {
+    "team": "ÍRÁN",
+    "name": "Shahriar Moghanlou",
+    "position": "Útočník"
+  },
+  {
+    "team": "ÍRÁN",
+    "name": "Mehdi Taremi",
+    "position": "Útočník"
+  },
+  {
+    "team": "EGYPT",
+    "name": "Mohamed El Shenawy",
+    "position": "Brankář"
+  },
+  {
+    "team": "EGYPT",
+    "name": "Mostafa Shobeir",
+    "position": "Brankář"
+  },
+  {
+    "team": "EGYPT",
+    "name": "Mohamed Alaa",
+    "position": "Brankář"
+  },
+  {
+    "team": "EGYPT",
+    "name": "El Mahdy Soliman",
+    "position": "Brankář"
+  },
+  {
+    "team": "EGYPT",
+    "name": "Rami Rabia",
+    "position": "Obránce"
+  },
+  {
+    "team": "EGYPT",
+    "name": "Mohamed Hany",
+    "position": "Obránce"
+  },
+  {
+    "team": "EGYPT",
+    "name": "Ahmed Abou El Fotouh",
+    "position": "Obránce"
+  },
+  {
+    "team": "EGYPT",
+    "name": "Mohamed Abdelmonem",
+    "position": "Obránce"
+  },
+  {
+    "team": "EGYPT",
+    "name": "Yasser Ibrahim",
+    "position": "Obránce"
+  },
+  {
+    "team": "EGYPT",
+    "name": "Hossam Abdelmaguid",
+    "position": "Obránce"
+  },
+  {
+    "team": "EGYPT",
+    "name": "Karim Hafez",
+    "position": "Obránce"
+  },
+  {
+    "team": "EGYPT",
+    "name": "Tarek Alaa",
+    "position": "Obránce"
+  },
+  {
+    "team": "EGYPT",
+    "name": "Hamdy Fathy",
+    "position": "Záložník"
+  },
+  {
+    "team": "EGYPT",
+    "name": "Marwan Attia",
+    "position": "Záložník"
+  },
+  {
+    "team": "EGYPT",
+    "name": "Emam Ashour",
+    "position": "Záložník"
+  },
+  {
+    "team": "EGYPT",
+    "name": "Mohanad Lasheen",
+    "position": "Záložník"
+  },
+  {
+    "team": "EGYPT",
+    "name": "Mostafa Ziko",
+    "position": "Záložník"
+  },
+  {
+    "team": "EGYPT",
+    "name": "Mahmoud Saber",
+    "position": "Záložník"
+  },
+  {
+    "team": "EGYPT",
+    "name": "Nabil Emad",
+    "position": "Záložník"
+  },
+  {
+    "team": "EGYPT",
+    "name": "Mohamed Salah",
+    "position": "Útočník"
+  },
+  {
+    "team": "EGYPT",
+    "name": "Trézéguet",
+    "position": "Útočník"
+  },
+  {
+    "team": "EGYPT",
+    "name": "Zizo",
+    "position": "Útočník"
+  },
+  {
+    "team": "EGYPT",
+    "name": "Omar Marmoush",
+    "position": "Útočník"
+  },
+  {
+    "team": "EGYPT",
+    "name": "Ibrahim Adel",
+    "position": "Útočník"
+  },
+  {
+    "team": "EGYPT",
+    "name": "Haissem Hassan",
+    "position": "Útočník"
+  },
+  {
+    "team": "EGYPT",
+    "name": "Hamza Abdelkarim",
+    "position": "Útočník"
+  },
+  {
+    "team": "NOVÝ ZÉLAND",
+    "name": "Max Crocombe",
+    "position": "Brankář"
+  },
+  {
+    "team": "NOVÝ ZÉLAND",
+    "name": "Alex Paulsen",
+    "position": "Brankář"
+  },
+  {
+    "team": "NOVÝ ZÉLAND",
+    "name": "Michael Woud",
+    "position": "Brankář"
+  },
+  {
+    "team": "NOVÝ ZÉLAND",
+    "name": "Tyler Bindon",
+    "position": "Obránce"
+  },
+  {
+    "team": "NOVÝ ZÉLAND",
+    "name": "Michael Boxall",
+    "position": "Obránce"
+  },
+  {
+    "team": "NOVÝ ZÉLAND",
+    "name": "Liberato Cacace",
+    "position": "Obránce"
+  },
+  {
+    "team": "NOVÝ ZÉLAND",
+    "name": "Francis De Vries",
+    "position": "Obránce"
+  },
+  {
+    "team": "NOVÝ ZÉLAND",
+    "name": "Callan Elliot",
+    "position": "Obránce"
+  },
+  {
+    "team": "NOVÝ ZÉLAND",
+    "name": "Tim Payne",
+    "position": "Obránce"
+  },
+  {
+    "team": "NOVÝ ZÉLAND",
+    "name": "Nando Pijanker",
+    "position": "Obránce"
+  },
+  {
+    "team": "NOVÝ ZÉLAND",
+    "name": "Tommy Smith",
+    "position": "Obránce"
+  },
+  {
+    "team": "NOVÝ ZÉLAND",
+    "name": "Finn Surman",
+    "position": "Obránce"
+  },
+  {
+    "team": "NOVÝ ZÉLAND",
+    "name": "Lachlan Bayliss",
+    "position": "Záložník"
+  },
+  {
+    "team": "NOVÝ ZÉLAND",
+    "name": "Joe Bell",
+    "position": "Záložník"
+  },
+  {
+    "team": "NOVÝ ZÉLAND",
+    "name": "Alex Rufer",
+    "position": "Záložník"
+  },
+  {
+    "team": "NOVÝ ZÉLAND",
+    "name": "Marko Stamenic",
+    "position": "Záložník"
+  },
+  {
+    "team": "NOVÝ ZÉLAND",
+    "name": "Ryan Thomas",
+    "position": "Záložník"
+  },
+  {
+    "team": "NOVÝ ZÉLAND",
+    "name": "Kosta Barbarouses",
+    "position": "Útočník"
+  },
+  {
+    "team": "NOVÝ ZÉLAND",
+    "name": "Matt Garbett",
+    "position": "Útočník"
+  },
+  {
+    "team": "NOVÝ ZÉLAND",
+    "name": "Eli Just",
+    "position": "Útočník"
+  },
+  {
+    "team": "NOVÝ ZÉLAND",
+    "name": "Callum McCowatt",
+    "position": "Útočník"
+  },
+  {
+    "team": "NOVÝ ZÉLAND",
+    "name": "Ben Old",
+    "position": "Útočník"
+  },
+  {
+    "team": "NOVÝ ZÉLAND",
+    "name": "Jesse Randall",
+    "position": "Útočník"
+  },
+  {
+    "team": "NOVÝ ZÉLAND",
+    "name": "Sapreet Singh",
+    "position": "Útočník"
+  },
+  {
+    "team": "NOVÝ ZÉLAND",
+    "name": "Ben Waine",
+    "position": "Útočník"
+  },
+  {
+    "team": "NOVÝ ZÉLAND",
+    "name": "Chris Wood",
+    "position": "Útočník"
+  },
+  {
+    "team": "ŠPANĚLSKO",
+    "name": "Unai Simón",
+    "position": "Brankář"
+  },
+  {
+    "team": "ŠPANĚLSKO",
+    "name": "David Raya",
+    "position": "Brankář"
+  },
+  {
+    "team": "ŠPANĚLSKO",
+    "name": "Joan García",
+    "position": "Brankář"
+  },
+  {
+    "team": "ŠPANĚLSKO",
+    "name": "Marc Cucurella",
+    "position": "Obránce"
+  },
+  {
+    "team": "ŠPANĚLSKO",
+    "name": "Alejandro Grimaldo",
+    "position": "Obránce"
+  },
+  {
+    "team": "ŠPANĚLSKO",
+    "name": "Pau Cubarsí",
+    "position": "Obránce"
+  },
+  {
+    "team": "ŠPANĚLSKO",
+    "name": "Aymeric Laporte",
+    "position": "Obránce"
+  },
+  {
+    "team": "ŠPANĚLSKO",
+    "name": "Marc Pubill",
+    "position": "Obránce"
+  },
+  {
+    "team": "ŠPANĚLSKO",
+    "name": "Eric García",
+    "position": "Obránce"
+  },
+  {
+    "team": "ŠPANĚLSKO",
+    "name": "Marcos Llorente",
+    "position": "Obránce"
+  },
+  {
+    "team": "ŠPANĚLSKO",
+    "name": "Pedro Porro",
+    "position": "Obránce"
+  },
+  {
+    "team": "ŠPANĚLSKO",
+    "name": "Pedri",
+    "position": "Záložník"
+  },
+  {
+    "team": "ŠPANĚLSKO",
+    "name": "Fabián Ruiz",
+    "position": "Záložník"
+  },
+  {
+    "team": "ŠPANĚLSKO",
+    "name": "Martin Zubimendi",
+    "position": "Záložník"
+  },
+  {
+    "team": "ŠPANĚLSKO",
+    "name": "Gavi",
+    "position": "Záložník"
+  },
+  {
+    "team": "ŠPANĚLSKO",
+    "name": "Rodri",
+    "position": "Záložník"
+  },
+  {
+    "team": "ŠPANĚLSKO",
+    "name": "Álex Baena",
+    "position": "Záložník"
+  },
+  {
+    "team": "ŠPANĚLSKO",
+    "name": "Mikel Merino",
+    "position": "Záložník"
+  },
+  {
+    "team": "ŠPANĚLSKO",
+    "name": "Mikel Oyarzabal",
+    "position": "Útočník"
+  },
+  {
+    "team": "ŠPANĚLSKO",
+    "name": "Dani Olmo",
+    "position": "Útočník"
+  },
+  {
+    "team": "ŠPANĚLSKO",
+    "name": "Nico Williams",
+    "position": "Útočník"
+  },
+  {
+    "team": "ŠPANĚLSKO",
+    "name": "Yeremy Pino",
+    "position": "Útočník"
+  },
+  {
+    "team": "ŠPANĚLSKO",
+    "name": "Ferran Torrés",
+    "position": "Útočník"
+  },
+  {
+    "team": "ŠPANĚLSKO",
+    "name": "Borja Iglesias",
+    "position": "Útočník"
+  },
+  {
+    "team": "ŠPANĚLSKO",
+    "name": "Víctor Muñoz",
+    "position": "Útočník"
+  },
+  {
+    "team": "ŠPANĚLSKO",
+    "name": "Lamine Yamal",
+    "position": "Útočník"
+  },
+  {
+    "team": "SAÚDSKÁ ARÁBIE",
+    "name": "Mohammed Al Owais",
+    "position": "Brankář"
+  },
+  {
+    "team": "SAÚDSKÁ ARÁBIE",
+    "name": "Nawaf Al Aqidi",
+    "position": "Brankář"
+  },
+  {
+    "team": "SAÚDSKÁ ARÁBIE",
+    "name": "Ahmed Al Kassar",
+    "position": "Brankář"
+  },
+  {
+    "team": "SAÚDSKÁ ARÁBIE",
+    "name": "Abdulelah Al Amri",
+    "position": "Obránce"
+  },
+  {
+    "team": "SAÚDSKÁ ARÁBIE",
+    "name": "Hassan Tambakti",
+    "position": "Obránce"
+  },
+  {
+    "team": "SAÚDSKÁ ARÁBIE",
+    "name": "Jehad Thikri",
+    "position": "Obránce"
+  },
+  {
+    "team": "SAÚDSKÁ ARÁBIE",
+    "name": "Ali Lajami",
+    "position": "Obránce"
+  },
+  {
+    "team": "SAÚDSKÁ ARÁBIE",
+    "name": "Hassan Kadesh",
+    "position": "Obránce"
+  },
+  {
+    "team": "SAÚDSKÁ ARÁBIE",
+    "name": "Saud Abdulhamid",
+    "position": "Obránce"
+  },
+  {
+    "team": "SAÚDSKÁ ARÁBIE",
+    "name": "Mohammed Abu Al Shamat",
+    "position": "Obránce"
+  },
+  {
+    "team": "SAÚDSKÁ ARÁBIE",
+    "name": "Ali Majrashi",
+    "position": "Obránce"
+  },
+  {
+    "team": "SAÚDSKÁ ARÁBIE",
+    "name": "Moteb Al Harbi",
+    "position": "Obránce"
+  },
+  {
+    "team": "SAÚDSKÁ ARÁBIE",
+    "name": "Nawaf Boushal",
+    "position": "Obránce"
+  },
+  {
+    "team": "SAÚDSKÁ ARÁBIE",
+    "name": "Sultan Al-Ghannam",
+    "position": "Obránce"
+  },
+  {
+    "team": "SAÚDSKÁ ARÁBIE",
+    "name": "Mohammed Kanno",
+    "position": "Záložník"
+  },
+  {
+    "team": "SAÚDSKÁ ARÁBIE",
+    "name": "Abdullah Al Khaibari",
+    "position": "Záložník"
+  },
+  {
+    "team": "SAÚDSKÁ ARÁBIE",
+    "name": "Ziyad Al Johani",
+    "position": "Záložník"
+  },
+  {
+    "team": "SAÚDSKÁ ARÁBIE",
+    "name": "Nasser Al Dawsari",
+    "position": "Záložník"
+  },
+  {
+    "team": "SAÚDSKÁ ARÁBIE",
+    "name": "Musab Al Juwayr",
+    "position": "Záložník"
+  },
+  {
+    "team": "SAÚDSKÁ ARÁBIE",
+    "name": "Alaa Al Hejji",
+    "position": "Záložník"
+  },
+  {
+    "team": "SAÚDSKÁ ARÁBIE",
+    "name": "Salem Al Dawsari",
+    "position": "Záložník"
+  },
+  {
+    "team": "SAÚDSKÁ ARÁBIE",
+    "name": "Khalid Al Ghannam",
+    "position": "Záložník"
+  },
+  {
+    "team": "SAÚDSKÁ ARÁBIE",
+    "name": "Ayman Yahya",
+    "position": "Záložník"
+  },
+  {
+    "team": "SAÚDSKÁ ARÁBIE",
+    "name": "Firas Al Buraikan",
+    "position": "Útočník"
+  },
+  {
+    "team": "SAÚDSKÁ ARÁBIE",
+    "name": "Saleh Al Shehri",
+    "position": "Útočník"
+  },
+  {
+    "team": "SAÚDSKÁ ARÁBIE",
+    "name": "Abdullah Al Hamdan",
+    "position": "Útočník"
+  },
+  {
+    "team": "KAPVERDY",
+    "name": "Vozinha",
+    "position": "Brankář"
+  },
+  {
+    "team": "KAPVERDY",
+    "name": "Márcio Rosa",
+    "position": "Brankář"
+  },
+  {
+    "team": "KAPVERDY",
+    "name": "CJ dos Santos",
+    "position": "Brankář"
+  },
+  {
+    "team": "KAPVERDY",
+    "name": "Stopira",
+    "position": "Obránce"
+  },
+  {
+    "team": "KAPVERDY",
+    "name": "Roberto Lopez",
+    "position": "Obránce"
+  },
+  {
+    "team": "KAPVERDY",
+    "name": "Joao Paulo",
+    "position": "Obránce"
+  },
+  {
+    "team": "KAPVERDY",
+    "name": "Diney Borges",
+    "position": "Obránce"
+  },
+  {
+    "team": "KAPVERDY",
+    "name": "Logan Costa",
+    "position": "Obránce"
+  },
+  {
+    "team": "KAPVERDY",
+    "name": "Steven Moreira",
+    "position": "Obránce"
+  },
+  {
+    "team": "KAPVERDY",
+    "name": "Wagner Pina",
+    "position": "Obránce"
+  },
+  {
+    "team": "KAPVERDY",
+    "name": "Sidny Lopes Cabral",
+    "position": "Obránce"
+  },
+  {
+    "team": "KAPVERDY",
+    "name": "Kelvin Pires",
+    "position": "Obránce"
+  },
+  {
+    "team": "KAPVERDY",
+    "name": "Jamiro Monteiro",
+    "position": "Záložník"
+  },
+  {
+    "team": "KAPVERDY",
+    "name": "Kevin Pina",
+    "position": "Záložník"
+  },
+  {
+    "team": "KAPVERDY",
+    "name": "Deroy Duarte",
+    "position": "Záložník"
+  },
+  {
+    "team": "KAPVERDY",
+    "name": "Telmo Arcanjo",
+    "position": "Záložník"
+  },
+  {
+    "team": "KAPVERDY",
+    "name": "Laros Duarte",
+    "position": "Záložník"
+  },
+  {
+    "team": "KAPVERDY",
+    "name": "Yannick Semedo",
+    "position": "Záložník"
+  },
+  {
+    "team": "KAPVERDY",
+    "name": "Ryan Mendes",
+    "position": "Útočník"
+  },
+  {
+    "team": "KAPVERDY",
+    "name": "Garry Rodrigues",
+    "position": "Útočník"
+  },
+  {
+    "team": "KAPVERDY",
+    "name": "Willy Semedo",
+    "position": "Útočník"
+  },
+  {
+    "team": "KAPVERDY",
+    "name": "Jovane Cabral",
+    "position": "Útočník"
+  },
+  {
+    "team": "KAPVERDY",
+    "name": "Benchimol",
+    "position": "Útočník"
+  },
+  {
+    "team": "KAPVERDY",
+    "name": "Dailon Livramento",
+    "position": "Útočník"
+  },
+  {
+    "team": "KAPVERDY",
+    "name": "Hélio Varela",
+    "position": "Útočník"
+  },
+  {
+    "team": "KAPVERDY",
+    "name": "Nuno da Costa",
+    "position": "Útočník"
+  },
+  {
+    "team": "URUGUAY",
+    "name": "Sergio Rochet",
+    "position": "Brankář"
+  },
+  {
+    "team": "URUGUAY",
+    "name": "Fernando Muslera",
+    "position": "Brankář"
+  },
+  {
+    "team": "URUGUAY",
+    "name": "Santiago Mele",
+    "position": "Brankář"
+  },
+  {
+    "team": "URUGUAY",
+    "name": "Guillermo Varela",
+    "position": "Obránce"
+  },
+  {
+    "team": "URUGUAY",
+    "name": "Ronald Araujo",
+    "position": "Obránce"
+  },
+  {
+    "team": "URUGUAY",
+    "name": "José María Giménez",
+    "position": "Obránce"
+  },
+  {
+    "team": "URUGUAY",
+    "name": "Santiago Bueno",
+    "position": "Obránce"
+  },
+  {
+    "team": "URUGUAY",
+    "name": "Sebastián Cáceres",
+    "position": "Obránce"
+  },
+  {
+    "team": "URUGUAY",
+    "name": "Mathías Olivera",
+    "position": "Obránce"
+  },
+  {
+    "team": "URUGUAY",
+    "name": "Joaquín Piquerez",
+    "position": "Obránce"
+  },
+  {
+    "team": "URUGUAY",
+    "name": "Matías Viña",
+    "position": "Obránce"
+  },
+  {
+    "team": "URUGUAY",
+    "name": "Manuel Ugarte",
+    "position": "Záložník"
+  },
+  {
+    "team": "URUGUAY",
+    "name": "Emiliano Martínez",
+    "position": "Záložník"
+  },
+  {
+    "team": "URUGUAY",
+    "name": "Rodrigo Bentancur",
+    "position": "Záložník"
+  },
+  {
+    "team": "URUGUAY",
+    "name": "Federico Valverde",
+    "position": "Záložník"
+  },
+  {
+    "team": "URUGUAY",
+    "name": "Agustín Canobbio",
+    "position": "Záložník"
+  },
+  {
+    "team": "URUGUAY",
+    "name": "Juan Manuel Sanabria",
+    "position": "Záložník"
+  },
+  {
+    "team": "URUGUAY",
+    "name": "Giorgan de Arrascaeta",
+    "position": "Záložník"
+  },
+  {
+    "team": "URUGUAY",
+    "name": "Nicolás de la Cruz",
+    "position": "Záložník"
+  },
+  {
+    "team": "URUGUAY",
+    "name": "Rodrigo Zalazar",
+    "position": "Záložník"
+  },
+  {
+    "team": "URUGUAY",
+    "name": "Facundo Pellistri",
+    "position": "Záložník"
+  },
+  {
+    "team": "URUGUAY",
+    "name": "Maximiliano Araújo",
+    "position": "Záložník"
+  },
+  {
+    "team": "URUGUAY",
+    "name": "Brian Rodríguez",
+    "position": "Záložník"
+  },
+  {
+    "team": "URUGUAY",
+    "name": "Rodrigo Aguirre",
+    "position": "Útočník"
+  },
+  {
+    "team": "URUGUAY",
+    "name": "Federico Viñas",
+    "position": "Útočník"
+  },
+  {
+    "team": "URUGUAY",
+    "name": "Darwin Núñez",
+    "position": "Útočník"
+  },
+  {
+    "team": "FRANCIE",
+    "name": "Mike Maignan",
+    "position": "Brankář"
+  },
+  {
+    "team": "FRANCIE",
+    "name": "Brice Samba",
+    "position": "Brankář"
+  },
+  {
+    "team": "FRANCIE",
+    "name": "Robin Risser",
+    "position": "Brankář"
+  },
+  {
+    "team": "FRANCIE",
+    "name": "Lucas Digne",
+    "position": "Obránce"
+  },
+  {
+    "team": "FRANCIE",
+    "name": "Jules Koundé",
+    "position": "Obránce"
+  },
+  {
+    "team": "FRANCIE",
+    "name": "Théo Hernández",
+    "position": "Obránce"
+  },
+  {
+    "team": "FRANCIE",
+    "name": "Lucas Hernandez",
+    "position": "Obránce"
+  },
+  {
+    "team": "FRANCIE",
+    "name": "Dayot Upamecano",
+    "position": "Obránce"
+  },
+  {
+    "team": "FRANCIE",
+    "name": "William Saliba",
+    "position": "Obránce"
+  },
+  {
+    "team": "FRANCIE",
+    "name": "Ibrahima Konaté",
+    "position": "Obránce"
+  },
+  {
+    "team": "FRANCIE",
+    "name": "Malo Gusto",
+    "position": "Obránce"
+  },
+  {
+    "team": "FRANCIE",
+    "name": "Maxence Lacroix",
+    "position": "Obránce"
+  },
+  {
+    "team": "FRANCIE",
+    "name": "N'Golo Kanté",
+    "position": "Záložník"
+  },
+  {
+    "team": "FRANCIE",
+    "name": "Adrien Rabiot",
+    "position": "Záložník"
+  },
+  {
+    "team": "FRANCIE",
+    "name": "Aurélien Tchouaméni",
+    "position": "Záložník"
+  },
+  {
+    "team": "FRANCIE",
+    "name": "Manu Koné",
+    "position": "Záložník"
+  },
+  {
+    "team": "FRANCIE",
+    "name": "Warren Zaïre-Emery",
+    "position": "Záložník"
+  },
+  {
+    "team": "FRANCIE",
+    "name": "Kylian Mbappé",
+    "position": "Útočník"
+  },
+  {
+    "team": "FRANCIE",
+    "name": "Ousmane Dembélé",
+    "position": "Útočník"
+  },
+  {
+    "team": "FRANCIE",
+    "name": "Marcus Thuram",
+    "position": "Útočník"
+  },
+  {
+    "team": "FRANCIE",
+    "name": "Bradley Barcola",
+    "position": "Útočník"
+  },
+  {
+    "team": "FRANCIE",
+    "name": "Michael Olise",
+    "position": "Útočník"
+  },
+  {
+    "team": "FRANCIE",
+    "name": "Maghnes Akliouche",
+    "position": "Útočník"
+  },
+  {
+    "team": "FRANCIE",
+    "name": "Désiré Doué",
+    "position": "Útočník"
+  },
+  {
+    "team": "FRANCIE",
+    "name": "Rayan Cherki",
+    "position": "Útočník"
+  },
+  {
+    "team": "FRANCIE",
+    "name": "Jean-Philippe Mateta",
+    "position": "Útočník"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "Édouard Mendy",
+    "position": "Brankář"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "Mory Diaw",
+    "position": "Brankář"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "Yevhann Diouf",
+    "position": "Brankář"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "Kalidou Koulibaly",
+    "position": "Obránce"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "Moussa Niakhaté",
+    "position": "Obránce"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "Krépin Diatta",
+    "position": "Obránce"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "Antoine Mendy",
+    "position": "Obránce"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "Mamadou Mbow",
+    "position": "Obránce"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "Abdoulaye Seck",
+    "position": "Obránce"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "Mamadou Sarr",
+    "position": "Obránce"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "Ismail Jakobs",
+    "position": "Obránce"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "El Hadji Malick Diouf",
+    "position": "Obránce"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "Ilay Camara",
+    "position": "Obránce"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "Idrissa Gana Gueye",
+    "position": "Záložník"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "Pape Gueye",
+    "position": "Záložník"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "Lamine Camara",
+    "position": "Záložník"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "Habib Diarra",
+    "position": "Záložník"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "Pathé Ciss",
+    "position": "Záložník"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "Pape Matar Sarr",
+    "position": "Záložník"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "Bara Sapoko Ndiaye",
+    "position": "Záložník"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "Iliman Ndiaye",
+    "position": "Útočník"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "Ismaila Sarr",
+    "position": "Útočník"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "Sadio Mané",
+    "position": "Útočník"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "Nicolas Jackson",
+    "position": "Útočník"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "Ibrahim Mbaye",
+    "position": "Útočník"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "Bamba Dieng",
+    "position": "Útočník"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "Assane Diao",
+    "position": "Útočník"
+  },
+  {
+    "team": "SENEGAL",
+    "name": "Chérif Ndiaye",
+    "position": "Útočník"
+  },
+  {
+    "team": "IRÁK",
+    "name": "Jalal Hassan",
+    "position": "Brankář"
+  },
+  {
+    "team": "IRÁK",
+    "name": "Fahad Talib",
+    "position": "Brankář"
+  },
+  {
+    "team": "IRÁK",
+    "name": "Ahmed Basil",
+    "position": "Brankář"
+  },
+  {
+    "team": "IRÁK",
+    "name": "Rebin Sulaka",
+    "position": "Obránce"
+  },
+  {
+    "team": "IRÁK",
+    "name": "Manaf Younis",
+    "position": "Obránce"
+  },
+  {
+    "team": "IRÁK",
+    "name": "Merchas Doski",
+    "position": "Obránce"
+  },
+  {
+    "team": "IRÁK",
+    "name": "Zaid Tahseen",
+    "position": "Obránce"
+  },
+  {
+    "team": "IRÁK",
+    "name": "Frans Putros",
+    "position": "Obránce"
+  },
+  {
+    "team": "IRÁK",
+    "name": "Hussein Ali",
+    "position": "Obránce"
+  },
+  {
+    "team": "IRÁK",
+    "name": "Ahmed Yahya",
+    "position": "Obránce"
+  },
+  {
+    "team": "IRÁK",
+    "name": "Mustafa Saadoon",
+    "position": "Obránce"
+  },
+  {
+    "team": "IRÁK",
+    "name": "Akam Hashim",
+    "position": "Obránce"
+  },
+  {
+    "team": "IRÁK",
+    "name": "Ibrahim Bayesh",
+    "position": "Záložník"
+  },
+  {
+    "team": "IRÁK",
+    "name": "Amir Al-Ammari",
+    "position": "Záložník"
+  },
+  {
+    "team": "IRÁK",
+    "name": "Ali Jasim",
+    "position": "Záložník"
+  },
+  {
+    "team": "IRÁK",
+    "name": "Youssef Amyn",
+    "position": "Záložník"
+  },
+  {
+    "team": "IRÁK",
+    "name": "Zidane Iqbal",
+    "position": "Záložník"
+  },
+  {
+    "team": "IRÁK",
+    "name": "Marko Farji",
+    "position": "Záložník"
+  },
+  {
+    "team": "IRÁK",
+    "name": "Kevin Yakob",
+    "position": "Záložník"
+  },
+  {
+    "team": "IRÁK",
+    "name": "Aimar Sher",
+    "position": "Záložník"
+  },
+  {
+    "team": "IRÁK",
+    "name": "Zaid Ismail",
+    "position": "Záložník"
+  },
+  {
+    "team": "IRÁK",
+    "name": "Ahmed Qasem",
+    "position": "Záložník"
+  },
+  {
+    "team": "IRÁK",
+    "name": "Aymen Hussein",
+    "position": "Útočník"
+  },
+  {
+    "team": "IRÁK",
+    "name": "Mohanad Ali",
+    "position": "Útočník"
+  },
+  {
+    "team": "IRÁK",
+    "name": "Ali Al-Hamadi",
+    "position": "Útočník"
+  },
+  {
+    "team": "IRÁK",
+    "name": "Ali Yousif",
+    "position": "Útočník"
+  },
+  {
+    "team": "NORSKO",
+    "name": "Ørjan Nyland",
+    "position": "Brankář"
+  },
+  {
+    "team": "NORSKO",
+    "name": "Sander Tangvik",
+    "position": "Brankář"
+  },
+  {
+    "team": "NORSKO",
+    "name": "Egil Selvik",
+    "position": "Brankář"
+  },
+  {
+    "team": "NORSKO",
+    "name": "Kristoffer Vassbakk Ajer",
+    "position": "Obránce"
+  },
+  {
+    "team": "NORSKO",
+    "name": "Leo Östigard",
+    "position": "Obránce"
+  },
+  {
+    "team": "NORSKO",
+    "name": "David Möller Wolfe",
+    "position": "Obránce"
+  },
+  {
+    "team": "NORSKO",
+    "name": "Fredrik Björkan",
+    "position": "Obránce"
+  },
+  {
+    "team": "NORSKO",
+    "name": "Marcus Holmgren Pedersen",
+    "position": "Obránce"
+  },
+  {
+    "team": "NORSKO",
+    "name": "Torbjørn Heggem",
+    "position": "Obránce"
+  },
+  {
+    "team": "NORSKO",
+    "name": "Sondre Langas",
+    "position": "Obránce"
+  },
+  {
+    "team": "NORSKO",
+    "name": "Henrik Falchener",
+    "position": "Obránce"
+  },
+  {
+    "team": "NORSKO",
+    "name": "Julian Ryerson",
+    "position": "Obránce"
+  },
+  {
+    "team": "NORSKO",
+    "name": "Morten Thorsby",
+    "position": "Záložník"
+  },
+  {
+    "team": "NORSKO",
+    "name": "Kristian Thorstvedt",
+    "position": "Záložník"
+  },
+  {
+    "team": "NORSKO",
+    "name": "Thelonious Aasgaard",
+    "position": "Záložník"
+  },
+  {
+    "team": "NORSKO",
+    "name": "Antonio Nusa",
+    "position": "Záložník"
+  },
+  {
+    "team": "NORSKO",
+    "name": "Andreas Schjelderup",
+    "position": "Záložník"
+  },
+  {
+    "team": "NORSKO",
+    "name": "Fredrik Aursnes",
+    "position": "Záložník"
+  },
+  {
+    "team": "NORSKO",
+    "name": "Oscar Bobb",
+    "position": "Záložník"
+  },
+  {
+    "team": "NORSKO",
+    "name": "Sander Berge",
+    "position": "Záložník"
+  },
+  {
+    "team": "NORSKO",
+    "name": "Jens Petter Hauge",
+    "position": "Záložník"
+  },
+  {
+    "team": "NORSKO",
+    "name": "Patrick Berg",
+    "position": "Záložník"
+  },
+  {
+    "team": "NORSKO",
+    "name": "Martin Ødegaard",
+    "position": "Záložník"
+  },
+  {
+    "team": "NORSKO",
+    "name": "Alexander Sørloth",
+    "position": "Útočník"
+  },
+  {
+    "team": "NORSKO",
+    "name": "Erling Haaland",
+    "position": "Útočník"
+  },
+  {
+    "team": "NORSKO",
+    "name": "Jørgen Strand Larsen",
+    "position": "Útočník"
+  },
+  {
+    "team": "ARGENTINA",
+    "name": "Emiliano Martínez",
+    "position": "Brankář"
+  },
+  {
+    "team": "ARGENTINA",
+    "name": "Geronimo Rulli",
+    "position": "Brankář"
+  },
+  {
+    "team": "ARGENTINA",
+    "name": "Juan Musso",
+    "position": "Brankář"
+  },
+  {
+    "team": "ARGENTINA",
+    "name": "Gonzalo Montiel",
+    "position": "Obránce"
+  },
+  {
+    "team": "ARGENTINA",
+    "name": "Nahuel Molina",
+    "position": "Obránce"
+  },
+  {
+    "team": "ARGENTINA",
+    "name": "Nicolas Otamendi",
+    "position": "Obránce"
+  },
+  {
+    "team": "ARGENTINA",
+    "name": "Cristian Romero",
+    "position": "Obránce"
+  },
+  {
+    "team": "ARGENTINA",
+    "name": "Leonardo Balerdi",
+    "position": "Obránce"
+  },
+  {
+    "team": "ARGENTINA",
+    "name": "Lisandro Martínez",
+    "position": "Obránce"
+  },
+  {
+    "team": "ARGENTINA",
+    "name": "Nicolas Tagliafico",
+    "position": "Obránce"
+  },
+  {
+    "team": "ARGENTINA",
+    "name": "Facundo Medina",
+    "position": "Obránce"
+  },
+  {
+    "team": "ARGENTINA",
+    "name": "Valentin Barco",
+    "position": "Záložník"
+  },
+  {
+    "team": "ARGENTINA",
+    "name": "Giovani Lo Celso",
+    "position": "Záložník"
+  },
+  {
+    "team": "ARGENTINA",
+    "name": "Nico Paz",
+    "position": "Záložník"
+  },
+  {
+    "team": "ARGENTINA",
+    "name": "Enzo Fernández",
+    "position": "Záložník"
+  },
+  {
+    "team": "ARGENTINA",
+    "name": "Leandro Paredes",
+    "position": "Záložník"
+  },
+  {
+    "team": "ARGENTINA",
+    "name": "Alexis Mac Allister",
+    "position": "Záložník"
+  },
+  {
+    "team": "ARGENTINA",
+    "name": "Rodrigo De Paul",
+    "position": "Záložník"
+  },
+  {
+    "team": "ARGENTINA",
+    "name": "Exequiel Palacios",
+    "position": "Záložník"
+  },
+  {
+    "team": "ARGENTINA",
+    "name": "Nicolas Gonzalez",
+    "position": "Záložník"
+  },
+  {
+    "team": "ARGENTINA",
+    "name": "Giuliano Simeone",
+    "position": "Záložník"
+  },
+  {
+    "team": "ARGENTINA",
+    "name": "Thiago Almada",
+    "position": "Záložník"
+  },
+  {
+    "team": "ARGENTINA",
+    "name": "Lionel Messi",
+    "position": "Útočník"
+  },
+  {
+    "team": "ARGENTINA",
+    "name": "Julian Álvarez",
+    "position": "Útočník"
+  },
+  {
+    "team": "ARGENTINA",
+    "name": "Lautaro Martinez",
+    "position": "Útočník"
+  },
+  {
+    "team": "ARGENTINA",
+    "name": "Flaco Lopez",
+    "position": "Útočník"
+  },
+  {
+    "team": "ALŽÍRSKO",
+    "name": "Oussama Benbot",
+    "position": "Brankář"
+  },
+  {
+    "team": "ALŽÍRSKO",
+    "name": "Melvin Mastil",
+    "position": "Brankář"
+  },
+  {
+    "team": "ALŽÍRSKO",
+    "name": "Luca Zidane",
+    "position": "Brankář"
+  },
+  {
+    "team": "ALŽÍRSKO",
+    "name": "Achraf Abada",
+    "position": "Obránce"
+  },
+  {
+    "team": "ALŽÍRSKO",
+    "name": "Rayan Ait-Nouri",
+    "position": "Obránce"
+  },
+  {
+    "team": "ALŽÍRSKO",
+    "name": "Zinedine Belaid",
+    "position": "Obránce"
+  },
+  {
+    "team": "ALŽÍRSKO",
+    "name": "Rafik Belghali",
+    "position": "Obránce"
+  },
+  {
+    "team": "ALŽÍRSKO",
+    "name": "Ramy Bensebaini",
+    "position": "Obránce"
+  },
+  {
+    "team": "ALŽÍRSKO",
+    "name": "Samir Chergui",
+    "position": "Obránce"
+  },
+  {
+    "team": "ALŽÍRSKO",
+    "name": "Jaouen Hadjam",
+    "position": "Obránce"
+  },
+  {
+    "team": "ALŽÍRSKO",
+    "name": "Aissa Mandi",
+    "position": "Obránce"
+  },
+  {
+    "team": "ALŽÍRSKO",
+    "name": "Mohamed Amine Tougai",
+    "position": "Obránce"
+  },
+  {
+    "team": "ALŽÍRSKO",
+    "name": "Houssem Aouar",
+    "position": "Záložník"
+  },
+  {
+    "team": "ALŽÍRSKO",
+    "name": "Nabil Bentaleb",
+    "position": "Záložník"
+  },
+  {
+    "team": "ALŽÍRSKO",
+    "name": "Hicham Boudaoui",
+    "position": "Záložník"
+  },
+  {
+    "team": "ALŽÍRSKO",
+    "name": "Fares Chaibi",
+    "position": "Záložník"
+  },
+  {
+    "team": "ALŽÍRSKO",
+    "name": "Ibrahim Maza",
+    "position": "Záložník"
+  },
+  {
+    "team": "ALŽÍRSKO",
+    "name": "Yassine Titraoui",
+    "position": "Záložník"
+  },
+  {
+    "team": "ALŽÍRSKO",
+    "name": "Ramiz Zerrouki",
+    "position": "Záložník"
+  },
+  {
+    "team": "ALŽÍRSKO",
+    "name": "Mohamed Amine Amoura",
+    "position": "Útočník"
+  },
+  {
+    "team": "ALŽÍRSKO",
+    "name": "Nadir Benbouali",
+    "position": "Útočník"
+  },
+  {
+    "team": "ALŽÍRSKO",
+    "name": "Adil Boulbina",
+    "position": "Útočník"
+  },
+  {
+    "team": "ALŽÍRSKO",
+    "name": "Fares Ghedjemis",
+    "position": "Útočník"
+  },
+  {
+    "team": "ALŽÍRSKO",
+    "name": "Amine Gouiri",
+    "position": "Útočník"
+  },
+  {
+    "team": "ALŽÍRSKO",
+    "name": "Riyad Mahrez",
+    "position": "Útočník"
+  },
+  {
+    "team": "ALŽÍRSKO",
+    "name": "Anis Hadj Moussa",
+    "position": "Útočník"
+  },
+  {
+    "team": "JORDÁNSKO",
+    "name": "Yazeed Abulaila",
+    "position": "Brankář"
+  },
+  {
+    "team": "JORDÁNSKO",
+    "name": "Abdallah Al-Fakhouri",
+    "position": "Brankář"
+  },
+  {
+    "team": "JORDÁNSKO",
+    "name": "Noureddin Bani Attiah",
+    "position": "Brankář"
+  },
+  {
+    "team": "JORDÁNSKO",
+    "name": "Abdallah Nasib",
+    "position": "Obránce"
+  },
+  {
+    "team": "JORDÁNSKO",
+    "name": "Ehsan Haddad",
+    "position": "Obránce"
+  },
+  {
+    "team": "JORDÁNSKO",
+    "name": "Saed Al-Rosan",
+    "position": "Obránce"
+  },
+  {
+    "team": "JORDÁNSKO",
+    "name": "Saleem Obaid",
+    "position": "Obránce"
+  },
+  {
+    "team": "JORDÁNSKO",
+    "name": "Yazan Al-Arab",
+    "position": "Obránce"
+  },
+  {
+    "team": "JORDÁNSKO",
+    "name": "Mohammad Abualnadi",
+    "position": "Obránce"
+  },
+  {
+    "team": "JORDÁNSKO",
+    "name": "Husam Abu Dahab",
+    "position": "Obránce"
+  },
+  {
+    "team": "JORDÁNSKO",
+    "name": "Anas Banawi",
+    "position": "Obránce"
+  },
+  {
+    "team": "JORDÁNSKO",
+    "name": "Mohannad Abu Taha",
+    "position": "Obránce"
+  },
+  {
+    "team": "JORDÁNSKO",
+    "name": "Mohammad Abu Hasheesh",
+    "position": "Obránce"
+  },
+  {
+    "team": "JORDÁNSKO",
+    "name": "Noor Al-Rawabdeh",
+    "position": "Záložník"
+  },
+  {
+    "team": "JORDÁNSKO",
+    "name": "Nizar Al-Rashdan",
+    "position": "Záložník"
+  },
+  {
+    "team": "JORDÁNSKO",
+    "name": "Ibrahim Saadeh",
+    "position": "Záložník"
+  },
+  {
+    "team": "JORDÁNSKO",
+    "name": "Rajaei Ayed",
+    "position": "Záložník"
+  },
+  {
+    "team": "JORDÁNSKO",
+    "name": "Mahmoud Al-Mardi",
+    "position": "Záložník"
+  },
+  {
+    "team": "JORDÁNSKO",
+    "name": "Amer Jamous",
+    "position": "Záložník"
+  },
+  {
+    "team": "JORDÁNSKO",
+    "name": "Mohammad Al-Dawoud",
+    "position": "Záložník"
+  },
+  {
+    "team": "JORDÁNSKO",
+    "name": "Mousa Tamari",
+    "position": "Útočník"
+  },
+  {
+    "team": "JORDÁNSKO",
+    "name": "Odeh Al-Fakhouri",
+    "position": "Útočník"
+  },
+  {
+    "team": "JORDÁNSKO",
+    "name": "Mohammad Abu Zrayq",
+    "position": "Útočník"
+  },
+  {
+    "team": "JORDÁNSKO",
+    "name": "Ali Azaizeh",
+    "position": "Útočník"
+  },
+  {
+    "team": "JORDÁNSKO",
+    "name": "Ibrahim Sabra",
+    "position": "Útočník"
+  },
+  {
+    "team": "JORDÁNSKO",
+    "name": "Ali Olwan",
+    "position": "Útočník"
+  },
+  {
+    "team": "RAKOUSKO",
+    "name": "Patrick Pentz",
+    "position": "Brankář"
+  },
+  {
+    "team": "RAKOUSKO",
+    "name": "Alexander Schlager",
+    "position": "Brankář"
+  },
+  {
+    "team": "RAKOUSKO",
+    "name": "Florian Wiegele",
+    "position": "Brankář"
+  },
+  {
+    "team": "RAKOUSKO",
+    "name": "David Affengruber",
+    "position": "Obránce"
+  },
+  {
+    "team": "RAKOUSKO",
+    "name": "David Alaba",
+    "position": "Obránce"
+  },
+  {
+    "team": "RAKOUSKO",
+    "name": "Kevin Danso",
+    "position": "Obránce"
+  },
+  {
+    "team": "RAKOUSKO",
+    "name": "Marco Friedl",
+    "position": "Obránce"
+  },
+  {
+    "team": "RAKOUSKO",
+    "name": "Philipp Lienhart",
+    "position": "Obránce"
+  },
+  {
+    "team": "RAKOUSKO",
+    "name": "Phillipp Mwene",
+    "position": "Obránce"
+  },
+  {
+    "team": "RAKOUSKO",
+    "name": "Stefan Posch",
+    "position": "Obránce"
+  },
+  {
+    "team": "RAKOUSKO",
+    "name": "Alexander Prass",
+    "position": "Obránce"
+  },
+  {
+    "team": "RAKOUSKO",
+    "name": "Michael Svoboda",
+    "position": "Obránce"
+  },
+  {
+    "team": "RAKOUSKO",
+    "name": "Carney Chukwuemeka",
+    "position": "Záložník"
+  },
+  {
+    "team": "RAKOUSKO",
+    "name": "Florian Grillitsch",
+    "position": "Záložník"
+  },
+  {
+    "team": "RAKOUSKO",
+    "name": "Konrad Laimer",
+    "position": "Záložník"
+  },
+  {
+    "team": "RAKOUSKO",
+    "name": "Marcel Sabitzer",
+    "position": "Záložník"
+  },
+  {
+    "team": "RAKOUSKO",
+    "name": "Xaver Schlager",
+    "position": "Záložník"
+  },
+  {
+    "team": "RAKOUSKO",
+    "name": "Romano Schmid",
+    "position": "Záložník"
+  },
+  {
+    "team": "RAKOUSKO",
+    "name": "Alessandro Schöpf",
+    "position": "Záložník"
+  },
+  {
+    "team": "RAKOUSKO",
+    "name": "Nicolas Seiwald",
+    "position": "Záložník"
+  },
+  {
+    "team": "RAKOUSKO",
+    "name": "Paul Wanner",
+    "position": "Záložník"
+  },
+  {
+    "team": "RAKOUSKO",
+    "name": "Patrick Wimmer",
+    "position": "Záložník"
+  },
+  {
+    "team": "RAKOUSKO",
+    "name": "Marko Arnautovic",
+    "position": "Útočník"
+  },
+  {
+    "team": "RAKOUSKO",
+    "name": "Michael Gregoritsch",
+    "position": "Útočník"
+  },
+  {
+    "team": "RAKOUSKO",
+    "name": "Sasa Kalajdzic",
+    "position": "Útočník"
+  },
+  {
+    "team": "PORTUGALSKO",
+    "name": "Diogo Costa",
+    "position": "Brankář"
+  },
+  {
+    "team": "PORTUGALSKO",
+    "name": "Rui Silva",
+    "position": "Brankář"
+  },
+  {
+    "team": "PORTUGALSKO",
+    "name": "José Sá",
+    "position": "Brankář"
+  },
+  {
+    "team": "PORTUGALSKO",
+    "name": "Ricardo Velho",
+    "position": "Brankář"
+  },
+  {
+    "team": "PORTUGALSKO",
+    "name": "Diogo Dalot",
+    "position": "Obránce"
+  },
+  {
+    "team": "PORTUGALSKO",
+    "name": "Matheus Nunes",
+    "position": "Obránce"
+  },
+  {
+    "team": "PORTUGALSKO",
+    "name": "Nélson Semedo",
+    "position": "Obránce"
+  },
+  {
+    "team": "PORTUGALSKO",
+    "name": "Cancelo",
+    "position": "Obránce"
+  },
+  {
+    "team": "PORTUGALSKO",
+    "name": "Nuno Mendes",
+    "position": "Obránce"
+  },
+  {
+    "team": "PORTUGALSKO",
+    "name": "Goncalo Inácio",
+    "position": "Obránce"
+  },
+  {
+    "team": "PORTUGALSKO",
+    "name": "Renato Veiga",
+    "position": "Obránce"
+  },
+  {
+    "team": "PORTUGALSKO",
+    "name": "Rúben Dias",
+    "position": "Obránce"
+  },
+  {
+    "team": "PORTUGALSKO",
+    "name": "Tomás Araújo",
+    "position": "Obránce"
+  },
+  {
+    "team": "PORTUGALSKO",
+    "name": "Rúben Neves",
+    "position": "Záložník"
+  },
+  {
+    "team": "PORTUGALSKO",
+    "name": "Samú Costa",
+    "position": "Záložník"
+  },
+  {
+    "team": "PORTUGALSKO",
+    "name": "Joao Neves",
+    "position": "Záložník"
+  },
+  {
+    "team": "PORTUGALSKO",
+    "name": "Vitinha",
+    "position": "Záložník"
+  },
+  {
+    "team": "PORTUGALSKO",
+    "name": "Bruno Fernandes",
+    "position": "Záložník"
+  },
+  {
+    "team": "PORTUGALSKO",
+    "name": "Bernardo Silva",
+    "position": "Záložník"
+  },
+  {
+    "team": "PORTUGALSKO",
+    "name": "Joao Félix",
+    "position": "Útočník"
+  },
+  {
+    "team": "PORTUGALSKO",
+    "name": "Trincao",
+    "position": "Útočník"
+  },
+  {
+    "team": "PORTUGALSKO",
+    "name": "Francisco Conceicao",
+    "position": "Útočník"
+  },
+  {
+    "team": "PORTUGALSKO",
+    "name": "Pedro Neto",
+    "position": "Útočník"
+  },
+  {
+    "team": "PORTUGALSKO",
+    "name": "Rafael Leao",
+    "position": "Útočník"
+  },
+  {
+    "team": "PORTUGALSKO",
+    "name": "Goncalo Guedes",
+    "position": "Útočník"
+  },
+  {
+    "team": "PORTUGALSKO",
+    "name": "Goncalo Ramos",
+    "position": "Útočník"
+  },
+  {
+    "team": "PORTUGALSKO",
+    "name": "Cristiano Ronaldo",
+    "position": "Útočník"
+  },
+  {
+    "team": "DR KONGO",
+    "name": "Matthieu Epolo",
+    "position": "Brankář"
+  },
+  {
+    "team": "DR KONGO",
+    "name": "Timothy Fayulu",
+    "position": "Brankář"
+  },
+  {
+    "team": "DR KONGO",
+    "name": "Lionel Mpasi",
+    "position": "Brankář"
+  },
+  {
+    "team": "DR KONGO",
+    "name": "Dylan Batubinsika",
+    "position": "Obránce"
+  },
+  {
+    "team": "DR KONGO",
+    "name": "Rocky Bushiri",
+    "position": "Obránce"
+  },
+  {
+    "team": "DR KONGO",
+    "name": "Gedeon Kalulu",
+    "position": "Obránce"
+  },
+  {
+    "team": "DR KONGO",
+    "name": "Steve Kapuadi",
+    "position": "Obránce"
+  },
+  {
+    "team": "DR KONGO",
+    "name": "Joris Kayembe",
+    "position": "Obránce"
+  },
+  {
+    "team": "DR KONGO",
+    "name": "Arthur Masuaku",
+    "position": "Obránce"
+  },
+  {
+    "team": "DR KONGO",
+    "name": "Chancel Mbemba",
+    "position": "Obránce"
+  },
+  {
+    "team": "DR KONGO",
+    "name": "Axel Tuanzebe",
+    "position": "Obránce"
+  },
+  {
+    "team": "DR KONGO",
+    "name": "Aaron Wan-Bissaka",
+    "position": "Obránce"
+  },
+  {
+    "team": "DR KONGO",
+    "name": "Theo Bongonda",
+    "position": "Záložník"
+  },
+  {
+    "team": "DR KONGO",
+    "name": "Brian Cipenga",
+    "position": "Záložník"
+  },
+  {
+    "team": "DR KONGO",
+    "name": "Elia Meshack",
+    "position": "Záložník"
+  },
+  {
+    "team": "DR KONGO",
+    "name": "Gael Kakuta",
+    "position": "Záložník"
+  },
+  {
+    "team": "DR KONGO",
+    "name": "Edo Kayembe",
+    "position": "Záložník"
+  },
+  {
+    "team": "DR KONGO",
+    "name": "Nathanael Mbuku",
+    "position": "Záložník"
+  },
+  {
+    "team": "DR KONGO",
+    "name": "Samuel Moutoussamy",
+    "position": "Záložník"
+  },
+  {
+    "team": "DR KONGO",
+    "name": "Ngalayel Mukau",
+    "position": "Záložník"
+  },
+  {
+    "team": "DR KONGO",
+    "name": "Charles Pickel",
+    "position": "Záložník"
+  },
+  {
+    "team": "DR KONGO",
+    "name": "Noah Sadiki",
+    "position": "Záložník"
+  },
+  {
+    "team": "DR KONGO",
+    "name": "Cedric Bakambu",
+    "position": "Útočník"
+  },
+  {
+    "team": "DR KONGO",
+    "name": "Simon Banza",
+    "position": "Útočník"
+  },
+  {
+    "team": "DR KONGO",
+    "name": "Fiston Mayele",
+    "position": "Útočník"
+  },
+  {
+    "team": "DR KONGO",
+    "name": "Yoane Wissa",
+    "position": "Útočník"
+  },
+  {
+    "team": "KOLUMBIE",
+    "name": "Camilo Vargas",
+    "position": "Brankář"
+  },
+  {
+    "team": "KOLUMBIE",
+    "name": "Álvaro Montero",
+    "position": "Brankář"
+  },
+  {
+    "team": "KOLUMBIE",
+    "name": "David Ospina",
+    "position": "Brankář"
+  },
+  {
+    "team": "KOLUMBIE",
+    "name": "Dávinson Sánchez",
+    "position": "Obránce"
+  },
+  {
+    "team": "KOLUMBIE",
+    "name": "Jhon Lucumí",
+    "position": "Obránce"
+  },
+  {
+    "team": "KOLUMBIE",
+    "name": "Yerry Mina",
+    "position": "Obránce"
+  },
+  {
+    "team": "KOLUMBIE",
+    "name": "Willer Ditta",
+    "position": "Obránce"
+  },
+  {
+    "team": "KOLUMBIE",
+    "name": "Daniel Muñoz",
+    "position": "Obránce"
+  },
+  {
+    "team": "KOLUMBIE",
+    "name": "Santiago Arias",
+    "position": "Obránce"
+  },
+  {
+    "team": "KOLUMBIE",
+    "name": "Johan Mojica",
+    "position": "Obránce"
+  },
+  {
+    "team": "KOLUMBIE",
+    "name": "Deiver Machado",
+    "position": "Obránce"
+  },
+  {
+    "team": "KOLUMBIE",
+    "name": "Richard Rios",
+    "position": "Záložník"
+  },
+  {
+    "team": "KOLUMBIE",
+    "name": "Jefferson Lerma",
+    "position": "Záložník"
+  },
+  {
+    "team": "KOLUMBIE",
+    "name": "Kevin Castaño",
+    "position": "Záložník"
+  },
+  {
+    "team": "KOLUMBIE",
+    "name": "Juan Camilo Portilla",
+    "position": "Záložník"
+  },
+  {
+    "team": "KOLUMBIE",
+    "name": "Gustavo Puerta",
+    "position": "Záložník"
+  },
+  {
+    "team": "KOLUMBIE",
+    "name": "Jhon Arias",
+    "position": "Záložník"
+  },
+  {
+    "team": "KOLUMBIE",
+    "name": "Jorge Carrascal",
+    "position": "Záložník"
+  },
+  {
+    "team": "KOLUMBIE",
+    "name": "Juan Fernando Quintero",
+    "position": "Záložník"
+  },
+  {
+    "team": "KOLUMBIE",
+    "name": "James Rodríguez",
+    "position": "Záložník"
+  },
+  {
+    "team": "KOLUMBIE",
+    "name": "Jaminton Campaz",
+    "position": "Záložník"
+  },
+  {
+    "team": "KOLUMBIE",
+    "name": "Juan Camilo Hernández",
+    "position": "Útočník"
+  },
+  {
+    "team": "KOLUMBIE",
+    "name": "Luis Díaz",
+    "position": "Útočník"
+  },
+  {
+    "team": "KOLUMBIE",
+    "name": "Luis Suárez",
+    "position": "Útočník"
+  },
+  {
+    "team": "KOLUMBIE",
+    "name": "Carlos Andrés Gómez",
+    "position": "Útočník"
+  },
+  {
+    "team": "KOLUMBIE",
+    "name": "Jhon Córdoba",
+    "position": "Útočník"
+  },
+  {
+    "team": "UZBEKISTÁN",
+    "name": "Utkir Yusupov",
+    "position": "Brankář"
+  },
+  {
+    "team": "UZBEKISTÁN",
+    "name": "Botirali Ergashev",
+    "position": "Brankář"
+  },
+  {
+    "team": "UZBEKISTÁN",
+    "name": "Abduvohid Nematov",
+    "position": "Brankář"
+  },
+  {
+    "team": "UZBEKISTÁN",
+    "name": "Abdukodir Chusanov",
+    "position": "Obránce"
+  },
+  {
+    "team": "UZBEKISTÁN",
+    "name": "Rustam Ashurmatov",
+    "position": "Obránce"
+  },
+  {
+    "team": "UZBEKISTÁN",
+    "name": "Umar Eshmurodov",
+    "position": "Obránce"
+  },
+  {
+    "team": "UZBEKISTÁN",
+    "name": "Avazbek Ulmasaliev",
+    "position": "Obránce"
+  },
+  {
+    "team": "UZBEKISTÁN",
+    "name": "Abdulla Abdullaev",
+    "position": "Obránce"
+  },
+  {
+    "team": "UZBEKISTÁN",
+    "name": "Khojiakbar Alijonov",
+    "position": "Obránce"
+  },
+  {
+    "team": "UZBEKISTÁN",
+    "name": "Bekhruz Karimov",
+    "position": "Obránce"
+  },
+  {
+    "team": "UZBEKISTÁN",
+    "name": "Farrukh Sayfiev",
+    "position": "Obránce"
+  },
+  {
+    "team": "UZBEKISTÁN",
+    "name": "Sherzod Nasrullaev",
+    "position": "Obránce"
+  },
+  {
+    "team": "UZBEKISTÁN",
+    "name": "Jakhongir Urozov",
+    "position": "Obránce"
+  },
+  {
+    "team": "UZBEKISTÁN",
+    "name": "Otabek Shukurov",
+    "position": "Záložník"
+  },
+  {
+    "team": "UZBEKISTÁN",
+    "name": "Akmal Mozgovoy",
+    "position": "Záložník"
+  },
+  {
+    "team": "UZBEKISTÁN",
+    "name": "Jamshid Iskanderov",
+    "position": "Záložník"
+  },
+  {
+    "team": "UZBEKISTÁN",
+    "name": "Odil Hamrobekov",
+    "position": "Záložník"
+  },
+  {
+    "team": "UZBEKISTÁN",
+    "name": "Jaloliddin Masharipov",
+    "position": "Záložník"
+  },
+  {
+    "team": "UZBEKISTÁN",
+    "name": "Aziz Ganiev",
+    "position": "Záložník"
+  },
+  {
+    "team": "UZBEKISTÁN",
+    "name": "Sherzod Esanov",
+    "position": "Záložník"
+  },
+  {
+    "team": "UZBEKISTÁN",
+    "name": "Abbosbek Fayzullaev",
+    "position": "Záložník"
+  },
+  {
+    "team": "UZBEKISTÁN",
+    "name": "Eldor Šomurodov",
+    "position": "Útočník"
+  },
+  {
+    "team": "UZBEKISTÁN",
+    "name": "Igor Sergeev",
+    "position": "Útočník"
+  },
+  {
+    "team": "UZBEKISTÁN",
+    "name": "Azizbek Amonov",
+    "position": "Útočník"
+  },
+  {
+    "team": "UZBEKISTÁN",
+    "name": "Oston Urunov",
+    "position": "Útočník"
+  },
+  {
+    "team": "UZBEKISTÁN",
+    "name": "Dostonbek Khamdamov",
+    "position": "Útočník"
+  },
+  {
+    "team": "ANGLIE",
+    "name": "Jordan Pickford",
+    "position": "Brankář"
+  },
+  {
+    "team": "ANGLIE",
+    "name": "Dean Henderson",
+    "position": "Brankář"
+  },
+  {
+    "team": "ANGLIE",
+    "name": "James Trafford",
+    "position": "Brankář"
+  },
+  {
+    "team": "ANGLIE",
+    "name": "Reece James",
+    "position": "Obránce"
+  },
+  {
+    "team": "ANGLIE",
+    "name": "Tino Livramento",
+    "position": "Obránce"
+  },
+  {
+    "team": "ANGLIE",
+    "name": "Dan Burn",
+    "position": "Obránce"
+  },
+  {
+    "team": "ANGLIE",
+    "name": "Nico O'Reilly",
+    "position": "Obránce"
+  },
+  {
+    "team": "ANGLIE",
+    "name": "Marc Guéhi",
+    "position": "Obránce"
+  },
+  {
+    "team": "ANGLIE",
+    "name": "John Stones",
+    "position": "Obránce"
+  },
+  {
+    "team": "ANGLIE",
+    "name": "Djed Spence",
+    "position": "Obránce"
+  },
+  {
+    "team": "ANGLIE",
+    "name": "Ezri Konsa",
+    "position": "Obránce"
+  },
+  {
+    "team": "ANGLIE",
+    "name": "Jarell Quansah",
+    "position": "Obránce"
+  },
+  {
+    "team": "ANGLIE",
+    "name": "Kobbie Mainoo",
+    "position": "Záložník"
+  },
+  {
+    "team": "ANGLIE",
+    "name": "Elliot Anderson",
+    "position": "Záložník"
+  },
+  {
+    "team": "ANGLIE",
+    "name": "Declan Rice",
+    "position": "Záložník"
+  },
+  {
+    "team": "ANGLIE",
+    "name": "Eberechi Eze",
+    "position": "Záložník"
+  },
+  {
+    "team": "ANGLIE",
+    "name": "Jordan Henderson",
+    "position": "Záložník"
+  },
+  {
+    "team": "ANGLIE",
+    "name": "Morgan Rogers",
+    "position": "Záložník"
+  },
+  {
+    "team": "ANGLIE",
+    "name": "Jude Bellingham",
+    "position": "Záložník"
+  },
+  {
+    "team": "ANGLIE",
+    "name": "Harry Kane",
+    "position": "Útočník"
+  },
+  {
+    "team": "ANGLIE",
+    "name": "Ivan Toney",
+    "position": "Útočník"
+  },
+  {
+    "team": "ANGLIE",
+    "name": "Marcus Rashford",
+    "position": "Útočník"
+  },
+  {
+    "team": "ANGLIE",
+    "name": "Anthony Gordon",
+    "position": "Útočník"
+  },
+  {
+    "team": "ANGLIE",
+    "name": "Bukayo Saka",
+    "position": "Útočník"
+  },
+  {
+    "team": "ANGLIE",
+    "name": "Noni Madueke",
+    "position": "Útočník"
+  },
+  {
+    "team": "ANGLIE",
+    "name": "Ollie Watkins",
+    "position": "Útočník"
+  },
+  {
+    "team": "CHORVATSKO",
+    "name": "Dominik Livakovič",
+    "position": "Brankář"
+  },
+  {
+    "team": "CHORVATSKO",
+    "name": "Dominik Kotarski",
+    "position": "Brankář"
+  },
+  {
+    "team": "CHORVATSKO",
+    "name": "Ivor Pandur",
+    "position": "Brankář"
+  },
+  {
+    "team": "CHORVATSKO",
+    "name": "Joško Gvardiol",
+    "position": "Obránce"
+  },
+  {
+    "team": "CHORVATSKO",
+    "name": "Duje Čaleta-Car",
+    "position": "Obránce"
+  },
+  {
+    "team": "CHORVATSKO",
+    "name": "Josip Šutalo",
+    "position": "Obránce"
+  },
+  {
+    "team": "CHORVATSKO",
+    "name": "Josip Stanišič",
+    "position": "Obránce"
+  },
+  {
+    "team": "CHORVATSKO",
+    "name": "Marin Pongračič",
+    "position": "Obránce"
+  },
+  {
+    "team": "CHORVATSKO",
+    "name": "Martin Erlič",
+    "position": "Obránce"
+  },
+  {
+    "team": "CHORVATSKO",
+    "name": "Luka Vuškovič",
+    "position": "Obránce"
+  },
+  {
+    "team": "CHORVATSKO",
+    "name": "Luka Modrič",
+    "position": "Záložník"
+  },
+  {
+    "team": "CHORVATSKO",
+    "name": "Mateo Kovačič",
+    "position": "Záložník"
+  },
+  {
+    "team": "CHORVATSKO",
+    "name": "Mario Pašalič",
+    "position": "Záložník"
+  },
+  {
+    "team": "CHORVATSKO",
+    "name": "Nikola Vlašič",
+    "position": "Záložník"
+  },
+  {
+    "team": "CHORVATSKO",
+    "name": "Luka Sučič",
+    "position": "Záložník"
+  },
+  {
+    "team": "CHORVATSKO",
+    "name": "Martin Baturina",
+    "position": "Záložník"
+  },
+  {
+    "team": "CHORVATSKO",
+    "name": "Kristijan Jakič",
+    "position": "Záložník"
+  },
+  {
+    "team": "CHORVATSKO",
+    "name": "Petar Sučič",
+    "position": "Záložník"
+  },
+  {
+    "team": "CHORVATSKO",
+    "name": "Nikola Moro",
+    "position": "Záložník"
+  },
+  {
+    "team": "CHORVATSKO",
+    "name": "Toni Fruk",
+    "position": "Záložník"
+  },
+  {
+    "team": "CHORVATSKO",
+    "name": "Ivan Perišič",
+    "position": "Útočník"
+  },
+  {
+    "team": "CHORVATSKO",
+    "name": "Andrej Kramarič",
+    "position": "Útočník"
+  },
+  {
+    "team": "CHORVATSKO",
+    "name": "Ante Budimir",
+    "position": "Útočník"
+  },
+  {
+    "team": "CHORVATSKO",
+    "name": "Marco Pašalič",
+    "position": "Útočník"
+  },
+  {
+    "team": "CHORVATSKO",
+    "name": "Petar Musa",
+    "position": "Útočník"
+  },
+  {
+    "team": "CHORVATSKO",
+    "name": "Igor Matanovič",
+    "position": "Útočník"
+  },
+  {
+    "team": "GHANA",
+    "name": "Benjamin Asare",
+    "position": "Brankář"
+  },
+  {
+    "team": "GHANA",
+    "name": "Lawrence Ati Zigi",
+    "position": "Brankář"
+  },
+  {
+    "team": "GHANA",
+    "name": "Joseph Anang",
+    "position": "Brankář"
+  },
+  {
+    "team": "GHANA",
+    "name": "Solomon Agbasi",
+    "position": "Brankář"
+  },
+  {
+    "team": "GHANA",
+    "name": "Paul Reverson",
+    "position": "Brankář"
+  },
+  {
+    "team": "GHANA",
+    "name": "Abdul Rahman Baba",
+    "position": "Obránce"
+  },
+  {
+    "team": "GHANA",
+    "name": "Gideon Mensah",
+    "position": "Obránce"
+  },
+  {
+    "team": "GHANA",
+    "name": "Marvin Senaya",
+    "position": "Obránce"
+  },
+  {
+    "team": "GHANA",
+    "name": "Alidu Seidu",
+    "position": "Obránce"
+  },
+  {
+    "team": "GHANA",
+    "name": "Abdul Mumin",
+    "position": "Obránce"
+  },
+  {
+    "team": "GHANA",
+    "name": "Jerome Opoku",
+    "position": "Obránce"
+  },
+  {
+    "team": "GHANA",
+    "name": "Jonas Adjetey",
+    "position": "Obránce"
+  },
+  {
+    "team": "GHANA",
+    "name": "Kojo Peprah",
+    "position": "Obránce"
+  },
+  {
+    "team": "GHANA",
+    "name": "Alexander Djiku",
+    "position": "Obránce"
+  },
+  {
+    "team": "GHANA",
+    "name": "Elisha Owusu",
+    "position": "Záložník"
+  },
+  {
+    "team": "GHANA",
+    "name": "Thomas Partey",
+    "position": "Záložník"
+  },
+  {
+    "team": "GHANA",
+    "name": "Kwasi Sibo",
+    "position": "Záložník"
+  },
+  {
+    "team": "GHANA",
+    "name": "Augustine Boakye",
+    "position": "Záložník"
+  },
+  {
+    "team": "GHANA",
+    "name": "Caleb Yirenkyi",
+    "position": "Záložník"
+  },
+  {
+    "team": "GHANA",
+    "name": "Issahaku Fatawu",
+    "position": "Záložník"
+  },
+  {
+    "team": "GHANA",
+    "name": "Kamaldeen Sulemana",
+    "position": "Záložník"
+  },
+  {
+    "team": "GHANA",
+    "name": "Christopher Bonsu Baah",
+    "position": "Útočník"
+  },
+  {
+    "team": "GHANA",
+    "name": "Ernest Nuamah",
+    "position": "Útočník"
+  },
+  {
+    "team": "GHANA",
+    "name": "Antoine Semenyo",
+    "position": "Útočník"
+  },
+  {
+    "team": "GHANA",
+    "name": "Brandon Thomas-Asante",
+    "position": "Útočník"
+  },
+  {
+    "team": "GHANA",
+    "name": "Prince Adu",
+    "position": "Útočník"
+  },
+  {
+    "team": "GHANA",
+    "name": "Inaki Williams",
+    "position": "Útočník"
+  },
+  {
+    "team": "GHANA",
+    "name": "Jordan Ayew",
+    "position": "Útočník"
+  },
+  {
+    "team": "PANAMA",
+    "name": "Orlando Mosquera",
+    "position": "Brankář"
+  },
+  {
+    "team": "PANAMA",
+    "name": "Luis Mejía",
+    "position": "Brankář"
+  },
+  {
+    "team": "PANAMA",
+    "name": "César Samudio",
+    "position": "Brankář"
+  },
+  {
+    "team": "PANAMA",
+    "name": "César Blackman",
+    "position": "Obránce"
+  },
+  {
+    "team": "PANAMA",
+    "name": "Jorge Gutiérrez",
+    "position": "Obránce"
+  },
+  {
+    "team": "PANAMA",
+    "name": "Amir Murillo",
+    "position": "Obránce"
+  },
+  {
+    "team": "PANAMA",
+    "name": "Fidel Escobar",
+    "position": "Obránce"
+  },
+  {
+    "team": "PANAMA",
+    "name": "Andrés Andrade",
+    "position": "Obránce"
+  },
+  {
+    "team": "PANAMA",
+    "name": "Edgardo Fariña",
+    "position": "Obránce"
+  },
+  {
+    "team": "PANAMA",
+    "name": "José Córdoba",
+    "position": "Obránce"
+  },
+  {
+    "team": "PANAMA",
+    "name": "Eric Davis",
+    "position": "Obránce"
+  },
+  {
+    "team": "PANAMA",
+    "name": "Jiovani Ramos",
+    "position": "Obránce"
+  },
+  {
+    "team": "PANAMA",
+    "name": "Roderick Miller",
+    "position": "Obránce"
+  },
+  {
+    "team": "PANAMA",
+    "name": "Aníbal Godoy",
+    "position": "Záložník"
+  },
+  {
+    "team": "PANAMA",
+    "name": "Adalberto Carrasquilla",
+    "position": "Záložník"
+  },
+  {
+    "team": "PANAMA",
+    "name": "Carlos Harvey",
+    "position": "Záložník"
+  },
+  {
+    "team": "PANAMA",
+    "name": "Christian Martínez",
+    "position": "Záložník"
+  },
+  {
+    "team": "PANAMA",
+    "name": "José Luis Rodríguez",
+    "position": "Záložník"
+  },
+  {
+    "team": "PANAMA",
+    "name": "Cesar Yanis",
+    "position": "Záložník"
+  },
+  {
+    "team": "PANAMA",
+    "name": "Yoel Bárcenas",
+    "position": "Záložník"
+  },
+  {
+    "team": "PANAMA",
+    "name": "Alberto Quintero",
+    "position": "Záložník"
+  },
+  {
+    "team": "PANAMA",
+    "name": "Azarías Londoño",
+    "position": "Záložník"
+  },
+  {
+    "team": "PANAMA",
+    "name": "Ismael Díaz",
+    "position": "Útočník"
+  },
+  {
+    "team": "PANAMA",
+    "name": "Cecilio Waterman",
+    "position": "Útočník"
+  },
+  {
+    "team": "PANAMA",
+    "name": "José Fajardo",
+    "position": "Útočník"
+  },
+  {
+    "team": "PANAMA",
+    "name": "Tomás Rodríguez",
+    "position": "Útočník"
+  }
+]
