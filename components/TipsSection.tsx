@@ -39,6 +39,7 @@ function stageLabel(stage: string) {
   const labels: Record<string, string> = {
     GROUP_STAGE: 'Skupinová fáze',
     LAST_16: 'Osmifinále',
+    LAST_32: 'Osmifinále',
     QUARTER_FINALS: 'Čtvrtfinále',
     SEMI_FINALS: 'Semifinále',
     THIRD_PLACE: 'O 3. místo',
@@ -46,6 +47,14 @@ function stageLabel(stage: string) {
     TEST: '🧪 Test',
   };
   return labels[stage] ?? stage;
+}
+
+function groupLabel(group: string) {
+  if (group === 'VSE') return 'Všechny';
+  // GROUP_A → Skupina A, GROUP_B → Skupina B, …
+  const match = group.match(/^GROUP_([A-Z]+)$/);
+  if (match) return `Skupina ${match[1]}`;
+  return group;
 }
 
 function pointsBadge(points: number | null, scorerPoints: number | null) {
@@ -76,6 +85,25 @@ interface Player {
 }
 
 const POSITION_ORDER: Record<string, number> = { 'Brankář': 0, 'Obránce': 1, 'Záložník': 2, 'Útočník': 3 };
+
+const SHORT_NAMES: Record<string, string> = {
+  'Bosna a Hercegovina': 'Bosna a Herc.',
+  'Severní Makedonie': 'S. Makedonie',
+  'Dominikánská republika': 'Dominik. rep.',
+  'Britské Panenské ostrovy': 'Brit. P. ostrovy',
+  'Pobřeží slonoviny': 'Pobř. slonoviny',
+  'Jihoafrická republika': 'J. Afrika',
+  'Rovníková Guinea': 'Rovník. Guinea',
+  'Středoafrická republika': 'SAR',
+  'Trinidad a Tobago': 'Trinidad',
+  'Antigua a Barbuda': 'Antigua',
+  'Svatý Vincenc a Grenadiny': 'Sv. Vincenc',
+  'Svatý Kryštof a Nevis': 'Sv. Kryštof',
+};
+
+function shortName(team: string): string {
+  return SHORT_NAMES[team] ?? team;
+}
 
 // Mapování DB názvů → klíče v players.json (velkými písmeny)
 const TEAM_NAME_MAP: Record<string, string> = {
@@ -283,7 +311,7 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
               onClick={() => setActiveGroup(g)}
               className={`whitespace-nowrap px-3 py-1.5 rounded-full text-xs font-semibold transition ${d.groupBtn(activeGroup === g)}`}
             >
-              {g === 'VSE' ? 'Všechny' : g}
+              {groupLabel(g)}
             </button>
           ))}
         </div>
@@ -307,7 +335,7 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
                 <div key={m.id} className={`${dark ? 'bg-slate-800' : 'bg-white'} rounded-xl p-3 border ${borderClass}`}>
                   <div className={`text-xs ${d.time} mb-2`}>{formatKickoff(m.kickoff)}</div>
                   <div className="flex items-center gap-2">
-                    <span className={`flex-1 font-semibold ${d.team} text-right text-sm leading-tight`}>{m.home_team}</span>
+                    <span className={`flex-1 font-semibold ${d.team} text-right text-sm leading-tight`}>{shortName(m.home_team)}</span>
                     <div className="flex items-center gap-1">
                       {([0, 1] as const).map(idx => (
                         <input
@@ -330,11 +358,11 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
                             }
                           }}
                           className={`w-10 text-center border rounded-lg py-1 text-base font-bold focus:outline-none ${d.input}`}
-                          placeholder="?"
+                          placeholder="–"
                         />
                       )).reduce((acc, el, i) => i === 0 ? [el] : [...acc, <span key="sep" className="text-slate-500 font-bold">:</span>, el], [] as React.ReactNode[])}
                     </div>
-                    <span className={`flex-1 font-semibold ${d.team} text-sm leading-tight`}>{m.away_team}</span>
+                    <span className={`flex-1 font-semibold ${d.team} text-sm leading-tight`}>{shortName(m.away_team)}</span>
                   </div>
                   {(() => {
                     const hasHome = matchPlayers.some(p => p.team === toPlayerKey(m.home_team));
@@ -550,14 +578,14 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
       )}
 
       {upcoming.length > 0 && (
-        <div className="fixed bottom-6 right-4 z-50">
+        <div className={`fixed bottom-0 left-0 right-0 z-50 px-4 py-3 border-t ${dark ? 'bg-slate-900 border-green-800' : 'bg-white border-green-300'}`}>
           <button
             onClick={saveAll}
             disabled={savingAll}
-            className={`shadow-lg text-sm font-bold px-5 py-3 rounded-full transition disabled:opacity-50 ${
+            className={`w-full max-w-2xl mx-auto block shadow text-sm font-bold px-5 py-3 rounded-xl transition disabled:opacity-50 ${
               savedAll
                 ? 'bg-green-500 text-white'
-                : 'bg-red-600 hover:bg-red-500 text-white'
+                : 'bg-green-700 hover:bg-green-600 text-white'
             }`}
           >
             {savingAll ? '⏳ Ukládám…' : savedAll ? '✓ Uloženo!' : '💾 Uložit vše'}

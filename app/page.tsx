@@ -59,7 +59,7 @@ export default function Home() {
 
   if (!user) {
     return (
-      <div className={`min-h-screen ${t.bg} flex items-center justify-center p-4`}>
+      <div className={`min-h-screen flex items-center justify-center p-4 ${dark ? 'bg-gradient-to-br from-slate-900 via-slate-900 to-green-950' : 'bg-gradient-to-br from-gray-100 via-gray-100 to-green-50'}`}>
         <div className={`${dark ? 'bg-slate-800 border border-slate-700' : 'bg-white border border-gray-200'} rounded-2xl shadow-2xl p-8 w-full max-w-sm`}>
           <div className="text-center mb-6">
             <div className="text-5xl mb-2">⚽</div>
