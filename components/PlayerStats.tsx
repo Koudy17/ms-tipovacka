@@ -140,13 +140,13 @@ export default function PlayerStats({ userId, nickname, dark, onClose }: Props) 
                       <div className={`text-xs ${d.sub}`}>—</div>
                     )}
                     <div className={`text-xs ${d.tip}`}><span className="opacity-60">tip: </span>{t.home_tip}:{t.away_tip}</div>
+                    {t.scorer_tip && (
+                      <div className={`text-[10px] ${d.scorer} mt-0.5`}>⚽ {t.scorer_tip}</div>
+                    )}
                   </div>
                   <div className="text-right min-w-[52px]">
                     {t.status === 'finished' ? pointsBadge(t.points, t.scorer_points) : (
                       <span className={`text-[10px] ${d.sub}`}>čeká</span>
-                    )}
-                    {t.scorer_tip && (
-                      <div className={`text-[10px] ${d.scorer} mt-0.5`}>⚽ {t.scorer_tip.split(' ').slice(-1)}</div>
                     )}
                   </div>
                 </div>
