@@ -65,6 +65,11 @@ export default function Home() {
           <div className="text-center mb-6">
             <div className="text-5xl mb-2">⚽</div>
             <h1 className={`text-2xl font-bold ${t.headerText}`}>MS 2026 Tipovačka</h1>
+            <div className="flex items-center justify-center gap-2 mt-2 mb-1">
+              <img src="/flags/us.png" alt="USA" className="h-4 rounded-sm opacity-90" />
+              <img src="/flags/ca.png" alt="Kanada" className="h-4 rounded-sm opacity-90" />
+              <img src="/flags/mx.png" alt="Mexiko" className="h-4 rounded-sm opacity-90" />
+            </div>
             <p className={`${t.mutedText} text-sm mt-1`}>Zadej přezdívku a tipuj!</p>
           </div>
           <input
