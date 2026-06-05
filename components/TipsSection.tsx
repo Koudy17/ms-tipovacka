@@ -273,7 +273,7 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
     tipText: dark ? 'text-slate-400' : 'text-gray-500',
     noTip: 'text-red-500',
     input: dark ? 'bg-slate-900 border-slate-600 text-green-400 focus:border-green-500' : 'bg-gray-50 border-gray-300 text-green-700 focus:border-green-500',
-    select: dark ? 'bg-slate-900 border-slate-600 text-yellow-300 focus:border-yellow-500' : 'bg-gray-50 border-gray-300 text-yellow-700 focus:border-yellow-500',
+    select: dark ? 'bg-slate-900 border-slate-600 text-yellow-300 focus:border-yellow-500 [&>option]:bg-slate-900' : 'bg-gray-50 border-gray-300 text-yellow-700 focus:border-yellow-500',
     manualInput: dark ? 'bg-slate-900 border-slate-600 text-yellow-300 placeholder-slate-600 focus:border-yellow-500' : 'bg-gray-50 border-gray-300 text-yellow-700 placeholder-gray-400 focus:border-yellow-500',
     saveBtn: (hasTip: boolean, isSaved: boolean) => isSaved
       ? 'bg-green-600 text-white'
@@ -377,6 +377,7 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
                           <select
                             value={isFromDropdown ? currentVal : ''}
                             onChange={e => setScorerInputs(new Map(scorerInputs.set(m.id, e.target.value)))}
+                            style={dark ? { backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 8L1 3h10z'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center', paddingRight: '28px', appearance: 'none' as const } : {}}
                             className={`w-full border rounded-lg px-2 py-1.5 text-xs focus:outline-none ${d.select}`}
                           >
                             <option value="">⚽ Tip na střelce (+3b) — vyber ze soupisky</option>
