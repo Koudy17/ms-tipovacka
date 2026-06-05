@@ -151,10 +151,24 @@ export default function AdminPage() {
   };
 
   const loadAuditLog = async () => {
-    const res = await fetch('/api/admin/audit-log?limit=50', { headers: { 'x-admin-token': token } });
+    const res = await fetch('/api/admin/audit-log?limit=10000', { headers: { 'x-admin-token': token } });
     const data = await res.json();
     setAuditLog(data);
     setShowLog(true);
+  };
+
+  const downloadAuditLog = () => {
+    const lines = auditLog.map(e =>
+      `${new Date(e.ts).toLocaleString('cs-CZ')}  ${e.action.padEnd(8)}  ${e.entity.padEnd(16)}  ${e.actor.padEnd(12)}  ${JSON.stringify(e.details)}`
+    );
+    const header = `MS 2026 Tipovačka – Audit Log\nExport: ${new Date().toLocaleString('cs-CZ')}\n${'─'.repeat(80)}\n`;
+    const blob = new Blob([header + lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `tipovacka-log-${new Date().toISOString().slice(0,10)}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   const syncResults = async () => {
@@ -223,8 +237,11 @@ export default function AdminPage() {
         {showLog && (
           <div className="mb-4">
             <div className="flex items-center justify-between mb-2">
-              <h2 className="text-sm font-bold text-white">📋 Audit log (posledních 50)</h2>
-              <button onClick={() => setShowLog(false)} className="text-xs text-slate-400 hover:text-white">✕ zavřít</button>
+              <h2 className="text-sm font-bold text-white">📋 Audit log ({auditLog.length} záznamů)</h2>
+              <div className="flex gap-2">
+                <button onClick={downloadAuditLog} className="text-xs bg-slate-700 hover:bg-slate-600 text-white px-2 py-1 rounded">⬇ Stáhnout .txt</button>
+                <button onClick={() => setShowLog(false)} className="text-xs text-slate-400 hover:text-white px-1">✕ zavřít</button>
+              </div>
             </div>
             <div className="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden text-xs font-mono">
               {auditLog.length === 0 ? (
