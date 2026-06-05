@@ -4,28 +4,20 @@ import { getSql, auditLog } from '@/lib/db';
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN ?? 'admin123';
 
 const TEST_MATCHES = [
-  { id: 9000001, home: 'Chorvatsko', away: 'Belgie', kickoff: '2026-06-02T16:00:00Z' },
-  { id: 9000002, home: 'Gruzie', away: 'Rumunsko', kickoff: '2026-06-02T17:00:00Z' },
-  { id: 9000003, home: 'Maroko', away: 'Madagaskar', kickoff: '2026-06-02T17:00:00Z' },
-  { id: 9000004, home: 'Wales', away: 'Ghana', kickoff: '2026-06-02T18:45:00Z' },
-  { id: 9000005, home: 'Filipíny', away: 'Guam', kickoff: '2026-06-03T11:30:00Z' },
-  { id: 9000006, home: 'Gibraltar', away: 'Britské Panenské ostrovy', kickoff: '2026-06-03T17:00:00Z' },
-  { id: 9000007, home: 'Albánie', away: 'Izrael', kickoff: '2026-06-03T18:00:00Z' },
-  { id: 9000008, home: 'DR Kongo', away: 'Dánsko', kickoff: '2026-06-03T18:00:00Z' },
-  { id: 9000009, home: 'Lucembursko', away: 'Itálie', kickoff: '2026-06-03T18:45:00Z' },
-  { id: 9000010, home: 'Nizozemsko', away: 'Alžírsko', kickoff: '2026-06-03T18:45:00Z' },
-  { id: 9000011, home: 'Polsko', away: 'Nigérie', kickoff: '2026-06-03T18:45:00Z' },
-  { id: 9000012, home: 'Panama', away: 'Dominikánská republika', kickoff: '2026-06-04T00:45:00Z' },
-  { id: 9000013, home: 'Jižní Korea', away: 'Salvador', kickoff: '2026-06-04T01:00:00Z' },
-  { id: 9000014, home: 'Severní Irsko', away: 'Guinea', kickoff: '2026-06-04T16:00:00Z' },
-  { id: 9000015, home: 'Slovinsko', away: 'Kypr', kickoff: '2026-06-04T16:00:00Z' },
-  { id: 9000016, home: 'Írán', away: 'Mali', kickoff: '2026-06-04T16:30:00Z' },
-  { id: 9000017, home: 'Andorra', away: 'Lichtenštejnsko', kickoff: '2026-06-04T17:00:00Z' },
-  { id: 9000018, home: 'Švédsko', away: 'Řecko', kickoff: '2026-06-04T17:00:00Z' },
-  { id: 9000019, home: 'Španělsko', away: 'Irák', kickoff: '2026-06-04T19:00:00Z' },
-  { id: 9000020, home: 'Francie', away: 'Pobřeží slonoviny', kickoff: '2026-06-04T19:10:00Z' },
-  { id: 9000021, home: 'Česko', away: 'Guatemala', kickoff: '2026-06-05T00:00:00Z' },
-  { id: 9000022, home: 'Mexiko', away: 'Srbsko', kickoff: '2026-06-05T02:00:00Z' },
+  // 6.6. (CEST → UTC)
+  { id: 9000001, home: 'Kanada',      away: 'Irsko',               kickoff: '2026-06-05T23:30:00Z' }, // 01:30 CEST
+  { id: 9000002, home: 'Belgie',      away: 'Tunisko',             kickoff: '2026-06-06T13:00:00Z' }, // 15:00 CEST
+  { id: 9000003, home: 'Portugalsko', away: 'Chile',               kickoff: '2026-06-06T17:45:00Z' }, // 19:45 CEST
+  { id: 9000004, home: 'USA',         away: 'Německo',             kickoff: '2026-06-06T18:30:00Z' }, // 20:30 CEST
+  { id: 9000005, home: 'Panama',      away: 'Bosna a Hercegovina', kickoff: '2026-06-06T19:00:00Z' }, // 21:00 CEST
+  { id: 9000006, home: 'Švýcarsko',   away: 'Austrálie',           kickoff: '2026-06-06T19:00:00Z' }, // 21:00 CEST
+  { id: 9000007, home: 'Anglie',      away: 'Nový Zéland',         kickoff: '2026-06-06T20:00:00Z' }, // 22:00 CEST
+  // 7.6. (CEST → UTC)
+  { id: 9000008, home: 'Brazílie',    away: 'Egypt',               kickoff: '2026-06-06T22:00:00Z' }, // 00:00 CEST
+  { id: 9000009, home: 'Venezuela',   away: 'Turecko',             kickoff: '2026-06-06T22:00:00Z' }, // 00:00 CEST
+  { id: 9000010, home: 'Argentina',   away: 'Honduras',            kickoff: '2026-06-07T00:00:00Z' }, // 02:00 CEST
+  { id: 9000011, home: 'Chorvatsko',  away: 'Slovinsko',           kickoff: '2026-06-07T18:45:00Z' }, // 20:45 CEST
+  { id: 9000012, home: 'Maroko',      away: 'Norsko',              kickoff: '2026-06-07T19:00:00Z' }, // 21:00 CEST
 ];
 
 export async function POST(req: NextRequest) {
