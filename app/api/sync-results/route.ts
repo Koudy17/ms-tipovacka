@@ -1,11 +1,24 @@
-import { NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { getSql } from '@/lib/db';
 import { calcPoints } from '@/lib/scoring';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  // Ochrana - bud Vercel Cron nebo admin token
+  const authHeader = req.headers.get('authorization');
+  const adminToken = req.headers.get('x-admin-token');
+  const cronSecret = process.env.CRON_SECRET;
+  const adminTok = process.env.ADMIN_TOKEN ?? 'admin123';
+
+  const isVercelCron = cronSecret && authHeader === `Bearer ${cronSecret}`;
+  const isAdmin = adminToken === adminTok;
+
+  if (!isVercelCron && !isAdmin) {
+    return NextResponse.json({ error: 'Neautorizovano.' }, { status: 401 });
+  }
+
   const apiKey = process.env.FOOTBALL_API_KEY;
   if (!apiKey) {
-    return NextResponse.json({ error: 'Chybí FOOTBALL_API_KEY.' }, { status: 500 });
+    return NextResponse.json({ error: 'Chybi FOOTBALL_API_KEY.' }, { status: 500 });
   }
 
   const sql = getSql();
