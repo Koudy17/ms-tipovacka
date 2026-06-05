@@ -5,21 +5,21 @@ const ADMIN_TOKEN = process.env.ADMIN_TOKEN ?? 'admin123';
 
 const TEST_MATCHES = [
   // 6.6. (CEST → UTC)
-  { id: 9000001, home: 'Kanada',      away: 'Irsko',               kickoff: '2026-06-05T23:30:00Z' }, // 01:30 CEST
-  { id: 9000002, home: 'Belgie',      away: 'Tunisko',             kickoff: '2026-06-06T13:00:00Z' }, // 15:00 CEST
-  { id: 9000003, home: 'Portugalsko', away: 'Chile',               kickoff: '2026-06-06T17:45:00Z' }, // 19:45 CEST
-  { id: 9000004, home: 'USA',         away: 'Německo',             kickoff: '2026-06-06T18:30:00Z' }, // 20:30 CEST
-  { id: 9000005, home: 'Panama',      away: 'Bosna a Hercegovina', kickoff: '2026-06-06T19:00:00Z' }, // 21:00 CEST
-  { id: 9000006, home: 'Švýcarsko',   away: 'Austrálie',           kickoff: '2026-06-06T19:00:00Z' }, // 21:00 CEST
-  { id: 9000007, home: 'Anglie',      away: 'Nový Zéland',         kickoff: '2026-06-06T20:00:00Z' }, // 22:00 CEST
+  { id: 9000101, home: 'Kanada',      away: 'Irsko',               kickoff: '2026-06-05T23:30:00Z' }, // 01:30 CEST
+  { id: 9000102, home: 'Belgie',      away: 'Tunisko',             kickoff: '2026-06-06T13:00:00Z' }, // 15:00 CEST
+  { id: 9000103, home: 'Portugalsko', away: 'Chile',               kickoff: '2026-06-06T17:45:00Z' }, // 19:45 CEST
+  { id: 9000104, home: 'USA',         away: 'Německo',             kickoff: '2026-06-06T18:30:00Z' }, // 20:30 CEST
+  { id: 9000105, home: 'Panama',      away: 'Bosna a Hercegovina', kickoff: '2026-06-06T19:00:00Z' }, // 21:00 CEST
+  { id: 9000106, home: 'Švýcarsko',   away: 'Austrálie',           kickoff: '2026-06-06T19:00:00Z' }, // 21:00 CEST
+  { id: 9000107, home: 'Anglie',      away: 'Nový Zéland',         kickoff: '2026-06-06T20:00:00Z' }, // 22:00 CEST
   // 7.6. (CEST → UTC)
-  { id: 9000008, home: 'Brazílie',    away: 'Egypt',               kickoff: '2026-06-06T22:00:00Z' }, // 00:00 CEST
-  { id: 9000009, home: 'Venezuela',   away: 'Turecko',             kickoff: '2026-06-06T22:00:00Z' }, // 00:00 CEST
-  { id: 9000010, home: 'Argentina',   away: 'Honduras',            kickoff: '2026-06-07T00:00:00Z' }, // 02:00 CEST
-  { id: 9000011, home: 'Chorvatsko',  away: 'Slovinsko',           kickoff: '2026-06-07T18:45:00Z' }, // 20:45 CEST
-  { id: 9000012, home: 'Maroko',      away: 'Norsko',              kickoff: '2026-06-07T19:00:00Z' }, // 21:00 CEST
+  { id: 9000108, home: 'Brazílie',    away: 'Egypt',               kickoff: '2026-06-06T22:00:00Z' }, // 00:00 CEST
+  { id: 9000109, home: 'Venezuela',   away: 'Turecko',             kickoff: '2026-06-06T22:00:00Z' }, // 00:00 CEST
+  { id: 9000110, home: 'Argentina',   away: 'Honduras',            kickoff: '2026-06-07T00:00:00Z' }, // 02:00 CEST
+  { id: 9000111, home: 'Chorvatsko',  away: 'Slovinsko',           kickoff: '2026-06-07T18:45:00Z' }, // 20:45 CEST
+  { id: 9000112, home: 'Maroko',      away: 'Norsko',              kickoff: '2026-06-07T19:00:00Z' }, // 21:00 CEST
   // 8.6. (CEST → UTC)
-  { id: 9000013, home: 'Kolumbie',   away: 'Jordánsko',           kickoff: '2026-06-07T23:00:00Z' }, // 01:00 CEST
+  { id: 9000113, home: 'Kolumbie',    away: 'Jordánsko',           kickoff: '2026-06-07T23:00:00Z' }, // 01:00 CEST
 ];
 
 export async function POST(req: NextRequest) {
