@@ -509,6 +509,7 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
                     <div className="text-center min-w-[76px] shrink-0">
                       {m.home_score !== null ? (
                         <>
+                          <div className={`text-[10px] ${d.time} mb-0.5`}>{new Date(m.kickoff).toLocaleDateString('cs-CZ', { day: 'numeric', month: 'numeric' })}</div>
                           <div className={`text-base font-bold ${d.score}`}>{m.home_score}:{m.away_score}</div>
                           {tip ? (
                             <div className={`text-[10px] sm:text-xs ${d.tipText}`}>
