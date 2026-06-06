@@ -504,12 +504,12 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
               const live = false;
               return (
                 <div key={m.id} className={`rounded-xl px-3 py-2.5 border ${d.cardLocked(true)}`}>
+                  <div className={`text-[10px] ${d.time} mb-1`}>{new Date(m.kickoff).toLocaleDateString('cs-CZ', { day: 'numeric', month: 'numeric' })}</div>
                   <div className="flex items-start gap-1.5">
                     <span className={`flex-1 font-semibold ${d.teamLocked} text-right text-xs sm:text-sm pt-1 truncate`}>{m.home_team}</span>
                     <div className="text-center min-w-[76px] shrink-0">
                       {m.home_score !== null ? (
                         <>
-                          <div className={`text-[10px] ${d.time} mb-0.5`}>{new Date(m.kickoff).toLocaleDateString('cs-CZ', { day: 'numeric', month: 'numeric' })}</div>
                           <div className={`text-base font-bold ${d.score}`}>{m.home_score}:{m.away_score}</div>
                           {tip ? (
                             <div className={`text-[10px] sm:text-xs ${d.tipText}`}>
