@@ -288,7 +288,7 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 pb-24">
       {/* Stage filtry */}
       <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
         {stages.map(s => (
