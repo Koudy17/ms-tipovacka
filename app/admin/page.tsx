@@ -202,6 +202,11 @@ export default function AdminPage() {
   const loadUsers = async () => {
     const res = await fetch('/api/admin/users', { headers: { 'x-admin-token': token } });
     const data = await res.json();
+    if (!Array.isArray(data)) {
+      setUserMsg(`❌ ${data.error ?? 'Nepodařilo se načíst hráče.'}`);
+      setShowUsers(true);
+      return;
+    }
     setAdminUsers(data);
     setShowUsers(true);
   };
