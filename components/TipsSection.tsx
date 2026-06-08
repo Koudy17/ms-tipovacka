@@ -37,6 +37,7 @@ function formatKickoff(kickoff: string) {
 
 function stageLabel(stage: string) {
   const labels: Record<string, string> = {
+    ODEHRANE: '✅ Odehrané',
     GROUP_STAGE: 'Skupinová fáze',
     LAST_16: 'Osmifinále',
     LAST_32: 'Šestnáctifinále',
@@ -156,9 +157,10 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
 
     setMatches(matchData);
 
-    // Nastav výchozí stage na první nadcházející
+    // Nastav výchozí stage na první nadcházející; fallback na ODEHRANE
     const firstUpcoming = matchData.find(m => !isLocked(m.kickoff));
     if (firstUpcoming) setActiveStage(s => s || firstUpcoming.stage);
+    else setActiveStage(s => s || 'ODEHRANE');
 
     const tMap = new Map<number, Tip>();
     const iMap = new Map<number, [string, string]>();
@@ -239,8 +241,11 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
       });
   };
 
-  const stages = [...new Set(matches.map(m => m.stage))];
-  const filteredByStage = activeStage ? matches.filter(m => m.stage === activeStage) : matches;
+  const ODEHRANE = 'ODEHRANE';
+  const stages = [ODEHRANE, ...new Set(matches.map(m => m.stage))];
+
+  const isOdehrane = activeStage === ODEHRANE;
+  const filteredByStage = isOdehrane ? matches : (activeStage ? matches.filter(m => m.stage === activeStage) : matches);
 
   const groups = activeStage === 'GROUP_STAGE'
     ? ['VSE', ...new Set(filteredByStage.map(m => m.group_name).filter(Boolean))]
@@ -250,9 +255,11 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
     ? filteredByStage.filter(m => m.group_name === activeGroup)
     : filteredByStage;
 
-  const upcoming = filtered.filter(m => !isLocked(m.kickoff));
-  const playing = filtered.filter(m => isLocked(m.kickoff) && m.status !== 'finished');
-  const finished = filtered.filter(m => m.status === 'finished').sort((a, b) => new Date(b.kickoff).getTime() - new Date(a.kickoff).getTime());
+  const upcoming = isOdehrane ? [] : filtered.filter(m => !isLocked(m.kickoff));
+  const playing = isOdehrane ? [] : filtered.filter(m => isLocked(m.kickoff) && m.status !== 'finished');
+  const finished = isOdehrane
+    ? matches.filter(m => m.status === 'finished').sort((a, b) => new Date(b.kickoff).getTime() - new Date(a.kickoff).getTime())
+    : [];
 
   const d = {
     label: dark ? 'text-slate-400' : 'text-gray-500',
