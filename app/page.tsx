@@ -7,39 +7,22 @@ import Leaderboard from '@/components/Leaderboard';
 interface User {
   id: number;
   nickname: string;
+  mustChangePassword?: boolean;
 }
 
 export default function Home() {
   const [user, setUser] = useState<User | null>(null);
   const [nickname, setNickname] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [changePwdState, setChangePwdState] = useState<{ newPwd: string; confirmPwd: string; error: string; loading: boolean }>({ newPwd: '', confirmPwd: '', error: '', loading: false });
   const [tab, setTab] = useState<'tips' | 'leaderboard'>('tips');
   const [dark, setDark] = useState(true);
-  const [countdown, setCountdown] = useState({ d: 0, h: 0, m: 0, s: 0, started: false });
-
   useEffect(() => {
     const stored = localStorage.getItem('wc_user');
     if (stored) setUser(JSON.parse(stored));
     const savedTheme = localStorage.getItem('wc_theme');
     if (savedTheme) setDark(savedTheme === 'dark');
-  }, []);
-
-  useEffect(() => {
-    const MS_START = new Date('2026-06-11T19:00:00Z').getTime();
-    const tick = () => {
-      const diff = MS_START - Date.now();
-      if (diff <= 0) { setCountdown({ d: 0, h: 0, m: 0, s: 0, started: true }); return; }
-      setCountdown({
-        d: Math.floor(diff / 86400000),
-        h: Math.floor((diff % 86400000) / 3600000),
-        m: Math.floor((diff % 3600000) / 60000),
-        s: Math.floor((diff % 60000) / 1000),
-        started: false,
-      });
-    };
-    tick();
-    const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
   }, []);
 
   const toggleTheme = () => {
@@ -53,16 +36,45 @@ export default function Home() {
       setError('Přezdívka musí mít alespoň 2 znaky.');
       return;
     }
+    if (!password) {
+      setError('Zadej heslo.');
+      return;
+    }
     const res = await fetch('/api/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nickname: nickname.trim() }),
+      body: JSON.stringify({ nickname: nickname.trim(), password }),
     });
     const data = await res.json();
     if (data.error) { setError(data.error); return; }
     localStorage.setItem('wc_user', JSON.stringify(data));
     setUser(data);
-  }, [nickname]);
+  }, [nickname, password]);
+
+  const handleChangePassword = async () => {
+    if (changePwdState.newPwd.length < 3) {
+      setChangePwdState(s => ({ ...s, error: 'Heslo musí mít alespoň 3 znaky.' }));
+      return;
+    }
+    if (changePwdState.newPwd !== changePwdState.confirmPwd) {
+      setChangePwdState(s => ({ ...s, error: 'Hesla se neshodují.' }));
+      return;
+    }
+    setChangePwdState(s => ({ ...s, loading: true, error: '' }));
+    const res = await fetch('/api/users/change-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: user!.id, currentPassword: password, newPassword: changePwdState.newPwd }),
+    });
+    const data = await res.json();
+    if (data.error) {
+      setChangePwdState(s => ({ ...s, loading: false, error: data.error }));
+      return;
+    }
+    const updated = { ...user!, mustChangePassword: false };
+    localStorage.setItem('wc_user', JSON.stringify(updated));
+    setUser(updated);
+  };
 
   // Témata
   const t = {
@@ -89,38 +101,79 @@ export default function Home() {
               <img src="/flags/ca.png" alt="Kanada" className="h-4 rounded-sm opacity-90" />
               <img src="/flags/mx.png" alt="Mexiko" className="h-4 rounded-sm opacity-90" />
             </div>
-            <p className={`${t.mutedText} text-sm mt-1`}>Zadej přezdívku a tipuj!</p>
+            <p className={`${t.mutedText} text-sm mt-1`}>Přihlás se a tipuj!</p>
           </div>
           <input
             className={`w-full ${dark ? 'bg-slate-900 border-slate-600 text-white placeholder-slate-500' : 'bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-400'} border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 mb-2`}
-            placeholder="Tvoje přezdívka"
+            placeholder="Přezdívka"
             value={nickname}
-            onChange={e => setNickname(e.target.value)}
+            onChange={e => { setNickname(e.target.value); setError(''); }}
             onKeyDown={e => e.key === 'Enter' && handleLogin()}
             maxLength={30}
+          />
+          <input
+            type="password"
+            className={`w-full ${dark ? 'bg-slate-900 border-slate-600 text-white placeholder-slate-500' : 'bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-400'} border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 mb-3`}
+            placeholder="Heslo"
+            value={password}
+            onChange={e => { setPassword(e.target.value); setError(''); }}
+            onKeyDown={e => e.key === 'Enter' && handleLogin()}
           />
           {error && <p className="text-red-400 text-sm mb-2">{error}</p>}
           <button
             onClick={handleLogin}
             className="w-full bg-green-600 hover:bg-green-500 text-white font-semibold rounded-lg py-2 transition"
           >
-            Vstoupit
+            Přihlásit se
           </button>
-          {countdown.started ? (
-            <p className="text-center text-green-400 text-xs mt-4 font-semibold">🟢 MS právě probíhá!</p>
-          ) : (
-            <div className="mt-4 text-center">
-              <p className="text-green-600 text-xs mb-1 opacity-70">⏳ Do prvního zápasu</p>
-              <div className="flex justify-center gap-2">
-                {[{ v: countdown.d, l: 'dní' }, { v: countdown.h, l: 'hod' }, { v: countdown.m, l: 'min' }, { v: countdown.s, l: 'sek' }].map(({ v, l }) => (
-                  <div key={l} className={`flex flex-col items-center ${dark ? 'bg-slate-900' : 'bg-gray-100'} rounded-lg px-2 py-1 min-w-[40px]`}>
-                    <span className="text-green-400 font-bold text-sm tabular-nums">{String(v).padStart(2, '0')}</span>
-                    <span className="text-slate-500 text-[10px]">{l}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+          <p className="text-center text-green-500 text-xs mt-4 opacity-80">
+            ⏳ MS začíná za {Math.ceil((new Date('2026-06-11T19:00:00Z').getTime() - Date.now()) / (1000 * 60 * 60 * 24))} dní
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (user?.mustChangePassword) {
+    return (
+      <div className={`min-h-screen flex items-center justify-center p-4 ${dark ? 'bg-gradient-to-br from-slate-900 via-slate-900 to-green-950' : 'bg-gradient-to-br from-gray-100 via-gray-100 to-green-50'}`}>
+        <div className={`${dark ? 'bg-slate-800' : 'bg-white'} border border-yellow-500 rounded-2xl shadow-2xl p-8 w-full max-w-sm`}
+          style={{ boxShadow: '0 0 24px 2px rgba(234,179,8,0.18)' }}>
+          <div className="text-center mb-6">
+            <div className="text-4xl mb-2">🔑</div>
+            <h1 className={`text-xl font-bold ${t.headerText}`}>Nastav si vlastní heslo</h1>
+            <p className={`${t.mutedText} text-sm mt-1`}>Přihlásil ses poprvé — změň si dočasné heslo.</p>
+          </div>
+          <input
+            type="password"
+            className={`w-full ${dark ? 'bg-slate-900 border-slate-600 text-white placeholder-slate-500' : 'bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-400'} border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 mb-2`}
+            placeholder="Nové heslo"
+            value={changePwdState.newPwd}
+            onChange={e => setChangePwdState(s => ({ ...s, newPwd: e.target.value, error: '' }))}
+            onKeyDown={e => e.key === 'Enter' && handleChangePassword()}
+          />
+          <input
+            type="password"
+            className={`w-full ${dark ? 'bg-slate-900 border-slate-600 text-white placeholder-slate-500' : 'bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-400'} border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 mb-3`}
+            placeholder="Zopakuj nové heslo"
+            value={changePwdState.confirmPwd}
+            onChange={e => setChangePwdState(s => ({ ...s, confirmPwd: e.target.value, error: '' }))}
+            onKeyDown={e => e.key === 'Enter' && handleChangePassword()}
+          />
+          {changePwdState.error && <p className="text-red-400 text-sm mb-2">{changePwdState.error}</p>}
+          <button
+            onClick={handleChangePassword}
+            disabled={changePwdState.loading}
+            className="w-full bg-yellow-600 hover:bg-yellow-500 disabled:opacity-50 text-white font-semibold rounded-lg py-2 transition"
+          >
+            {changePwdState.loading ? 'Ukládám…' : 'Uložit heslo'}
+          </button>
+          <button
+            onClick={() => { localStorage.removeItem('wc_user'); setUser(null); setPassword(''); }}
+            className={`w-full mt-2 text-xs ${t.mutedText} hover:text-white underline`}
+          >
+            Odhlásit se
+          </button>
         </div>
       </div>
     );

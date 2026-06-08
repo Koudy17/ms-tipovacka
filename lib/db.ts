@@ -12,9 +12,13 @@ export async function initSchema() {
     CREATE TABLE IF NOT EXISTS users (
       id SERIAL PRIMARY KEY,
       nickname TEXT UNIQUE NOT NULL,
+      password_hash TEXT,
+      must_change_password BOOLEAN DEFAULT TRUE,
       created_at TIMESTAMP DEFAULT NOW()
     )
   `;
+  await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS password_hash TEXT`;
+  await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS must_change_password BOOLEAN DEFAULT TRUE`;
   await sql`
     CREATE TABLE IF NOT EXISTS matches (
       id INTEGER PRIMARY KEY,

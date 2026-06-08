@@ -3,6 +3,13 @@
 import { useState, useEffect } from 'react';
 import ScorerSelect from '@/components/ScorerSelect';
 
+interface AdminUser {
+  id: number;
+  nickname: string;
+  must_change_password: boolean;
+  created_at: string;
+}
+
 interface AuditEntry {
   id: number;
   ts: string;
@@ -56,6 +63,11 @@ export default function AdminPage() {
   const [syncing, setSyncing] = useState(false);
   const [auditLog, setAuditLog] = useState<AuditEntry[]>([]);
   const [showLog, setShowLog] = useState(false);
+  const [adminUsers, setAdminUsers] = useState<AdminUser[]>([]);
+  const [showUsers, setShowUsers] = useState(false);
+  const [newNickname, setNewNickname] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [userMsg, setUserMsg] = useState('');
 
   const loadMatches = async () => {
     const [mRes, pRes] = await Promise.all([fetch('/api/matches'), fetch('/api/players')]);
@@ -187,6 +199,40 @@ export default function AdminPage() {
     if (data.ok) loadMatches();
   };
 
+  const loadUsers = async () => {
+    const res = await fetch('/api/admin/users', { headers: { 'x-admin-token': token } });
+    const data = await res.json();
+    setAdminUsers(data);
+    setShowUsers(true);
+  };
+
+  const addUser = async () => {
+    if (!newNickname.trim() || !newPassword) { setUserMsg('❌ Vyplň přezdívku i heslo.'); return; }
+    const res = await fetch('/api/admin/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+      body: JSON.stringify({ nickname: newNickname.trim(), password: newPassword }),
+    });
+    const data = await res.json();
+    if (data.error) { setUserMsg(`❌ ${data.error}`); return; }
+    setUserMsg(`✅ Hráč "${data.nickname}" přidán/aktualizován.`);
+    setNewNickname('');
+    setNewPassword('');
+    loadUsers();
+  };
+
+  const deleteUser = async (userId: number, nickname: string) => {
+    if (!confirm(`Smazat hráče "${nickname}" včetně všech tipů?`)) return;
+    const res = await fetch('/api/admin/users', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+      body: JSON.stringify({ userId }),
+    });
+    const data = await res.json();
+    setUserMsg(data.ok ? `✅ Hráč smazán.` : `❌ ${data.error}`);
+    loadUsers();
+  };
+
   const deleteTestMatches = async () => {
     const res = await fetch('/api/admin/test-matches', { method: 'DELETE', headers: { 'x-admin-token': token } });
     const data = await res.json();
@@ -226,6 +272,9 @@ export default function AdminPage() {
             <button onClick={syncResults} disabled={syncing} className="bg-blue-700 hover:bg-blue-600 disabled:opacity-50 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">
               {syncing ? 'Sync…' : '🔄 Sync z API'}
             </button>
+            <button onClick={loadUsers} className="bg-indigo-700 hover:bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">
+              👥 Hráči
+            </button>
             <button onClick={loadAuditLog} className="bg-slate-600 hover:bg-slate-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">
               📋 Log
             </button>
@@ -233,6 +282,58 @@ export default function AdminPage() {
         </div>
 
         {msg && <div className="bg-slate-800 border border-slate-600 rounded-lg p-3 mb-4 text-sm text-white">{msg}</div>}
+
+        {showUsers && (
+          <div className="mb-4">
+            <div className="flex items-center justify-between mb-2">
+              <h2 className="text-sm font-bold text-white">👥 Správa hráčů ({adminUsers.length})</h2>
+              <button onClick={() => setShowUsers(false)} className="text-xs text-slate-400 hover:text-white px-1">✕ zavřít</button>
+            </div>
+            {userMsg && <div className="bg-slate-800 border border-slate-600 rounded-lg p-2 mb-3 text-xs text-white">{userMsg}</div>}
+            <div className="bg-slate-800 border border-slate-700 rounded-xl p-3 mb-3 flex flex-col gap-2">
+              <p className="text-xs text-slate-400 font-semibold">Přidat / resetovat heslo hráče</p>
+              <div className="flex gap-2">
+                <input
+                  className="flex-1 bg-slate-900 border border-slate-600 text-white rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-indigo-500 placeholder-slate-500"
+                  placeholder="Přezdívka"
+                  value={newNickname}
+                  onChange={e => setNewNickname(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && addUser()}
+                />
+                <input
+                  type="text"
+                  className="flex-1 bg-slate-900 border border-slate-600 text-white rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-indigo-500 placeholder-slate-500"
+                  placeholder="Dočasné heslo"
+                  value={newPassword}
+                  onChange={e => setNewPassword(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && addUser()}
+                />
+                <button onClick={addUser} className="bg-indigo-700 hover:bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-sm font-semibold">
+                  ➕
+                </button>
+              </div>
+            </div>
+            <div className="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden">
+              {adminUsers.length === 0 ? (
+                <p className="text-slate-500 p-3 text-sm">Žádní hráči.</p>
+              ) : adminUsers.map(u => (
+                <div key={u.id} className="flex items-center gap-2 px-3 py-2 border-b border-slate-700 last:border-0">
+                  <span className="flex-1 text-sm text-white font-medium">{u.nickname}</span>
+                  {u.must_change_password
+                    ? <span className="text-xs text-yellow-400 bg-yellow-900/30 px-2 py-0.5 rounded">dočasné heslo</span>
+                    : <span className="text-xs text-green-400 bg-green-900/30 px-2 py-0.5 rounded">heslo nastaveno</span>
+                  }
+                  <button
+                    onClick={() => deleteUser(u.id, u.nickname)}
+                    className="text-xs text-red-400 hover:text-red-300 px-1"
+                  >
+                    🗑️
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {showLog && (
           <div className="mb-4">
