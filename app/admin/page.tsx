@@ -239,6 +239,14 @@ export default function AdminPage() {
     loadUsers();
   };
 
+  const resetAll = async () => {
+    if (!confirm('Smazat VŠECHNY uživatele, tipy a testovací zápasy? Tato akce je nevratná.')) return;
+    const res = await fetch('/api/admin/reset', { method: 'POST', headers: { 'x-admin-token': token } });
+    const data = await res.json();
+    setMsg(data.ok ? '✅ Reset hotov — uživatelé, tipy a test zápasy smazány.' : `❌ ${data.error}`);
+    if (data.ok) loadMatches();
+  };
+
   const deleteTestMatches = async () => {
     const res = await fetch('/api/admin/test-matches', { method: 'DELETE', headers: { 'x-admin-token': token } });
     const data = await res.json();
@@ -275,6 +283,7 @@ export default function AdminPage() {
           <div className="flex gap-2 flex-wrap">
             <button onClick={addTestMatches} className="bg-purple-700 hover:bg-purple-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">➕ Test</button>
             <button onClick={deleteTestMatches} className="bg-red-800 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">🗑️ Smazat test</button>
+            <button onClick={resetAll} className="bg-red-600 hover:bg-red-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">💣 Reset</button>
             <button onClick={syncResults} disabled={syncing} className="bg-blue-700 hover:bg-blue-600 disabled:opacity-50 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">
               {syncing ? 'Sync…' : '🔄 Sync z API'}
             </button>
