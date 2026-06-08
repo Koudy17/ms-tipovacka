@@ -38,6 +38,7 @@ function formatKickoff(kickoff: string) {
 function stageLabel(stage: string) {
   const labels: Record<string, string> = {
     ODEHRANE: '✅ Odehrané',
+    DNES: '📅 Dnes',
     GROUP_STAGE: 'Skupinová fáze',
     LAST_16: 'Osmifinále',
     LAST_32: 'Šestnáctifinále',
@@ -157,10 +158,24 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
 
     setMatches(matchData);
 
-    // Nastav výchozí stage na první nadcházející; fallback na ODEHRANE
-    const firstUpcoming = matchData.find(m => !isLocked(m.kickoff));
-    if (firstUpcoming) setActiveStage(s => s || firstUpcoming.stage);
-    else setActiveStage(s => s || 'ODEHRANE');
+    // Výchozí záložka: DNES pokud tam jsou zápasy, jinak stage prvního nadcházejícího, jinak ODEHRANE
+    setActiveStage(s => {
+      if (s) return s;
+      const selcOffset = 2 * 60;
+      const now = new Date();
+      const localMs = now.getTime() + (now.getTimezoneOffset() + selcOffset) * 60000;
+      const local = new Date(localMs);
+      const base = new Date(local);
+      base.setHours(10, 0, 0, 0);
+      if (local.getHours() < 10) base.setDate(base.getDate() - 1);
+      const from = new Date(base.getTime() - (now.getTimezoneOffset() + selcOffset) * 60000);
+      const to = new Date(from.getTime() + 24 * 60 * 60 * 1000);
+      const hasDnes = matchData.some(m => { const k = new Date(m.kickoff); return k >= from && k < to; });
+      if (hasDnes) return 'DNES';
+      const firstUpcoming = matchData.find(m => !isLocked(m.kickoff));
+      if (firstUpcoming) return firstUpcoming.stage;
+      return 'ODEHRANE';
+    });
 
     const tMap = new Map<number, Tip>();
     const iMap = new Map<number, [string, string]>();
@@ -242,10 +257,36 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
   };
 
   const ODEHRANE = 'ODEHRANE';
-  const stages = [ODEHRANE, ...new Set(matches.map(m => m.stage))];
+  const DNES = 'DNES';
+
+  // Okno "dnes": od dnešní 10:00 SELČ (UTC+2) do zítřejší 10:00 SELČ
+  const todayWindow = (() => {
+    const now = new Date();
+    const selcOffset = 2 * 60; // SELČ = UTC+2 (letní čas)
+    const localMs = now.getTime() + (now.getTimezoneOffset() + selcOffset) * 60000;
+    const local = new Date(localMs);
+    const base = new Date(local);
+    base.setHours(10, 0, 0, 0);
+    if (local.getHours() < 10) base.setDate(base.getDate() - 1);
+    const from = new Date(base.getTime() - (now.getTimezoneOffset() + selcOffset) * 60000);
+    const to = new Date(from.getTime() + 24 * 60 * 60 * 1000);
+    return { from, to };
+  })();
+
+  const dnesMatches = matches.filter(m => {
+    const k = new Date(m.kickoff);
+    return k >= todayWindow.from && k < todayWindow.to;
+  });
+
+  const dbStages = [...new Set(matches.filter(m => m.stage !== 'TEST').map(m => m.stage))];
+  const stages = [ODEHRANE, DNES, ...dbStages];
 
   const isOdehrane = activeStage === ODEHRANE;
-  const filteredByStage = isOdehrane ? matches : (activeStage ? matches.filter(m => m.stage === activeStage) : matches);
+  const isDnes = activeStage === DNES;
+
+  const filteredByStage = (isOdehrane || isDnes)
+    ? (isDnes ? dnesMatches : matches)
+    : (activeStage ? matches.filter(m => m.stage === activeStage) : matches);
 
   const groups = activeStage === 'GROUP_STAGE'
     ? ['VSE', ...new Set(filteredByStage.map(m => m.group_name).filter(Boolean))]
@@ -255,8 +296,8 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
     ? filteredByStage.filter(m => m.group_name === activeGroup)
     : filteredByStage;
 
-  const upcoming = isOdehrane ? [] : filtered.filter(m => !isLocked(m.kickoff));
-  const playing = isOdehrane ? [] : filtered.filter(m => isLocked(m.kickoff) && m.status !== 'finished');
+  const upcoming = (isOdehrane) ? [] : filtered.filter(m => !isLocked(m.kickoff));
+  const playing = (isOdehrane) ? [] : filtered.filter(m => isLocked(m.kickoff) && m.status !== 'finished');
   const finished = isOdehrane
     ? matches.filter(m => m.status === 'finished').sort((a, b) => new Date(b.kickoff).getTime() - new Date(a.kickoff).getTime())
     : [];
