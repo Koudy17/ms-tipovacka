@@ -200,6 +200,7 @@ export default function AdminPage() {
   };
 
   const loadUsers = async () => {
+    await fetch('/api/admin/migrate', { method: 'POST', headers: { 'x-admin-token': token } });
     const res = await fetch('/api/admin/users', { headers: { 'x-admin-token': token } });
     const data = await res.json();
     if (!Array.isArray(data)) {
