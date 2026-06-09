@@ -3,8 +3,12 @@ import { getSql, auditLog } from '@/lib/db';
 
 export async function GET(req: NextRequest) {
   const userId = req.nextUrl.searchParams.get('userId');
+  const sessionToken = req.headers.get('x-session-token');
   if (!userId) return NextResponse.json({ error: 'Chybí userId' }, { status: 400 });
+  if (!sessionToken) return NextResponse.json({ error: 'Nejsi přihlášen.' }, { status: 401 });
   const sql = getSql();
+  const session = await sql`SELECT id FROM users WHERE id = ${Number(userId)} AND session_token = ${sessionToken}`;
+  if (!session.length) return NextResponse.json({ error: 'Neplatná session.' }, { status: 401 });
   const tips = await sql`SELECT * FROM tips WHERE user_id = ${Number(userId)}`;
   return NextResponse.json(tips);
 }

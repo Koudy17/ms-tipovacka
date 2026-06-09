@@ -148,7 +148,7 @@ export default function TipsSection({ userId, sessionToken, dark = true }: { use
   const load = useCallback(async () => {
     const [mRes, tRes, pRes] = await Promise.all([
       fetch('/api/matches'),
-      fetch(`/api/tips?userId=${userId}`),
+      fetch(`/api/tips?userId=${userId}`, { headers: { 'x-session-token': sessionToken ?? '' } }),
       fetch('/api/players'),
     ]);
     const matchData: Match[] = await mRes.json();
