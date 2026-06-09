@@ -1,30 +1,30 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { getSql, auditLog } from '@/lib/db';
 
-const ADMIN_TOKEN = process.env.ADMIN_TOKEN ?? 'admin123';
+const ADMIN_TOKEN = process.env.ADMIN_TOKEN!;
 
 const TEST_MATCHES = [
-  // 6.6. (CEST → UTC)
+  // 6.6. (CEST â†’ UTC)
   { id: 9000101, home: 'Kanada',      away: 'Irsko',               kickoff: '2026-06-05T23:30:00Z' }, // 01:30 CEST
   { id: 9000102, home: 'Belgie',      away: 'Tunisko',             kickoff: '2026-06-06T13:00:00Z' }, // 15:00 CEST
   { id: 9000103, home: 'Portugalsko', away: 'Chile',               kickoff: '2026-06-06T17:45:00Z' }, // 19:45 CEST
-  { id: 9000104, home: 'USA',         away: 'Německo',             kickoff: '2026-06-06T18:30:00Z' }, // 20:30 CEST
+  { id: 9000104, home: 'USA',         away: 'NÄ›mecko',             kickoff: '2026-06-06T18:30:00Z' }, // 20:30 CEST
   { id: 9000105, home: 'Panama',      away: 'Bosna a Hercegovina', kickoff: '2026-06-06T19:00:00Z' }, // 21:00 CEST
-  { id: 9000106, home: 'Švýcarsko',   away: 'Austrálie',           kickoff: '2026-06-06T19:00:00Z' }, // 21:00 CEST
-  { id: 9000107, home: 'Anglie',      away: 'Nový Zéland',         kickoff: '2026-06-06T20:00:00Z' }, // 22:00 CEST
-  // 7.6. (CEST → UTC)
-  { id: 9000108, home: 'Brazílie',    away: 'Egypt',               kickoff: '2026-06-06T22:00:00Z' }, // 00:00 CEST
+  { id: 9000106, home: 'Ĺ vĂ˝carsko',   away: 'AustrĂˇlie',           kickoff: '2026-06-06T19:00:00Z' }, // 21:00 CEST
+  { id: 9000107, home: 'Anglie',      away: 'NovĂ˝ ZĂ©land',         kickoff: '2026-06-06T20:00:00Z' }, // 22:00 CEST
+  // 7.6. (CEST â†’ UTC)
+  { id: 9000108, home: 'BrazĂ­lie',    away: 'Egypt',               kickoff: '2026-06-06T22:00:00Z' }, // 00:00 CEST
   { id: 9000109, home: 'Venezuela',   away: 'Turecko',             kickoff: '2026-06-06T22:00:00Z' }, // 00:00 CEST
   { id: 9000110, home: 'Argentina',   away: 'Honduras',            kickoff: '2026-06-07T00:00:00Z' }, // 02:00 CEST
   { id: 9000111, home: 'Chorvatsko',  away: 'Slovinsko',           kickoff: '2026-06-07T18:45:00Z' }, // 20:45 CEST
   { id: 9000112, home: 'Maroko',      away: 'Norsko',              kickoff: '2026-06-07T19:00:00Z' }, // 21:00 CEST
-  // 8.6. (CEST → UTC)
-  { id: 9000113, home: 'Kolumbie',    away: 'Jordánsko',           kickoff: '2026-06-07T23:00:00Z' }, // 01:00 CEST
+  // 8.6. (CEST â†’ UTC)
+  { id: 9000113, home: 'Kolumbie',    away: 'JordĂˇnsko',           kickoff: '2026-06-07T23:00:00Z' }, // 01:00 CEST
 ];
 
 export async function POST(req: NextRequest) {
   const auth = req.headers.get('x-admin-token');
-  if (auth !== ADMIN_TOKEN) return NextResponse.json({ error: 'Neautorizováno.' }, { status: 401 });
+  if (auth !== ADMIN_TOKEN) return NextResponse.json({ error: 'NeautorizovĂˇno.' }, { status: 401 });
 
   const sql = getSql();
   for (const m of TEST_MATCHES) {
@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   const auth = req.headers.get('x-admin-token');
-  if (auth !== ADMIN_TOKEN) return NextResponse.json({ error: 'Neautorizováno.' }, { status: 401 });
+  if (auth !== ADMIN_TOKEN) return NextResponse.json({ error: 'NeautorizovĂˇno.' }, { status: 401 });
 
   const sql = getSql();
   const ids = TEST_MATCHES.map(m => m.id);

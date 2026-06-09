@@ -7,7 +7,7 @@ export async function GET(req: NextRequest) {
   const authHeader = req.headers.get('authorization');
   const adminToken = req.headers.get('x-admin-token');
   const cronSecret = process.env.CRON_SECRET;
-  const adminTok = process.env.ADMIN_TOKEN ?? 'admin123';
+  const adminTok = process.env.ADMIN_TOKEN!;
 
   const isVercelCron = cronSecret && authHeader === `Bearer ${cronSecret}`;
   const isAdmin = adminToken === adminTok;

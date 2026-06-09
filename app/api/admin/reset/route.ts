@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { getSql } from '@/lib/db';
 
-const ADMIN_TOKEN = process.env.ADMIN_TOKEN ?? 'fotbal2026';
+const ADMIN_TOKEN = process.env.ADMIN_TOKEN!;
 
 export async function POST(req: NextRequest) {
   if (req.headers.get('x-admin-token') !== ADMIN_TOKEN) {
