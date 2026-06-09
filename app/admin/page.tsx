@@ -53,6 +53,7 @@ const MS_STAGES = ['GROUP_STAGE', 'LAST_16', 'QUARTER_FINALS', 'SEMI_FINALS', 'T
 export default function AdminPage() {
   const [token, setToken] = useState('');
   const [authed, setAuthed] = useState(false);
+  const [authError, setAuthError] = useState('');
   const [matches, setMatches] = useState<Match[]>([]);
   const [players, setPlayers] = useState<Player[]>([]);
   const [inputs, setInputs] = useState<Record<number, [string, string]>>({});
@@ -97,6 +98,13 @@ export default function AdminPage() {
     setSavedMatches(prev => new Set(prev).add(matchId));
     setDirtyMatches(prev => { const n = new Set(prev); n.delete(matchId); return n; });
     setTimeout(() => setSavedMatches(prev => { const n = new Set(prev); n.delete(matchId); return n; }), 3000);
+  };
+
+  const handleAdminLogin = async () => {
+    const res = await fetch('/api/admin/check', { method: 'POST', headers: { 'x-admin-token': token } });
+    const data = await res.json();
+    if (data.ok) { setAuthed(true); }
+    else { setAuthError('❌ Špatné heslo.'); }
   };
 
   useEffect(() => { if (authed) loadMatches(); }, [authed]);
@@ -263,9 +271,10 @@ export default function AdminPage() {
           <h1 className="text-xl font-bold mb-4 text-white">⚙️ Admin přístup</h1>
           <input type="password" className="w-full bg-slate-900 border border-slate-600 text-white rounded px-3 py-2 mb-3 focus:outline-none focus:border-green-500"
             placeholder="Admin heslo" value={token}
-            onChange={e => setToken(e.target.value)}
-            onKeyDown={e => e.key === 'Enter' && setAuthed(true)} />
-          <button onClick={() => setAuthed(true)} className="w-full bg-green-700 hover:bg-green-600 text-white rounded py-2 font-semibold">
+            onChange={e => { setToken(e.target.value); setAuthError(''); }}
+            onKeyDown={e => e.key === 'Enter' && handleAdminLogin()} />
+          {authError && <p className="text-red-400 text-sm mb-2">{authError}</p>}
+          <button onClick={handleAdminLogin} className="w-full bg-green-700 hover:bg-green-600 text-white rounded py-2 font-semibold">
             Přihlásit
           </button>
         </div>
