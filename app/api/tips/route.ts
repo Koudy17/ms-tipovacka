@@ -11,7 +11,13 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   const { userId, matchId, homeTip, awayTip, scorerTip } = await req.json();
+  const sessionToken = req.headers.get('x-session-token');
   const sql = getSql();
+
+  // Ověř session token
+  if (!sessionToken) return NextResponse.json({ error: 'Nejsi přihlášen.' }, { status: 401 });
+  const session = await sql`SELECT id FROM users WHERE id = ${Number(userId)} AND session_token = ${sessionToken}`;
+  if (!session.length) return NextResponse.json({ error: 'Neplatná session. Přihlas se znovu.' }, { status: 401 });
 
   const rows = await sql`SELECT kickoff FROM matches WHERE id = ${Number(matchId)}`;
   if (!rows.length) return NextResponse.json({ error: 'Zápas nenalezen.' }, { status: 404 });

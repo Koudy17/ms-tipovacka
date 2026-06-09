@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSql } from '@/lib/db';
 import bcrypt from 'bcryptjs';
+import { randomBytes } from 'crypto';
 
 export async function POST(req: NextRequest) {
   const { nickname, password } = await req.json();
@@ -30,9 +31,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Špatné heslo.' }, { status: 401 });
   }
 
+  const sessionToken = randomBytes(32).toString('hex');
+  await sql`UPDATE users SET session_token = ${sessionToken} WHERE id = ${user.id}`;
+
   return NextResponse.json({
     id: user.id,
     nickname: user.nickname,
     mustChangePassword: user.must_change_password ?? false,
+    sessionToken,
   });
 }

@@ -131,7 +131,7 @@ interface MatchTip {
   scorer_points: number | null;
 }
 
-export default function TipsSection({ userId, dark = true }: { userId: number; dark?: boolean }) {
+export default function TipsSection({ userId, sessionToken, dark = true }: { userId: number; sessionToken?: string; dark?: boolean }) {
   const [matches, setMatches] = useState<Match[]>([]);
   const [tips, setTips] = useState<Map<number, Tip>>(new Map());
   const [inputs, setInputs] = useState<Map<number, [string, string]>>(new Map());
@@ -226,7 +226,7 @@ export default function TipsSection({ userId, dark = true }: { userId: number; d
       const inp = inputs.get(m.id)!;
       const res = await fetch('/api/tips', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'x-session-token': sessionToken ?? '' },
         body: JSON.stringify({ userId, matchId: m.id, homeTip: inp[0], awayTip: inp[1], scorerTip: scorerInputs.get(m.id) ?? '' }),
       });
       const data = await res.json();

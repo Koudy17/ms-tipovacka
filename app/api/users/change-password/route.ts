@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSql } from '@/lib/db';
 import bcrypt from 'bcryptjs';
+import { randomBytes } from 'crypto';
 
 export async function POST(req: NextRequest) {
   const { userId, currentPassword, newPassword } = await req.json();
@@ -25,7 +26,8 @@ export async function POST(req: NextRequest) {
   }
 
   const hash = await bcrypt.hash(newPassword, 10);
-  await sql`UPDATE users SET password_hash = ${hash}, must_change_password = FALSE WHERE id = ${userId}`;
+  const sessionToken = randomBytes(32).toString('hex');
+  await sql`UPDATE users SET password_hash = ${hash}, must_change_password = FALSE, session_token = ${sessionToken} WHERE id = ${userId}`;
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, sessionToken });
 }

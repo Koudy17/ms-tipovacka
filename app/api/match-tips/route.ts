@@ -6,6 +6,14 @@ export async function GET(req: NextRequest) {
   if (!matchId) return NextResponse.json({ error: 'Chybí matchId' }, { status: 400 });
 
   const sql = getSql();
+
+  // Tipy ostatních zobrazit až po výkopu
+  const match = await sql`SELECT kickoff FROM matches WHERE id = ${Number(matchId)}`;
+  if (!match.length) return NextResponse.json({ error: 'Zápas nenalezen.' }, { status: 404 });
+  if (new Date() < new Date(match[0].kickoff)) {
+    return NextResponse.json({ error: 'Tipy budou viditelné po výkopu.' }, { status: 403 });
+  }
+
   const tips = await sql`
     SELECT t.home_tip, t.away_tip, t.scorer_tip, t.points, t.scorer_points, u.nickname, u.id as user_id
     FROM tips t
