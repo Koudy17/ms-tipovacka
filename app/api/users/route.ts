@@ -81,7 +81,8 @@ export async function POST(req: NextRequest) {
   resetRateLimit(ip);
 
   const sessionToken = randomBytes(32).toString('hex');
-  await sql`UPDATE users SET session_token = ${sessionToken} WHERE id = ${user.id}`;
+  const sessionExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 dní
+  await sql`UPDATE users SET session_token = ${sessionToken}, session_expires_at = ${sessionExpiresAt.toISOString()} WHERE id = ${user.id}`;
 
   return NextResponse.json({
     id: user.id,

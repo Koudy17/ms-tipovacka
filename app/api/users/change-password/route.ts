@@ -30,7 +30,8 @@ export async function POST(req: NextRequest) {
 
   const hash = await bcrypt.hash(newPassword, 10);
   const sessionToken = randomBytes(32).toString('hex');
-  await sql`UPDATE users SET password_hash = ${hash}, must_change_password = FALSE, session_token = ${sessionToken} WHERE id = ${userId}`;
+  const sessionExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 dní
+  await sql`UPDATE users SET password_hash = ${hash}, must_change_password = FALSE, session_token = ${sessionToken}, session_expires_at = ${sessionExpiresAt.toISOString()} WHERE id = ${userId}`;
 
   return NextResponse.json({ ok: true, sessionToken });
 }

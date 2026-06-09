@@ -20,6 +20,7 @@ export async function initSchema() {
   await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS password_hash TEXT`;
   await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS must_change_password BOOLEAN DEFAULT TRUE`;
   await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS session_token TEXT`;
+  await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS session_expires_at TIMESTAMP`;
   await sql`
     CREATE TABLE IF NOT EXISTS matches (
       id INTEGER PRIMARY KEY,
