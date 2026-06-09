@@ -251,7 +251,7 @@ export default function AdminPage() {
     if (!confirm('Smazat VŠECHNY uživatele, tipy a testovací zápasy? Tato akce je nevratná.')) return;
     const confirmation = prompt('Pro potvrzení napiš slovo RESET:');
     if (confirmation !== 'RESET') { setMsg('❌ Reset zrušen.'); return; }
-    const res = await fetch('/api/admin/reset', { method: 'POST', headers: { 'x-admin-token': token } });
+    const res = await fetch('/api/admin/reset', { method: 'POST', headers: { 'x-admin-token': token, 'Content-Type': 'application/json' }, body: JSON.stringify({ confirmWord: 'RESET' }) });
     const data = await res.json();
     setMsg(data.ok ? '✅ Reset hotov — uživatelé, tipy a test zápasy smazány.' : `❌ ${data.error}`);
     if (data.ok) loadMatches();
