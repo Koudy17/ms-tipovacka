@@ -69,6 +69,8 @@ export default function AdminPage() {
   const [newNickname, setNewNickname] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [userMsg, setUserMsg] = useState('');
+  const [missingTips, setMissingTips] = useState<{ matches: { id: number; label: string }[]; missing: string[] } | null>(null);
+  const [showMissing, setShowMissing] = useState(false);
 
   const loadMatches = async () => {
     const [mRes, pRes] = await Promise.all([fetch('/api/matches'), fetch('/api/players')]);
@@ -257,6 +259,13 @@ export default function AdminPage() {
     if (data.ok) loadMatches();
   };
 
+  const loadMissingTips = async () => {
+    const res = await fetch('/api/admin/missing-tips', { headers: { 'x-admin-token': token } });
+    const data = await res.json();
+    setMissingTips(data);
+    setShowMissing(true);
+  };
+
   const deleteTestMatches = async () => {
     const res = await fetch('/api/admin/test-matches', { method: 'DELETE', headers: { 'x-admin-token': token } });
     const data = await res.json();
@@ -301,6 +310,9 @@ export default function AdminPage() {
             <button onClick={loadUsers} className="bg-indigo-700 hover:bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">
               👥 Hráči
             </button>
+            <button onClick={loadMissingTips} className="bg-orange-700 hover:bg-orange-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">
+              ⚠️ Netipovali
+            </button>
             <button onClick={loadAuditLog} className="bg-slate-600 hover:bg-slate-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">
               📋 Log
             </button>
@@ -308,6 +320,34 @@ export default function AdminPage() {
         </div>
 
         {msg && <div className="bg-slate-800 border border-slate-600 rounded-lg p-3 mb-4 text-sm text-white">{msg}</div>}
+
+        {showMissing && missingTips && (
+          <div className="mb-4">
+            <div className="flex items-center justify-between mb-2">
+              <h2 className="text-sm font-bold text-white">⚠️ Kdo nemá natipováno dnes</h2>
+              <button onClick={() => setShowMissing(false)} className="text-xs text-slate-400 hover:text-white px-1">✕ zavřít</button>
+            </div>
+            {missingTips.matches.length === 0 ? (
+              <div className="bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-slate-400">Dnes nejsou žádné naplánované zápasy.</div>
+            ) : (
+              <div className="bg-slate-800 border border-slate-700 rounded-xl p-3">
+                <p className="text-xs text-slate-400 mb-2">Zápasy dnes: {missingTips.matches.map(m => m.label).join(', ')}</p>
+                {missingTips.missing.length === 0 ? (
+                  <p className="text-green-400 text-sm font-semibold">✅ Všichni mají natipováno!</p>
+                ) : (
+                  <>
+                    <p className="text-xs text-orange-400 mb-2 font-semibold">Chybí tip ({missingTips.missing.length}):</p>
+                    <div className="flex flex-wrap gap-2">
+                      {missingTips.missing.map(name => (
+                        <span key={name} className="bg-orange-900/40 text-orange-300 border border-orange-700 px-2 py-1 rounded-lg text-sm font-medium">{name}</span>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+        )}
 
         {showUsers && (
           <div className="mb-4">
