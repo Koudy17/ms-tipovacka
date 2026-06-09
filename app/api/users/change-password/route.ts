@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSql } from '@/lib/db';
 import bcrypt from 'bcryptjs';
 import { randomBytes } from 'crypto';
+import { checkPassword } from '@/lib/passwordPolicy';
 
 export async function POST(req: NextRequest) {
   const { userId, currentPassword, newPassword } = await req.json();
@@ -9,8 +10,10 @@ export async function POST(req: NextRequest) {
   if (!userId || !currentPassword || !newPassword) {
     return NextResponse.json({ error: 'Chybí parametry.' }, { status: 400 });
   }
-  if (newPassword.length < 3) {
-    return NextResponse.json({ error: 'Nové heslo musí mít alespoň 3 znaky.' }, { status: 400 });
+  const policy = checkPassword(newPassword);
+  if (!policy.ok) {
+    const failed = policy.rules.filter(r => !r.valid).map(r => r.label).join(', ');
+    return NextResponse.json({ error: `Heslo nesplňuje požadavky: ${failed}.` }, { status: 400 });
   }
 
   const sql = getSql();

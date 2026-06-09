@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import TipsSection from '@/components/TipsSection';
 import Leaderboard from '@/components/Leaderboard';
+import { checkPassword } from '@/lib/passwordPolicy';
 
 interface User {
   id: number;
@@ -153,6 +154,16 @@ export default function Home() {
             onChange={e => setChangePwdState(s => ({ ...s, newPwd: e.target.value, error: '' }))}
             onKeyDown={e => e.key === 'Enter' && handleChangePassword()}
           />
+          {changePwdState.newPwd && (
+            <div className="mb-2 space-y-1">
+              {checkPassword(changePwdState.newPwd).rules.map(r => (
+                <div key={r.label} className={`flex items-center gap-1.5 text-xs ${r.valid ? 'text-green-400' : 'text-slate-500'}`}>
+                  <span>{r.valid ? '✓' : '○'}</span>
+                  <span>{r.label}</span>
+                </div>
+              ))}
+            </div>
+          )}
           <input
             type="password"
             className={`w-full ${dark ? 'bg-slate-900 border-slate-600 text-white placeholder-slate-500' : 'bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-400'} border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 mb-3`}
