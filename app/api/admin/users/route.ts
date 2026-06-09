@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getSql } from '@/lib/db';
 import bcrypt from 'bcryptjs';
 
@@ -19,10 +19,10 @@ export async function POST(req: NextRequest) {
   if (!checkAuth(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const { nickname, password } = await req.json();
   if (!nickname || nickname.trim().length < 2) {
-    return NextResponse.json({ error: 'PĹ™ezdĂ­vka musĂ­ mĂ­t alespoĹ 2 znaky.' }, { status: 400 });
+    return NextResponse.json({ error: 'Přezdívka musí mít alespoň 2 znaky.' }, { status: 400 });
   }
-  if (!password || password.length < 3) {
-    return NextResponse.json({ error: 'Heslo musĂ­ mĂ­t alespoĹ 3 znaky.' }, { status: 400 });
+  if (!password || password.length < 8) {
+    return NextResponse.json({ error: 'Dočasné heslo musí mít alespoň 8 znaků.' }, { status: 400 });
   }
   const sql = getSql();
   const hash = await bcrypt.hash(password, 10);
@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   if (!checkAuth(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const { userId } = await req.json();
-  if (!userId) return NextResponse.json({ error: 'ChybĂ­ userId.' }, { status: 400 });
+  if (!userId) return NextResponse.json({ error: 'Chybí userId.' }, { status: 400 });
   const sql = getSql();
   await sql`DELETE FROM tips WHERE user_id = ${userId}`;
   await sql`DELETE FROM users WHERE id = ${userId}`;
