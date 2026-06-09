@@ -22,6 +22,7 @@ export const metadata: Metadata = {
     siteName: "MS 2026 Tipovačka",
     locale: "cs_CZ",
     type: "website",
+    images: [{ url: "https://koudyho-tipovacka.vercel.app/api/og", width: 1200, height: 630 }],
   },
 };
 
