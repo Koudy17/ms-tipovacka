@@ -1,22 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSql } from '@/lib/db';
 import bcrypt from 'bcryptjs';
-
-const ADMIN_TOKEN = process.env.ADMIN_TOKEN!;
-
-function checkAuth(req: NextRequest) {
-  return req.headers.get('x-admin-token') === ADMIN_TOKEN;
-}
+import { checkAdminAuth } from '@/lib/adminAuth';
 
 export async function GET(req: NextRequest) {
-  if (!checkAuth(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!checkAdminAuth(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const sql = getSql();
   const rows = await sql`SELECT id, nickname, must_change_password, created_at FROM users ORDER BY nickname`;
   return NextResponse.json(rows);
 }
 
 export async function POST(req: NextRequest) {
-  if (!checkAuth(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!checkAdminAuth(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const { nickname, password } = await req.json();
   if (!nickname || nickname.trim().length < 2) {
     return NextResponse.json({ error: 'Přezdívka musí mít alespoň 2 znaky.' }, { status: 400 });
@@ -36,7 +31,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  if (!checkAuth(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!checkAdminAuth(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const { userId } = await req.json();
   if (!userId) return NextResponse.json({ error: 'Chybí userId.' }, { status: 400 });
   const sql = getSql();

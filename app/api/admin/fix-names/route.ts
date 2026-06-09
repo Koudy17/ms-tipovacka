@@ -1,23 +1,21 @@
-﻿import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getSql } from '@/lib/db';
-
-const ADMIN_TOKEN = process.env.ADMIN_TOKEN!;
+import { checkAdminAuth } from '@/lib/adminAuth';
 
 const FIXES: Record<string, string> = {
   'Scotland': 'Skotsko',
-  'Uzbekistan': 'UzbekistĂˇn',
+  'Uzbekistan': 'Uzbekistán',
   'Austria': 'Rakousko',
-  'Iraq': 'IrĂˇk',
-  'Jordan': 'JordĂˇnsko',
+  'Iraq': 'Irák',
+  'Jordan': 'Jordánsko',
   'Norway': 'Norsko',
   'Cape Verde Islands': 'Kapverdy',
   'Congo DR': 'DR Kongo',
-  'South Africa': 'JiĹľnĂ­ Afrika',
+  'South Africa': 'Jižní Afrika',
 };
 
 export async function POST(req: NextRequest) {
-  const auth = req.headers.get('x-admin-token');
-  if (auth !== ADMIN_TOKEN) return NextResponse.json({ error: 'NeautorizovĂˇno.' }, { status: 401 });
+  if (!checkAdminAuth(req)) return NextResponse.json({ error: 'Neautorizováno.' }, { status: 401 });
 
   const sql = getSql();
   let updated = 0;

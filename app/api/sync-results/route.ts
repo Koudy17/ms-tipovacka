@@ -1,16 +1,15 @@
 ﻿import { NextRequest, NextResponse } from 'next/server';
 import { getSql } from '@/lib/db';
 import { calcPoints } from '@/lib/scoring';
+import { checkAdminAuth } from '@/lib/adminAuth';
 
 export async function GET(req: NextRequest) {
   // Ochrana - bud Vercel Cron nebo admin token
   const authHeader = req.headers.get('authorization');
   const adminToken = req.headers.get('x-admin-token');
   const cronSecret = process.env.CRON_SECRET;
-  const adminTok = process.env.ADMIN_TOKEN!;
-
   const isVercelCron = cronSecret && authHeader === `Bearer ${cronSecret}`;
-  const isAdmin = adminToken === adminTok;
+  const isAdmin = checkAdminAuth(req);
 
   if (!isVercelCron && !isAdmin) {
     return NextResponse.json({ error: 'Neautorizovano.' }, { status: 401 });

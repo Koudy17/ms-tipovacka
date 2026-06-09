@@ -1,14 +1,10 @@
-﻿import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getSql, auditLog } from '@/lib/db';
 import { calcPoints, calcScorerBonus } from '@/lib/scoring';
-
-const ADMIN_TOKEN = process.env.ADMIN_TOKEN!;
+import { checkAdminAuth } from '@/lib/adminAuth';
 
 export async function POST(req: NextRequest) {
-  const auth = req.headers.get('x-admin-token');
-  if (auth !== ADMIN_TOKEN) {
-    return NextResponse.json({ error: 'NeautorizovĂˇno.' }, { status: 401 });
-  }
+  if (!checkAdminAuth(req)) return NextResponse.json({ error: 'Neautorizováno.' }, { status: 401 });
 
   const { matchId, homeScore, awayScore, goalScorers } = await req.json();
   const sql = getSql();
