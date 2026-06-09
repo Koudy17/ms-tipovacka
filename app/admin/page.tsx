@@ -327,7 +327,7 @@ export default function AdminPage() {
                   onKeyDown={e => e.key === 'Enter' && addUser()}
                 />
                 <input
-                  type="text"
+                  type="password"
                   className="flex-1 bg-slate-900 border border-slate-600 text-white rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-indigo-500 placeholder-slate-500"
                   placeholder="Dočasné heslo"
                   value={newPassword}
