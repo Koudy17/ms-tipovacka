@@ -301,9 +301,7 @@ export default function AdminPage() {
         <div className="flex items-center justify-between mb-6 flex-wrap gap-2">
           <h1 className="text-xl font-bold text-white">⚙️ Admin</h1>
           <div className="flex gap-2 flex-wrap">
-            <button onClick={addTestMatches} className="bg-purple-700 hover:bg-purple-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">➕ Test</button>
-            <button onClick={deleteTestMatches} className="bg-red-800 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">🗑️ Smazat test</button>
-            <button onClick={resetAll} className="bg-red-600 hover:bg-red-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">💣 Reset</button>
+<button onClick={resetAll} className="bg-red-600 hover:bg-red-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">💣 Reset</button>
             <button onClick={syncResults} disabled={syncing} className="bg-blue-700 hover:bg-blue-600 disabled:opacity-50 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">
               {syncing ? 'Sync…' : '🔄 Sync z API'}
             </button>
