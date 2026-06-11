@@ -232,7 +232,7 @@ export default function Home() {
       </nav>
 
       <main className="max-w-2xl mx-auto w-full p-4">
-        {tab === 'tips' && <TipsSection userId={user.id} sessionToken={user.sessionToken} dark={dark} />}
+        {tab === 'tips' && <TipsSection userId={user.id} sessionToken={user.sessionToken} dark={dark} onSessionExpired={() => { localStorage.removeItem('wc_user'); setUser(null); }} />}
         {tab === 'leaderboard' && <Leaderboard currentUserId={user.id} dark={dark} />}
       </main>
     </div>

@@ -131,7 +131,7 @@ interface MatchTip {
   scorer_points: number | null;
 }
 
-export default function TipsSection({ userId, sessionToken, dark = true }: { userId: number; sessionToken?: string; dark?: boolean }) {
+export default function TipsSection({ userId, sessionToken, dark = true, onSessionExpired }: { userId: number; sessionToken?: string; dark?: boolean; onSessionExpired?: () => void }) {
   const [matches, setMatches] = useState<Match[]>([]);
   const [tips, setTips] = useState<Map<number, Tip>>(new Map());
   const [inputs, setInputs] = useState<Map<number, [string, string]>>(new Map());
@@ -152,6 +152,7 @@ export default function TipsSection({ userId, sessionToken, dark = true }: { use
       fetch('/api/players'),
     ]);
     const matchData: Match[] = await mRes.json();
+    if (tRes.status === 401) { onSessionExpired?.(); return; }
     const tipData: Tip[] = await tRes.json();
     const playerData: Player[] = await pRes.json();
     setPlayers(playerData);
@@ -229,6 +230,7 @@ export default function TipsSection({ userId, sessionToken, dark = true }: { use
         headers: { 'Content-Type': 'application/json', 'x-session-token': sessionToken ?? '' },
         body: JSON.stringify({ userId, matchId: m.id, homeTip: inp[0], awayTip: inp[1], scorerTip: scorerInputs.get(m.id) ?? '' }),
       });
+      if (res.status === 401) { onSessionExpired?.(); return; }
       const data = await res.json();
       if (data.error) newErrors.set(m.id, data.error);
       else newErrors.delete(m.id);
