@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
 
     const rows = await sql`
       SELECT id FROM matches
-      WHERE home_team = ${am.homeTeam?.name} AND away_team = ${am.awayTeam?.name} AND status != 'finished'
+      WHERE id = ${am.id} AND status != 'finished'
     `;
     if (!rows.length) continue;
 
