@@ -167,8 +167,8 @@ export default function TipsSection({ userId, sessionToken, dark = true, onSessi
       const localMs = now.getTime() + (now.getTimezoneOffset() + selcOffset) * 60000;
       const local = new Date(localMs);
       const base = new Date(local);
-      base.setHours(10, 0, 0, 0);
-      if (local.getHours() < 10) base.setDate(base.getDate() - 1);
+      base.setHours(8, 0, 0, 0);
+      if (local.getHours() < 8) base.setDate(base.getDate() - 1);
       const from = new Date(base.getTime() - (now.getTimezoneOffset() + selcOffset) * 60000);
       const to = new Date(from.getTime() + 24 * 60 * 60 * 1000);
       const hasDnes = matchData.some(m => { const k = new Date(m.kickoff); return k >= from && k < to; });
@@ -268,8 +268,8 @@ export default function TipsSection({ userId, sessionToken, dark = true, onSessi
     const localMs = now.getTime() + (now.getTimezoneOffset() + selcOffset) * 60000;
     const local = new Date(localMs);
     const base = new Date(local);
-    base.setHours(10, 0, 0, 0);
-    if (local.getHours() < 10) base.setDate(base.getDate() - 1);
+    base.setHours(8, 0, 0, 0);
+    if (local.getHours() < 8) base.setDate(base.getDate() - 1);
     const from = new Date(base.getTime() - (now.getTimezoneOffset() + selcOffset) * 60000);
     const to = new Date(from.getTime() + 24 * 60 * 60 * 1000);
     return { from, to };

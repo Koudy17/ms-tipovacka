@@ -12,10 +12,10 @@ export async function GET(req: NextRequest) {
   const selcOffset = 2 * 60; // SELČ = UTC+2
   const localMinutes = now.getUTCHours() * 60 + now.getUTCMinutes() + selcOffset;
   const windowStart = new Date(now);
-  if (localMinutes < 10 * 60) {
+  if (localMinutes < 8 * 60) {
     windowStart.setUTCDate(windowStart.getUTCDate() - 1);
   }
-  windowStart.setUTCHours(8, 0, 0, 0); // 10:00 SELČ = 08:00 UTC
+  windowStart.setUTCHours(6, 0, 0, 0); // 8:00 SELČ = 06:00 UTC
   const windowEnd = new Date(windowStart);
   windowEnd.setUTCDate(windowEnd.getUTCDate() + 1);
 
