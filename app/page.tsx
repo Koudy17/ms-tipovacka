@@ -129,7 +129,7 @@ export default function Home() {
             Přihlásit se
           </button>
           <p className="text-center text-green-500 text-xs mt-4 opacity-80">
-            ⏳ MS začíná za {Math.ceil((new Date('2026-06-11T19:00:00Z').getTime() - Date.now()) / (1000 * 60 * 60 * 24))} dní
+            ⚽ MS 2026 právě probíhá!
           </p>
         </div>
       </div>
