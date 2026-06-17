@@ -4,6 +4,8 @@ import bcrypt from 'bcryptjs';
 import { randomBytes } from 'crypto';
 import { checkPassword } from '@/lib/passwordPolicy';
 
+const COOKIE_MAX_AGE = 7 * 24 * 60 * 60;
+
 export async function POST(req: NextRequest) {
   const { userId, currentPassword, newPassword } = await req.json();
 
@@ -30,8 +32,16 @@ export async function POST(req: NextRequest) {
 
   const hash = await bcrypt.hash(newPassword, 10);
   const sessionToken = randomBytes(32).toString('hex');
-  const sessionExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 dní
+  const sessionExpiresAt = new Date(Date.now() + COOKIE_MAX_AGE * 1000);
   await sql`UPDATE users SET password_hash = ${hash}, must_change_password = FALSE, session_token = ${sessionToken}, session_expires_at = ${sessionExpiresAt.toISOString()} WHERE id = ${userId}`;
 
-  return NextResponse.json({ ok: true, sessionToken });
+  const res = NextResponse.json({ ok: true });
+  res.cookies.set('session_token', sessionToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'lax',
+    maxAge: COOKIE_MAX_AGE,
+    path: '/',
+  });
+  return res;
 }

@@ -3,7 +3,7 @@ import { getSql, auditLog } from '@/lib/db';
 
 export async function GET(req: NextRequest) {
   const userId = req.nextUrl.searchParams.get('userId');
-  const sessionToken = req.headers.get('x-session-token');
+  const sessionToken = req.cookies.get('session_token')?.value;
   if (!userId) return NextResponse.json({ error: 'Chybí userId' }, { status: 400 });
   if (!sessionToken) return NextResponse.json({ error: 'Nejsi přihlášen.' }, { status: 401 });
   const sql = getSql();
@@ -15,10 +15,9 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   const { userId, matchId, homeTip, awayTip, scorerTip } = await req.json();
-  const sessionToken = req.headers.get('x-session-token');
+  const sessionToken = req.cookies.get('session_token')?.value;
   const sql = getSql();
 
-  // Ověř session token
   if (!sessionToken) return NextResponse.json({ error: 'Nejsi přihlášen.' }, { status: 401 });
   const session = await sql`SELECT id FROM users WHERE id = ${Number(userId)} AND session_token = ${sessionToken} AND session_expires_at > NOW()`;
   if (!session.length) return NextResponse.json({ error: 'Neplatná nebo vypršená session. Přihlas se znovu.' }, { status: 401 });

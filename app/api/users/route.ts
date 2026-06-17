@@ -4,7 +4,6 @@ import bcrypt from 'bcryptjs';
 import { randomBytes } from 'crypto';
 
 // --- In-memory rate limiter ---
-// Max 5 pokusů za 60 sekund na jednu IP
 const loginAttempts = new Map<string, { count: number; resetAt: number }>();
 const MAX_ATTEMPTS = 5;
 const WINDOW_MS = 60_000;
@@ -20,24 +19,19 @@ function getClientIp(req: NextRequest): string {
 function checkRateLimit(ip: string): { allowed: boolean; retryAfterSec: number } {
   const now = Date.now();
   const entry = loginAttempts.get(ip);
-
   if (!entry || now > entry.resetAt) {
     loginAttempts.set(ip, { count: 1, resetAt: now + WINDOW_MS });
     return { allowed: true, retryAfterSec: 0 };
   }
-
   if (entry.count >= MAX_ATTEMPTS) {
     return { allowed: false, retryAfterSec: Math.ceil((entry.resetAt - now) / 1000) };
   }
-
   entry.count++;
   return { allowed: true, retryAfterSec: 0 };
 }
-
-function resetRateLimit(ip: string) {
-  loginAttempts.delete(ip);
-}
 // --- konec rate limiteru ---
+
+const COOKIE_MAX_AGE = 7 * 24 * 60 * 60; // 7 dní v sekundách
 
 export async function POST(req: NextRequest) {
   const ip = getClientIp(req);
@@ -77,17 +71,23 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Špatné heslo.' }, { status: 401 });
   }
 
-  // Úspěch — resetuj rate limit pro tuto IP
-  resetRateLimit(ip);
+  loginAttempts.delete(ip);
 
   const sessionToken = randomBytes(32).toString('hex');
-  const sessionExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 dní
+  const sessionExpiresAt = new Date(Date.now() + COOKIE_MAX_AGE * 1000);
   await sql`UPDATE users SET session_token = ${sessionToken}, session_expires_at = ${sessionExpiresAt.toISOString()} WHERE id = ${user.id}`;
 
-  return NextResponse.json({
+  const res = NextResponse.json({
     id: user.id,
     nickname: user.nickname,
     mustChangePassword: user.must_change_password ?? false,
-    sessionToken,
   });
+  res.cookies.set('session_token', sessionToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'lax',
+    maxAge: COOKIE_MAX_AGE,
+    path: '/',
+  });
+  return res;
 }

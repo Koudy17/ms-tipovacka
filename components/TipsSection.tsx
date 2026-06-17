@@ -131,7 +131,7 @@ interface MatchTip {
   scorer_points: number | null;
 }
 
-export default function TipsSection({ userId, sessionToken, dark = true, onSessionExpired }: { userId: number; sessionToken?: string; dark?: boolean; onSessionExpired?: () => void }) {
+export default function TipsSection({ userId, dark = true, onSessionExpired }: { userId: number; dark?: boolean; onSessionExpired?: () => void }) {
   const [matches, setMatches] = useState<Match[]>([]);
   const [tips, setTips] = useState<Map<number, Tip>>(new Map());
   const [inputs, setInputs] = useState<Map<number, [string, string]>>(new Map());
@@ -148,7 +148,7 @@ export default function TipsSection({ userId, sessionToken, dark = true, onSessi
   const load = useCallback(async () => {
     const [mRes, tRes, pRes] = await Promise.all([
       fetch('/api/matches'),
-      fetch(`/api/tips?userId=${userId}`, { headers: { 'x-session-token': sessionToken ?? '' } }),
+      fetch(`/api/tips?userId=${userId}`),
       fetch('/api/players'),
     ]);
     const matchData: Match[] = await mRes.json();
@@ -227,7 +227,7 @@ export default function TipsSection({ userId, sessionToken, dark = true, onSessi
       const inp = inputs.get(m.id)!;
       const res = await fetch('/api/tips', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-session-token': sessionToken ?? '' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId, matchId: m.id, homeTip: inp[0], awayTip: inp[1], scorerTip: scorerInputs.get(m.id) ?? '' }),
       });
       if (res.status === 401) { onSessionExpired?.(); return; }

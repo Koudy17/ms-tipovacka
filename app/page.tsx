@@ -9,7 +9,6 @@ interface User {
   id: number;
   nickname: string;
   mustChangePassword?: boolean;
-  sessionToken?: string;
 }
 
 export default function Home() {
@@ -73,7 +72,7 @@ export default function Home() {
       setChangePwdState(s => ({ ...s, loading: false, error: data.error }));
       return;
     }
-    const updated = { ...user!, mustChangePassword: false, sessionToken: data.sessionToken };
+    const updated = { ...user!, mustChangePassword: false };
     localStorage.setItem('wc_user', JSON.stringify(updated));
     setUser(updated);
   };
@@ -232,7 +231,7 @@ export default function Home() {
       </nav>
 
       <main className="max-w-2xl mx-auto w-full p-4">
-        {tab === 'tips' && <TipsSection userId={user.id} sessionToken={user.sessionToken} dark={dark} onSessionExpired={() => { localStorage.removeItem('wc_user'); setUser(null); }} />}
+        {tab === 'tips' && <TipsSection userId={user.id} dark={dark} onSessionExpired={async () => { await fetch('/api/users/logout', { method: 'POST' }); localStorage.removeItem('wc_user'); setUser(null); }} />}
         {tab === 'leaderboard' && <Leaderboard currentUserId={user.id} dark={dark} />}
       </main>
     </div>
