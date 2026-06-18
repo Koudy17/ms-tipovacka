@@ -20,10 +20,24 @@ export default function Home() {
   const [tab, setTab] = useState<'tips' | 'leaderboard'>('tips');
   const [dark, setDark] = useState(true);
   useEffect(() => {
-    const stored = localStorage.getItem('wc_user');
-    if (stored) setUser(JSON.parse(stored));
     const savedTheme = localStorage.getItem('wc_theme');
     if (savedTheme) setDark(savedTheme === 'dark');
+
+    const stored = localStorage.getItem('wc_user');
+    if (stored) {
+      setUser(JSON.parse(stored));
+    } else {
+      // localStorage was cleared (iOS Safari ITP, etc.) but cookie may still be valid
+      fetch('/api/users/me')
+        .then(r => r.ok ? r.json() : null)
+        .then(data => {
+          if (data?.id) {
+            localStorage.setItem('wc_user', JSON.stringify(data));
+            setUser(data);
+          }
+        })
+        .catch(() => {});
+    }
   }, []);
 
   const toggleTheme = () => {
