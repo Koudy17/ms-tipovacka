@@ -33,7 +33,9 @@ export async function POST(req: NextRequest) {
   const hash = await bcrypt.hash(newPassword, 10);
   const sessionToken = randomBytes(32).toString('hex');
   const sessionExpiresAt = new Date(Date.now() + COOKIE_MAX_AGE * 1000);
-  await sql`UPDATE users SET password_hash = ${hash}, must_change_password = FALSE, session_token = ${sessionToken}, session_expires_at = ${sessionExpiresAt.toISOString()} WHERE id = ${userId}`;
+  await sql`UPDATE users SET password_hash = ${hash}, must_change_password = FALSE WHERE id = ${userId}`;
+  await sql`INSERT INTO sessions (token, user_id, expires_at) VALUES (${sessionToken}, ${userId}, ${sessionExpiresAt.toISOString()}) ON CONFLICT (token) DO NOTHING`;
+  await sql`DELETE FROM sessions WHERE user_id = ${userId} AND expires_at < NOW()`;
 
   const res = NextResponse.json({ ok: true });
   res.cookies.set('session_token', sessionToken, {

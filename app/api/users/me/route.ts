@@ -7,9 +7,10 @@ export async function GET(req: NextRequest) {
 
   const sql = getSql();
   const rows = await sql`
-    SELECT id, nickname, must_change_password
-    FROM users
-    WHERE session_token = ${sessionToken} AND session_expires_at > NOW()
+    SELECT u.id, u.nickname, u.must_change_password
+    FROM sessions s
+    JOIN users u ON u.id = s.user_id
+    WHERE s.token = ${sessionToken} AND s.expires_at > NOW()
   `;
   if (!rows.length) return NextResponse.json({ error: 'Session expired' }, { status: 401 });
 

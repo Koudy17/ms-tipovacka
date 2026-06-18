@@ -7,7 +7,7 @@ export async function GET(req: NextRequest) {
   if (!userId) return NextResponse.json({ error: 'Chybí userId' }, { status: 400 });
   if (!sessionToken) return NextResponse.json({ error: 'Nejsi přihlášen.' }, { status: 401 });
   const sql = getSql();
-  const session = await sql`SELECT id FROM users WHERE id = ${Number(userId)} AND session_token = ${sessionToken} AND session_expires_at > NOW()`;
+  const session = await sql`SELECT user_id FROM sessions WHERE token = ${sessionToken} AND user_id = ${Number(userId)} AND expires_at > NOW()`;
   if (!session.length) return NextResponse.json({ error: 'Neplatná nebo vypršená session. Přihlas se znovu.' }, { status: 401 });
   const tips = await sql`SELECT * FROM tips WHERE user_id = ${Number(userId)}`;
   return NextResponse.json(tips);
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
   const sql = getSql();
 
   if (!sessionToken) return NextResponse.json({ error: 'Nejsi přihlášen.' }, { status: 401 });
-  const session = await sql`SELECT id FROM users WHERE id = ${Number(userId)} AND session_token = ${sessionToken} AND session_expires_at > NOW()`;
+  const session = await sql`SELECT user_id FROM sessions WHERE token = ${sessionToken} AND user_id = ${Number(userId)} AND expires_at > NOW()`;
   if (!session.length) return NextResponse.json({ error: 'Neplatná nebo vypršená session. Přihlas se znovu.' }, { status: 401 });
 
   const rows = await sql`SELECT kickoff FROM matches WHERE id = ${Number(matchId)}`;

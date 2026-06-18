@@ -75,7 +75,23 @@ export async function POST(req: NextRequest) {
 
   const sessionToken = randomBytes(32).toString('hex');
   const sessionExpiresAt = new Date(Date.now() + COOKIE_MAX_AGE * 1000);
-  await sql`UPDATE users SET session_token = ${sessionToken}, session_expires_at = ${sessionExpiresAt.toISOString()} WHERE id = ${user.id}`;
+  // Ensure sessions table exists (auto-migrate)
+  await sql`
+    CREATE TABLE IF NOT EXISTS sessions (
+      token TEXT PRIMARY KEY,
+      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      expires_at TIMESTAMP NOT NULL,
+      created_at TIMESTAMP DEFAULT NOW()
+    )
+  `;
+  // Insert into sessions table (multi-device support)
+  await sql`
+    INSERT INTO sessions (token, user_id, expires_at)
+    VALUES (${sessionToken}, ${user.id}, ${sessionExpiresAt.toISOString()})
+    ON CONFLICT (token) DO NOTHING
+  `;
+  // clean up expired sessions for this user
+  await sql`DELETE FROM sessions WHERE user_id = ${user.id} AND expires_at < NOW()`;
 
   const res = NextResponse.json({
     id: user.id,
