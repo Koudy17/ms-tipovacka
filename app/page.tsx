@@ -19,7 +19,13 @@ export default function Home() {
   const [changePwdState, setChangePwdState] = useState<{ newPwd: string; confirmPwd: string; error: string; loading: boolean }>({ newPwd: '', confirmPwd: '', error: '', loading: false });
   const [tab, setTab] = useState<'tips' | 'leaderboard'>('tips');
   const [dark, setDark] = useState(true);
+  const [isInAppBrowser, setIsInAppBrowser] = useState(false);
   useEffect(() => {
+    const ua = navigator.userAgent;
+    if (/FBAN|FBAV|Instagram|Messenger|MicroMessenger|LinkedInApp|Twitter/.test(ua)) {
+      setIsInAppBrowser(true);
+    }
+
     const savedTheme = localStorage.getItem('wc_theme');
     if (savedTheme) setDark(savedTheme === 'dark');
 
@@ -206,6 +212,15 @@ export default function Home() {
 
   return (
     <div className={`min-h-screen ${t.bg} flex flex-col`}>
+      {isInAppBrowser && (
+        <div className="bg-amber-500 text-black px-4 py-3 flex items-center gap-3 text-sm font-medium">
+          <span className="text-lg">⚠️</span>
+          <span>
+            Otevíráš appku v prohlížeči Messengeru — přihlášení se neuloží.{' '}
+            <strong>Otevři odkaz v Chrome nebo Safari</strong> (tři tečky → &quot;Otevřít v prohlížeči&quot;).
+          </span>
+        </div>
+      )}
       <header className={`${t.header} border-b px-4 py-3 flex items-center justify-between`}>
         <div className="flex items-center gap-2">
           <span className="text-xl">⚽</span>
