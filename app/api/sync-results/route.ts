@@ -24,7 +24,8 @@ export async function GET(req: NextRequest) {
 
   const STAGE_MAP: Record<string, string> = {
     GROUP_STAGE: 'Skupinová fáze',
-    ROUND_OF_16: 'Šestnáctifinále',
+    LAST_32: 'Šestnáctifinále',
+    LAST_16: 'Osmifinále',
     QUARTER_FINALS: 'Čtvrtfinále',
     SEMI_FINALS: 'Semifinále',
     THIRD_PLACE: 'O 3. místo',
