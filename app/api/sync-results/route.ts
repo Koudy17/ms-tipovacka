@@ -1,12 +1,10 @@
-﻿import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getSql } from '@/lib/db';
 import { calcPoints } from '@/lib/scoring';
 import { checkAdminAuth } from '@/lib/adminAuth';
 
 export async function GET(req: NextRequest) {
-  // Ochrana - bud Vercel Cron nebo admin token
   const authHeader = req.headers.get('authorization');
-  const adminToken = req.headers.get('x-admin-token');
   const cronSecret = process.env.CRON_SECRET;
   const isVercelCron = cronSecret && authHeader === `Bearer ${cronSecret}`;
   const isAdmin = checkAdminAuth(req);
@@ -32,10 +30,11 @@ export async function GET(req: NextRequest) {
     FINAL: 'Finále',
   };
 
-  // Načti všechny zápasy (hotové i naplánované)
-  const [resFinished, resScheduled] = await Promise.all([
+  // Načti API + DB zároveň
+  const [resFinished, resScheduled, dbMatches] = await Promise.all([
     fetch('https://api.football-data.org/v4/competitions/2000/matches?status=FINISHED', { headers: { 'X-Auth-Token': apiKey }, cache: 'no-store' }),
     fetch('https://api.football-data.org/v4/competitions/2000/matches?status=SCHEDULED', { headers: { 'X-Auth-Token': apiKey }, cache: 'no-store' }),
+    sql`SELECT id, home_team, away_team, status FROM matches`,
   ]);
   if (!resFinished.ok) return NextResponse.json({ error: `API error: ${resFinished.status}` }, { status: 502 });
 
@@ -43,8 +42,17 @@ export async function GET(req: NextRequest) {
   const dataScheduled = resScheduled.ok ? await resScheduled.json() : { matches: [] };
   const apiMatches = [...(dataFinished.matches ?? []), ...(dataScheduled.matches ?? [])];
 
+  // Index DB zápasů pro rychlé vyhledání
+  const dbIndex = new Map<string, { id: number; status: string }>();
+  for (const m of dbMatches) {
+    dbIndex.set(`${m.home_team}|${m.away_team}`, { id: m.id, status: m.status });
+  }
+
   let updated = 0;
   let inserted = 0;
+  const toInsert: Array<{ home: string; away: string; kickoff: string; stage: string }> = [];
+  const toUpdate: Array<{ id: number; home: number; away: number }> = [];
+  const tipsToUpdate: number[] = [];
 
   for (const am of apiMatches) {
     const homeName = am.homeTeam?.name;
@@ -53,32 +61,33 @@ export async function GET(req: NextRequest) {
     const stage = STAGE_MAP[am.stage] ?? am.stage ?? 'Skupinová fáze';
     if (!homeName || !awayName || !kickoff) continue;
 
-    const existing = await sql`
-      SELECT id, status FROM matches WHERE home_team = ${homeName} AND away_team = ${awayName}
-    `;
+    const existing = dbIndex.get(`${homeName}|${awayName}`);
 
-    if (existing.length === 0) {
-      // Nový zápas — vlož do DB
-      await sql`
-        INSERT INTO matches (home_team, away_team, kickoff, stage, status)
-        VALUES (${homeName}, ${awayName}, ${kickoff}, ${stage}, 'upcoming')
-      `;
-      inserted++;
+    if (!existing) {
+      toInsert.push({ home: homeName, away: awayName, kickoff, stage });
       continue;
     }
 
-    // Existující zápas — aktualizuj výsledek pokud je finished
     const homeGoals = am.score?.fullTime?.home;
     const awayGoals = am.score?.fullTime?.away;
     if (homeGoals == null || awayGoals == null) continue;
-    if (existing[0].status === 'finished') continue;
+    if (existing.status === 'finished') continue;
 
-    const matchId = existing[0].id;
-    await sql`UPDATE matches SET home_score = ${homeGoals}, away_score = ${awayGoals}, status = 'finished' WHERE id = ${matchId}`;
+    toUpdate.push({ id: existing.id, home: homeGoals, away: awayGoals });
+  }
 
-    const tips = await sql`SELECT * FROM tips WHERE match_id = ${matchId}`;
+  // Batch insert nových zápasů
+  for (const m of toInsert) {
+    await sql`INSERT INTO matches (home_team, away_team, kickoff, stage, status) VALUES (${m.home}, ${m.away}, ${m.kickoff}, ${m.stage}, 'upcoming')`;
+    inserted++;
+  }
+
+  // Update výsledků + body
+  for (const m of toUpdate) {
+    await sql`UPDATE matches SET home_score = ${m.home}, away_score = ${m.away}, status = 'finished' WHERE id = ${m.id}`;
+    const tips = await sql`SELECT * FROM tips WHERE match_id = ${m.id}`;
     for (const tip of tips) {
-      const pts = calcPoints(homeGoals, awayGoals, tip.home_tip, tip.away_tip);
+      const pts = calcPoints(m.home, m.away, tip.home_tip, tip.away_tip);
       await sql`UPDATE tips SET points = ${pts} WHERE id = ${tip.id}`;
     }
     updated++;
