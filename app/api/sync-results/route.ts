@@ -68,8 +68,9 @@ export async function GET(req: NextRequest) {
       continue;
     }
 
-    const homeGoals = am.score?.fullTime?.home;
-    const awayGoals = am.score?.fullTime?.away;
+    // regularTime = pouze 90 min (bez prodloužení a penalt)
+    const homeGoals = am.score?.regularTime?.home ?? am.score?.fullTime?.home;
+    const awayGoals = am.score?.regularTime?.away ?? am.score?.fullTime?.away;
     if (homeGoals == null || awayGoals == null) continue;
     if (existing.status === 'finished') continue;
 
