@@ -14,8 +14,13 @@ export async function POST(req: NextRequest) {
     let inserted = 0;
 
     for (const m of matches) {
-      const existing = await sql`SELECT id FROM matches WHERE id = ${m.id} OR (home_team = ${m.home} AND away_team = ${m.away})`;
-      if (existing.length > 0) continue;
+      const existing = await sql`SELECT id FROM matches WHERE id = ${m.id}`;
+      if (existing.length > 0) {
+        // Aktualizuj pokud jsou TBD nebo špatná stage
+        await sql`UPDATE matches SET home_team = ${m.home}, away_team = ${m.away}, stage = ${m.stage}, status = 'upcoming', kickoff = ${m.kickoff} WHERE id = ${m.id}`;
+        inserted++;
+        continue;
+      }
       await sql`
         INSERT INTO matches (id, home_team, away_team, kickoff, stage, status)
         VALUES (${m.id}, ${m.home}, ${m.away}, ${m.kickoff}, ${m.stage}, 'upcoming')
