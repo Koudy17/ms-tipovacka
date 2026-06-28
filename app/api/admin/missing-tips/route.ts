@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
     SELECT id, home_team, away_team, kickoff FROM matches
     WHERE kickoff >= ${windowStart.toISOString()}
       AND kickoff < ${windowEnd.toISOString()}
-      AND status = 'scheduled'
+      AND status IN ('scheduled', 'upcoming')
       AND stage != 'TEST'
     ORDER BY kickoff
   `;
