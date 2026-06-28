@@ -42,29 +42,29 @@ export async function GET(req: NextRequest) {
   const dataScheduled = resScheduled.ok ? await resScheduled.json() : { matches: [] };
   const apiMatches = [...(dataFinished.matches ?? []), ...(dataScheduled.matches ?? [])];
 
-  // Index DB zápasů pro rychlé vyhledání
-  const dbIndex = new Map<string, { id: number; status: string }>();
+  // Index DB zápasů podle ID pro rychlé vyhledání
+  const dbIndex = new Map<number, { status: string }>();
   for (const m of dbMatches) {
-    dbIndex.set(`${m.home_team}|${m.away_team}`, { id: m.id, status: m.status });
+    dbIndex.set(m.id, { status: m.status });
   }
 
   let updated = 0;
   let inserted = 0;
-  const toInsert: Array<{ home: string; away: string; kickoff: string; stage: string }> = [];
+  const toInsert: Array<{ id: number; home: string; away: string; kickoff: string; stage: string }> = [];
   const toUpdate: Array<{ id: number; home: number; away: number }> = [];
-  const tipsToUpdate: number[] = [];
 
   for (const am of apiMatches) {
+    const matchId = am.id;
     const homeName = am.homeTeam?.name;
     const awayName = am.awayTeam?.name;
     const kickoff = am.utcDate;
     const stage = STAGE_MAP[am.stage] ?? am.stage ?? 'Skupinová fáze';
-    if (!homeName || !awayName || !kickoff) continue;
+    if (!matchId || !homeName || !awayName || !kickoff) continue;
 
-    const existing = dbIndex.get(`${homeName}|${awayName}`);
+    const existing = dbIndex.get(matchId);
 
     if (!existing) {
-      toInsert.push({ home: homeName, away: awayName, kickoff, stage });
+      toInsert.push({ id: matchId, home: homeName, away: awayName, kickoff, stage });
       continue;
     }
 
@@ -73,12 +73,12 @@ export async function GET(req: NextRequest) {
     if (homeGoals == null || awayGoals == null) continue;
     if (existing.status === 'finished') continue;
 
-    toUpdate.push({ id: existing.id, home: homeGoals, away: awayGoals });
+    toUpdate.push({ id: matchId, home: homeGoals, away: awayGoals });
   }
 
-  // Batch insert nových zápasů
+  // Batch insert nových zápasů (jen skupinová fáze, knockout se přidává ručně s českými názvy)
   for (const m of toInsert) {
-    await sql`INSERT INTO matches (home_team, away_team, kickoff, stage, status) VALUES (${m.home}, ${m.away}, ${m.kickoff}, ${m.stage}, 'upcoming')`;
+    await sql`INSERT INTO matches (id, home_team, away_team, kickoff, stage, status) VALUES (${m.id}, ${m.home}, ${m.away}, ${m.kickoff}, ${m.stage}, 'upcoming') ON CONFLICT (id) DO NOTHING`;
     inserted++;
   }
 
