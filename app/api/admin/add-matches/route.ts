@@ -10,10 +10,11 @@ export async function POST(req: NextRequest) {
   let inserted = 0;
 
   for (const m of matches) {
+    const existing = await sql`SELECT id FROM matches WHERE home_team = ${m.home} AND away_team = ${m.away}`;
+    if (existing.length > 0) continue;
     await sql`
       INSERT INTO matches (home_team, away_team, kickoff, stage, status)
       VALUES (${m.home}, ${m.away}, ${m.kickoff}, ${m.stage}, 'upcoming')
-      ON CONFLICT DO NOTHING
     `;
     inserted++;
   }
