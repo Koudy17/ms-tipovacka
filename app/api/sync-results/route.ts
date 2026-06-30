@@ -60,7 +60,7 @@ export async function GET(req: NextRequest) {
   // Načti API + DB zároveň
   const [resFinished, resScheduled, dbMatches] = await Promise.all([
     fetch('https://api.football-data.org/v4/competitions/2000/matches?status=FINISHED', { headers: { 'X-Auth-Token': apiKey }, cache: 'no-store' }),
-    fetch('https://api.football-data.org/v4/competitions/2000/matches?status=SCHEDULED', { headers: { 'X-Auth-Token': apiKey }, cache: 'no-store' }),
+    fetch('https://api.football-data.org/v4/competitions/2000/matches?status=SCHEDULED,TIMED', { headers: { 'X-Auth-Token': apiKey }, cache: 'no-store' }),
     sql`SELECT id, home_team, away_team, status FROM matches`,
   ]);
   if (!resFinished.ok) return NextResponse.json({ error: `API error: ${resFinished.status}` }, { status: 502 });
