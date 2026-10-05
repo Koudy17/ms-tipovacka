@@ -16,6 +16,8 @@ interface Match {
   matchday: number | null;
   home_logo: string | null;
   away_logo: string | null;
+  home_team_id: number | null;
+  away_team_id: number | null;
 }
 
 interface Tip {
@@ -23,6 +25,7 @@ interface Tip {
   home_tip: number;
   away_tip: number;
   scorer_tip: string | null;
+  scorer_player_id: number | null;
   points: number | null;
   scorer_points: number | null;
   is_double: boolean;
@@ -79,15 +82,16 @@ function pointsBadge(points: number | null, scorerPoints: number | null, isDoubl
 }
 
 interface Player {
-  team: string;
+  id: number;
+  team_id: number;
   name: string;
-  position: string;
+  position: string | null;
 }
 
 const POSITION_ORDER: Record<string, number> = { 'Brankář': 0, 'Obránce': 1, 'Záložník': 2, 'Útočník': 3 };
 
-// Tip na střelce (+3b) je zatím vypnutý – soupisky PL zatím nemáme. Zapnout až budou data.
-const SCORER_ENABLED = false;
+// Tip na střelce (+3b): hráče vybírá uživatel ze soupisek, které plní sync z API-Football.
+const SCORER_ENABLED = true;
 
 interface MatchTip {
   nickname: string;
@@ -146,7 +150,7 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
       tMap.set(t.match_id, t);
       if (t.is_double) dSet.add(t.match_id);
       iMap.set(t.match_id, [String(t.home_tip), String(t.away_tip)]);
-      sMap.set(t.match_id, t.scorer_tip ?? '');
+      sMap.set(t.match_id, t.scorer_player_id != null ? String(t.scorer_player_id) : '');
     }
     setTips(tMap);
     setDoubles(dSet);
@@ -208,7 +212,7 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
       const res = await fetch('/api/tips', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, matchId: m.id, homeTip: inp[0], awayTip: inp[1], scorerTip: scorerInputs.get(m.id) ?? '', isDouble: doubles.has(m.id) }),
+        body: JSON.stringify({ userId, matchId: m.id, homeTip: inp[0], awayTip: inp[1], scorerPlayerId: scorerInputs.get(m.id) || null, isDouble: doubles.has(m.id) }),
       });
       if (res.status === 401) { onSessionExpired?.(); return; }
       const data = await res.json();
@@ -222,18 +226,10 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
     load();
   };
 
-  const toPlayerKey = (team: string) => team.toUpperCase();
-
-  const getMatchPlayers = (m: Match): Player[] => {
-    const homeKey = toPlayerKey(m.home_team);
-    const awayKey = toPlayerKey(m.away_team);
-    return players
-      .filter(p => p.team === homeKey || p.team === awayKey)
-      .sort((a, b) => {
-        if (a.team !== b.team) return a.team === homeKey ? -1 : 1;
-        return (POSITION_ORDER[a.position] ?? 9) - (POSITION_ORDER[b.position] ?? 9);
-      });
-  };
+  const getMatchPlayers = (m: Match): Player[] =>
+    players
+      .filter(p => p.team_id === m.home_team_id || p.team_id === m.away_team_id)
+      .sort((a, b) => (POSITION_ORDER[a.position ?? ''] ?? 9) - (POSITION_ORDER[b.position ?? ''] ?? 9) || a.name.localeCompare(b.name, 'cs'));
 
   const ODEHRANE = 'ODEHRANE';
   const DNES = 'DNES';
@@ -381,55 +377,26 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
                     </div>
                     <div className={`flex-1 min-w-0 flex font-semibold ${d.team} text-sm leading-tight`}><TeamName name={m.away_team} logo={m.away_logo} align="left" /></div>
                   </div>
-                  {SCORER_ENABLED && (() => {
-                    const hasHome =matchPlayers.some(p => p.team === toPlayerKey(m.home_team));
-                    const hasAway = matchPlayers.some(p => p.team === toPlayerKey(m.away_team));
-                    const hasAny = hasHome || hasAway;
-                    const currentVal = scorerInputs.get(m.id) ?? '';
-                    const isFromDropdown = hasAny && matchPlayers.some(p => p.name === currentVal);
-                    const manualVal = isFromDropdown ? '' : currentVal;
-                    return (
-                      <div className="mt-2 space-y-1.5">
-                        {hasAny && (
-                          <select
-                            value={isFromDropdown ? currentVal : ''}
-                            onChange={e => setScorerInputs(new Map(scorerInputs.set(m.id, e.target.value)))}
-                            style={dark ? { backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 8L1 3h10z'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center', paddingRight: '28px', appearance: 'none' as const } : {}}
-                            className={`w-full border rounded-lg px-2 py-1.5 text-xs focus:outline-none ${d.select}`}
-                          >
-                            <option value="">⚽ Tip na střelce (+3b) — vyber ze soupisky</option>
-                            {hasHome && (
-                              <optgroup label={`— ${m.home_team} —`}>
-                                {matchPlayers.filter(p => p.team === toPlayerKey(m.home_team)).map(p => (
-                                  <option key={p.name} value={p.name}>{p.name} ({p.position[0]})</option>
-                                ))}
-                              </optgroup>
-                            )}
-                            {hasHome && hasAway && (
-                              <option disabled value="">{'─'.repeat(40)}</option>
-                            )}
-                            {hasAway && (
-                              <optgroup label={`— ${m.away_team} —`}>
-                                {matchPlayers.filter(p => p.team === toPlayerKey(m.away_team)).map(p => (
-                                  <option key={p.name} value={p.name}>{p.name} ({p.position[0]})</option>
-                                ))}
-                              </optgroup>
-                            )}
-                          </select>
-                        )}
-                        {(!hasHome || !hasAway) && (
-                          <input
-                            type="text"
-                            value={manualVal}
-                            onChange={e => setScorerInputs(new Map(scorerInputs.set(m.id, e.target.value)))}
-                            className={`w-full border rounded-lg px-2 py-1.5 text-xs focus:outline-none ${d.manualInput}`}
-                            placeholder={hasAny ? 'nebo napiš ručně (hráč bez soupisky)…' : '⚽ Tip na střelce (+3b) — napiš jméno…'}
-                            maxLength={60}
-                          />
-                        )}
-                      </div>
-                    );
-                  })()}
+                  {SCORER_ENABLED && hasPlayers && (
+                    <div className="mt-2">
+                      <select
+                        value={scorerInputs.get(m.id) ?? ''}
+                        onChange={e => setScorerInputs(new Map(scorerInputs.set(m.id, e.target.value)))}
+                        style={dark ? { backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 8L1 3h10z'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center', paddingRight: '28px', appearance: 'none' as const } : {}}
+                        className={`w-full border rounded-lg px-2 py-1.5 text-xs focus:outline-none ${d.select}`}
+                      >
+                        <option value="">⚽ Tip na střelce (+3b) — vyber ze soupisky</option>
+                        {[{ id: m.home_team_id, name: m.home_team }, { id: m.away_team_id, name: m.away_team }].map(t => {
+                          const list = matchPlayers.filter(p => p.team_id === t.id);
+                          return list.length ? (
+                            <optgroup key={t.id} label={`— ${t.name} —`}>
+                              {list.map(p => <option key={p.id} value={String(p.id)}>{p.name} ({p.position?.[0] ?? '?'})</option>)}
+                            </optgroup>
+                          ) : null;
+                        })}
+                      </select>
+                    </div>
+                  )}
                   {err && <p className="text-red-400 text-xs mt-1">{err}</p>}
                 </div>
               );

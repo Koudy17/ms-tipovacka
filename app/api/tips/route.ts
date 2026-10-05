@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const { userId, matchId, homeTip, awayTip, scorerTip, isDouble } = await req.json();
+  const { userId, matchId, homeTip, awayTip, scorerPlayerId, isDouble } = await req.json();
   const sessionToken = req.cookies.get('session_token')?.value;
   const sql = getSql();
 
@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
   const session = await sql`SELECT user_id FROM sessions WHERE token = ${sessionToken} AND user_id = ${Number(userId)} AND expires_at > NOW()`;
   if (!session.length) return NextResponse.json({ error: 'Neplatná nebo vypršená session. Přihlas se znovu.' }, { status: 401 });
 
-  const rows = await sql`SELECT kickoff, matchday FROM matches WHERE id = ${Number(matchId)}`;
+  const rows = await sql`SELECT kickoff, matchday, home_team_id, away_team_id FROM matches WHERE id = ${Number(matchId)}`;
   if (!rows.length) return NextResponse.json({ error: 'Zápas nenalezen.' }, { status: 404 });
 
   if (new Date() >= new Date(rows[0].kickoff)) {
@@ -44,16 +44,27 @@ export async function POST(req: NextRequest) {
     for (const o of others) await sql`UPDATE tips SET is_double = FALSE WHERE id = ${o.id}`;
   }
 
-  const scorer = scorerTip?.trim() || null;
+  // Střelec: hráč musí patřit k jednomu ze dvou týmů zápasu. Ukládáme ID (pro vyhodnocení) i jméno (pro zobrazení).
+  let scorerId: number | null = null;
+  let scorerName: string | null = null;
+  if (scorerPlayerId != null && scorerPlayerId !== '') {
+    const found = await sql`
+      SELECT id, name FROM players
+      WHERE id = ${Number(scorerPlayerId)} AND team_id IN (${rows[0].home_team_id}, ${rows[0].away_team_id})`;
+    if (!found.length) return NextResponse.json({ error: 'Vybraný hráč nehraje v tomhle zápase.' }, { status: 400 });
+    scorerId = found[0].id;
+    scorerName = found[0].name;
+  }
   await sql`
-    INSERT INTO tips (user_id, match_id, home_tip, away_tip, scorer_tip, is_double)
-    VALUES (${Number(userId)}, ${Number(matchId)}, ${Number(homeTip)}, ${Number(awayTip)}, ${scorer}, ${wantDouble})
+    INSERT INTO tips (user_id, match_id, home_tip, away_tip, scorer_tip, scorer_player_id, is_double)
+    VALUES (${Number(userId)}, ${Number(matchId)}, ${Number(homeTip)}, ${Number(awayTip)}, ${scorerName}, ${scorerId}, ${wantDouble})
     ON CONFLICT (user_id, match_id) DO UPDATE SET
       home_tip = EXCLUDED.home_tip,
       away_tip = EXCLUDED.away_tip,
       scorer_tip = EXCLUDED.scorer_tip,
+      scorer_player_id = EXCLUDED.scorer_player_id,
       is_double = EXCLUDED.is_double
   `;
-  await auditLog('UPSERT', 'tip', { userId, matchId, homeTip, awayTip, scorerTip: scorer, isDouble: wantDouble }, `user:${userId}`);
+  await auditLog('UPSERT', 'tip', { userId, matchId, homeTip, awayTip, scorerTip: scorerName, isDouble: wantDouble }, `user:${userId}`);
   return NextResponse.json({ ok: true });
 }

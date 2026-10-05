@@ -3,7 +3,10 @@ import { getSql, initSchema } from '@/lib/db';
 import { calcPoints } from '@/lib/scoring';
 import { checkAdminAuth } from '@/lib/adminAuth';
 import { sendResults } from '@/lib/notify';
+import { applyGoalScorers, refreshSquadsIfStale } from '@/lib/scorers';
 import { fetchFixtures, matchState, roundNumber, PL_FIRST_MATCHDAY, type ApiFixture } from '@/lib/apifootball';
+
+export const maxDuration = 60; // celá sezóna + soupisky 20 týmů může trvat déle než výchozích 10 s
 
 // mode=full (výchozí): stáhne celou sezónu – nové zápasy, přesuny, výsledky. Cron 1× denně + admin.
 // mode=live: levný průchod kolem začátku zápasů – bez zápasu v okně nevolá API vůbec.
@@ -48,11 +51,14 @@ export async function GET(req: NextRequest) {
   try {
     await sql`SELECT home_logo FROM matches LIMIT 1`;
     await sql`SELECT is_double FROM tips LIMIT 1`;
+    await sql`SELECT scorer_ids, home_team_id FROM matches LIMIT 1`;
+    await sql`SELECT scorer_player_id FROM tips LIMIT 1`;
+    await sql`SELECT id FROM players LIMIT 1`;
   } catch {
     await initSchema();
   }
 
-  const dbMatches = await sql`SELECT id, home_team, away_team, kickoff, status, home_score, away_score, matchday FROM matches`;
+  const dbMatches = await sql`SELECT id, home_team, away_team, kickoff, status, home_score, away_score, matchday, scorer_ids, goal_scorers FROM matches`;
   const db = new Map(dbMatches.map(m => [m.id as number, m]));
 
   let inserted = 0, updated = 0, finishedNow = 0;
@@ -71,8 +77,8 @@ export async function GET(req: NextRequest) {
 
     if (!existing) {
       await sql`
-        INSERT INTO matches (id, home_team, away_team, kickoff, stage, matchday, status, home_logo, away_logo)
-        VALUES (${id}, ${home}, ${away}, ${kickoff}, 'REGULAR_SEASON', ${matchday}, 'scheduled', ${hl}, ${al})
+        INSERT INTO matches (id, home_team, away_team, kickoff, stage, matchday, status, home_logo, away_logo, home_team_id, away_team_id)
+        VALUES (${id}, ${home}, ${away}, ${kickoff}, 'REGULAR_SEASON', ${matchday}, 'scheduled', ${hl}, ${al}, ${f.teams.home.id}, ${f.teams.away.id})
         ON CONFLICT (id) DO NOTHING`;
       inserted++;
       // pokračuj – zápas může být rovnou dohraný/živý (první import uprostřed sezóny)
@@ -86,7 +92,8 @@ export async function GET(req: NextRequest) {
     if (existing && !wasFinished) {
       await sql`
         UPDATE matches SET home_team = ${home}, away_team = ${away}, kickoff = ${kickoff},
-          matchday = ${matchday}, home_logo = ${hl}, away_logo = ${al}
+          matchday = ${matchday}, home_logo = ${hl}, away_logo = ${al},
+          home_team_id = ${f.teams.home.id}, away_team_id = ${f.teams.away.id}
         WHERE id = ${id}`;
     }
 
@@ -95,17 +102,40 @@ export async function GET(req: NextRequest) {
       updated++;
     } else if (state === 'finished' && hs != null && as != null) {
       const scoreChanged = existing && (existing.home_score !== hs || existing.away_score !== as);
-      if (wasFinished && !scoreChanged) continue;
+      if (wasFinished && !scoreChanged) {
+        // střelci se při dohrání nepodařilo zjistit (API je někdy zpozdí) – zkusit znovu, ale ne u ručně zadaných výsledků
+        const recent = new Date(kickoff).getTime() > Date.now() - 7 * 24 * 3600 * 1000;
+        if (existing?.scorer_ids == null && !existing?.goal_scorers && recent) await applyGoalScorers(apiKey, id);
+        continue;
+      }
       await sql`UPDATE matches SET status = 'finished', home_score = ${hs}, away_score = ${as} WHERE id = ${id}`;
       const tips = await sql`SELECT id, home_tip, away_tip FROM tips WHERE match_id = ${id}`;
       for (const tip of tips) {
         await sql`UPDATE tips SET points = ${calcPoints(hs, as, tip.home_tip, tip.away_tip)} WHERE id = ${tip.id}`;
       }
+      await applyGoalScorers(apiKey, id); // střelci a bonus +3 b (před odesláním upozornění, ať v nich body sedí)
       if (!wasFinished) { finishedNow++; finishedIds.push(id); }
       updated++;
     } else if (state === 'scheduled' && existing?.status === 'live') {
       // zápas se vrátil do plánu (chybně označený live) – srovnat
       await sql`UPDATE matches SET status = 'scheduled', home_score = NULL, away_score = NULL WHERE id = ${id}`;
+    }
+  }
+
+  // Soupisky pro výběr střelce: v plném běhu, jen když jsou prázdné/zastaralé (nebo ?squads=1)
+  let squads;
+  if (!live) {
+    try {
+      const teams = new Map<number, string>();
+      for (const f of fixtures) {
+        const md = roundNumber(f.league.round);
+        if (md != null && md < PL_FIRST_MATCHDAY) continue;
+        teams.set(f.teams.home.id, f.teams.home.name);
+        teams.set(f.teams.away.id, f.teams.away.name);
+      }
+      squads = await refreshSquadsIfStale(apiKey, [...teams].map(([id, name]) => ({ id, name })), req.nextUrl.searchParams.get('squads') === '1');
+    } catch (e) {
+      console.error('[sync] soupisky selhaly', e);
     }
   }
 
@@ -117,5 +147,5 @@ export async function GET(req: NextRequest) {
     console.error('[sync] upozornění na výsledky selhalo', e);
   }
 
-  return NextResponse.json({ ok: true, mode: live ? 'live' : 'full', fixtures: fixtures.length, inserted, updated, finishedNow, notified });
+  return NextResponse.json({ ok: true, mode: live ? 'live' : 'full', fixtures: fixtures.length, inserted, updated, finishedNow, notified, squads });
 }

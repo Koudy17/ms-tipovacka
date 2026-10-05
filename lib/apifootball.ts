@@ -10,8 +10,8 @@ export interface ApiFixture {
   fixture: { id: number; date: string; status: { short: string } };
   league: { round: string };
   teams: {
-    home: { name: string; logo: string | null };
-    away: { name: string; logo: string | null };
+    home: { id: number; name: string; logo: string | null };
+    away: { id: number; name: string; logo: string | null };
   };
   goals: { home: number | null; away: number | null };
   score: { fulltime: { home: number | null; away: number | null } };
@@ -35,17 +35,9 @@ export function roundNumber(round: string): number | null {
   return m ? Number(m[1]) : null;
 }
 
-export async function fetchFixtures(
-  apiKey: string,
-  params: Record<string, string | number>,
-): Promise<ApiFixture[]> {
-  const qs = new URLSearchParams({
-    league: String(PL_LEAGUE_ID),
-    season: String(PL_SEASON),
-    timezone: 'UTC',
-    ...Object.fromEntries(Object.entries(params).map(([k, v]) => [k, String(v)])),
-  });
-  const res = await fetch(`${BASE}/fixtures?${qs}`, {
+async function apiGet(apiKey: string, path: string, params: Record<string, string | number>) {
+  const qs = new URLSearchParams(Object.fromEntries(Object.entries(params).map(([k, v]) => [k, String(v)])));
+  const res = await fetch(`${BASE}${path}?${qs}`, {
     headers: { 'x-apisports-key': apiKey },
     cache: 'no-store',
   });
@@ -57,4 +49,40 @@ export async function fetchFixtures(
     throw new Error(`API-Football: ${JSON.stringify(errors)}`);
   }
   return body.response ?? [];
+}
+
+export async function fetchFixtures(
+  apiKey: string,
+  params: Record<string, string | number>,
+): Promise<ApiFixture[]> {
+  return apiGet(apiKey, '/fixtures', {
+    league: PL_LEAGUE_ID,
+    season: PL_SEASON,
+    timezone: 'UTC',
+    ...params,
+  });
+}
+
+const POSITIONS: Record<string, string> = {
+  Goalkeeper: 'Brankář', Defender: 'Obránce', Midfielder: 'Záložník', Attacker: 'Útočník',
+};
+
+export interface SquadPlayer { id: number; name: string; position: string }
+
+// Soupiska týmu (hráči se pozicemi česky)
+export async function fetchSquad(apiKey: string, teamId: number): Promise<SquadPlayer[]> {
+  const res = await apiGet(apiKey, '/players/squads', { team: teamId });
+  const players: { id: number; name: string; position: string }[] = res[0]?.players ?? [];
+  return players.map(p => ({ id: p.id, name: p.name, position: POSITIONS[p.position] ?? p.position }));
+}
+
+export interface GoalScorer { id: number; name: string }
+
+// Střelci zápasu: normální gól a penalta se počítají, vlastní gól ne
+export async function fetchGoalScorers(apiKey: string, fixtureId: number): Promise<GoalScorer[]> {
+  const events: { type: string; detail: string; player: { id: number | null; name: string | null } }[] =
+    await apiGet(apiKey, '/fixtures/events', { fixture: fixtureId });
+  return events
+    .filter(e => e.type === 'Goal' && (e.detail === 'Normal Goal' || e.detail === 'Penalty') && e.player?.id && e.player?.name)
+    .map(e => ({ id: e.player.id as number, name: e.player.name as string }));
 }

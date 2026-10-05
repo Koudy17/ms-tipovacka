@@ -1,17 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import playersData from '@/data/players.json';
+import { getSql } from '@/lib/db';
 
-interface Player {
-  team: string;
-  name: string;
-  position: string;
-}
-
-const players = playersData as Player[];
-
+// Soupisky týmů PL (plní je sync z API-Football). `team` = název týmu velkými písmeny
+// (kvůli adminu, který páruje podle jména); appka páruje podle team_id.
 export async function GET(req: NextRequest) {
   const team = req.nextUrl.searchParams.get('team');
-  if (!team) return NextResponse.json(players);
-  const filtered = players.filter(p => p.team.toLowerCase() === team.toLowerCase());
-  return NextResponse.json(filtered);
+  const sql = getSql();
+  const rows = team
+    ? await sql`SELECT id, team_id, team_name, name, position FROM players WHERE LOWER(team_name) = LOWER(${team}) ORDER BY name`
+    : await sql`SELECT id, team_id, team_name, name, position FROM players ORDER BY team_name, name`;
+  return NextResponse.json(rows.map(r => ({
+    id: r.id, team_id: r.team_id, team: (r.team_name as string).toUpperCase(), name: r.name, position: r.position,
+  })));
 }

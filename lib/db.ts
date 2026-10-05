@@ -92,6 +92,21 @@ export async function initSchema() {
   await sql`ALTER TABLE tips ADD COLUMN IF NOT EXISTS scorer_points INTEGER`;
   await sql`ALTER TABLE tips ADD COLUMN IF NOT EXISTS is_double BOOLEAN NOT NULL DEFAULT FALSE`;
   await sql`ALTER TABLE matches ADD COLUMN IF NOT EXISTS goal_scorers TEXT`;
+  await sql`ALTER TABLE matches ADD COLUMN IF NOT EXISTS home_team_id INTEGER`;
+  await sql`ALTER TABLE matches ADD COLUMN IF NOT EXISTS away_team_id INTEGER`;
+  await sql`ALTER TABLE matches ADD COLUMN IF NOT EXISTS scorer_ids TEXT`; // ID střelců z API (čárkou); NULL = ještě nezjištěno, '' = žádný gól
+  await sql`ALTER TABLE tips ADD COLUMN IF NOT EXISTS scorer_player_id INTEGER`;
+  await sql`
+    CREATE TABLE IF NOT EXISTS players (
+      id INTEGER PRIMARY KEY,
+      team_id INTEGER NOT NULL,
+      team_name TEXT NOT NULL,
+      name TEXT NOT NULL,
+      position TEXT,
+      updated_at TIMESTAMP DEFAULT NOW()
+    )
+  `;
+  await sql`CREATE INDEX IF NOT EXISTS players_team_idx ON players (team_id)`;
   await sql`ALTER TABLE matches ADD COLUMN IF NOT EXISTS home_logo TEXT`;
   await sql`ALTER TABLE matches ADD COLUMN IF NOT EXISTS away_logo TEXT`;
   await sql`
