@@ -19,6 +19,8 @@ export async function initSchema() {
   `;
   await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS password_hash TEXT`;
   await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS must_change_password BOOLEAN DEFAULT TRUE`;
+  await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS email TEXT`;
+  await sql`CREATE UNIQUE INDEX IF NOT EXISTS users_email_lower_idx ON users (LOWER(email)) WHERE email IS NOT NULL`;
   await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS session_token TEXT`;
   await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS session_expires_at TIMESTAMP`;
   await sql`
@@ -26,6 +28,15 @@ export async function initSchema() {
       token TEXT PRIMARY KEY,
       user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
       expires_at TIMESTAMP NOT NULL,
+      created_at TIMESTAMP DEFAULT NOW()
+    )
+  `;
+  await sql`
+    CREATE TABLE IF NOT EXISTS password_resets (
+      token_hash TEXT PRIMARY KEY,
+      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      expires_at TIMESTAMP NOT NULL,
+      used_at TIMESTAMP,
       created_at TIMESTAMP DEFAULT NOW()
     )
   `;
@@ -58,6 +69,7 @@ export async function initSchema() {
   `;
   await sql`ALTER TABLE tips ADD COLUMN IF NOT EXISTS scorer_tip TEXT`;
   await sql`ALTER TABLE tips ADD COLUMN IF NOT EXISTS scorer_points INTEGER`;
+  await sql`ALTER TABLE tips ADD COLUMN IF NOT EXISTS is_double BOOLEAN NOT NULL DEFAULT FALSE`;
   await sql`ALTER TABLE matches ADD COLUMN IF NOT EXISTS goal_scorers TEXT`;
   await sql`ALTER TABLE matches ADD COLUMN IF NOT EXISTS home_logo TEXT`;
   await sql`ALTER TABLE matches ADD COLUMN IF NOT EXISTS away_logo TEXT`;

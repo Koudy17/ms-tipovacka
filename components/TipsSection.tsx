@@ -25,6 +25,7 @@ interface Tip {
   scorer_tip: string | null;
   points: number | null;
   scorer_points: number | null;
+  is_double: boolean;
 }
 
 function isLocked(kickoff: string) {
@@ -56,9 +57,9 @@ function TeamName({ name, logo, align }: { name: string; logo: string | null; al
   );
 }
 
-function pointsBadge(points: number | null, scorerPoints: number | null) {
+function pointsBadge(points: number | null, scorerPoints: number | null, isDouble = false) {
   if (points === null) return null;
-  const total = points + (scorerPoints ?? 0);
+  const total = (points + (scorerPoints ?? 0)) * (isDouble ? 2 : 1);
   const colors: Record<number, string> = {
     10: 'bg-yellow-400 text-black',
     6: 'bg-blue-500 text-white',
@@ -71,7 +72,7 @@ function pointsBadge(points: number | null, scorerPoints: number | null) {
   const baseLabel = labels[points] ?? `${points}b`;
   return (
     <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${baseColor}`}>
-      {scorerPoints ? `${total}b` : baseLabel}
+      {isDouble ? `×2 ${total}b` : scorerPoints ? `${total}b` : baseLabel}
       {scorerPoints ? <span className="ml-1 opacity-75">⚽</span> : null}
     </span>
   );
@@ -96,11 +97,13 @@ interface MatchTip {
   scorer_tip: string | null;
   points: number | null;
   scorer_points: number | null;
+  is_double: boolean;
 }
 
 export default function TipsSection({ userId, dark = true, onSessionExpired }: { userId: number; dark?: boolean; onSessionExpired?: () => void }) {
   const [matches, setMatches] = useState<Match[]>([]);
   const [tips, setTips] = useState<Map<number, Tip>>(new Map());
+  const [doubles, setDoubles] = useState<Set<number>>(new Set()); // zápasy s doublem (včetně neuložených změn)
   const [inputs, setInputs] = useState<Map<number, [string, string]>>(new Map());
   const [expandedMatch, setExpandedMatch] = useState<number | null>(null);
   const [matchTips, setMatchTips] = useState<Map<number, MatchTip[]>>(new Map());
@@ -138,12 +141,15 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
     const tMap = new Map<number, Tip>();
     const iMap = new Map<number, [string, string]>();
     const sMap = new Map<number, string>();
+    const dSet = new Set<number>();
     for (const t of tipData) {
       tMap.set(t.match_id, t);
+      if (t.is_double) dSet.add(t.match_id);
       iMap.set(t.match_id, [String(t.home_tip), String(t.away_tip)]);
       sMap.set(t.match_id, t.scorer_tip ?? '');
     }
     setTips(tMap);
+    setDoubles(dSet);
     setInputs(iMap);
     setScorerInputs(sMap);
   }, [userId]);
@@ -170,6 +176,23 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
     }
   };
 
+  // Double: jeden na kolo. Zápas s doublem, který už začal, slot v kole blokuje.
+  const doubleBlocked = (m: Match) =>
+    matches.some(o => o.id !== m.id && o.matchday === m.matchday && doubles.has(o.id) && isLocked(o.kickoff));
+
+  const toggleDouble = (m: Match) => {
+    const next = new Set(doubles);
+    if (next.has(m.id)) {
+      next.delete(m.id);
+    } else {
+      if (m.matchday == null || doubleBlocked(m)) return;
+      // přesun: odeber double z ostatních (ještě nezačatých) zápasů stejného kola
+      for (const o of matches) if (o.matchday === m.matchday) next.delete(o.id);
+      next.add(m.id);
+    }
+    setDoubles(next);
+  };
+
   const saveAll = async () => {
     const upcoming = matches.filter(m => !isLocked(m.kickoff));
     const toSave = upcoming.filter(m => {
@@ -185,7 +208,7 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
       const res = await fetch('/api/tips', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, matchId: m.id, homeTip: inp[0], awayTip: inp[1], scorerTip: scorerInputs.get(m.id) ?? '' }),
+        body: JSON.stringify({ userId, matchId: m.id, homeTip: inp[0], awayTip: inp[1], scorerTip: scorerInputs.get(m.id) ?? '', isDouble: doubles.has(m.id) }),
       });
       if (res.status === 401) { onSessionExpired?.(); return; }
       const data = await res.json();
@@ -302,7 +325,32 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
               const borderClass = !hasSavedTip ? 'border-red-700' : missingScorer ? 'border-orange-500' : (dark ? 'border-slate-700' : 'border-gray-200');
               return (
                 <div key={m.id} className={`${dark ? 'bg-slate-800' : 'bg-white'} rounded-xl p-3 border ${borderClass}`}>
-                  <div className={`text-xs ${d.time} mb-2`}>{formatKickoff(m.kickoff)}</div>
+                  <div className="flex items-center justify-between mb-2">
+                    <div className={`text-xs ${d.time}`}>{formatKickoff(m.kickoff)}</div>
+                    {(() => {
+                      const active = doubles.has(m.id);
+                      const blocked = !active && doubleBlocked(m);
+                      const noTip = inp[0] === '' || inp[1] === '';
+                      const disabled = blocked || (!active && noTip);
+                      return (
+                        <button
+                          type="button"
+                          onClick={() => toggleDouble(m)}
+                          disabled={disabled}
+                          title={blocked ? 'Double v tomto kole už jsi použil u zápasu, který začal' : noTip && !active ? 'Nejdřív zadej tip' : 'Double: body za tenhle zápas se zdvojnásobí (jeden na kolo)'}
+                          className={`text-xs font-bold px-2 py-0.5 rounded-full border transition ${
+                            active
+                              ? 'bg-amber-400 border-amber-400 text-black'
+                              : disabled
+                                ? (dark ? 'border-slate-700 text-slate-600' : 'border-gray-200 text-gray-300')
+                                : (dark ? 'border-amber-500 text-amber-400 hover:bg-amber-500/10' : 'border-amber-500 text-amber-600 hover:bg-amber-50')
+                          }`}
+                        >
+                          ×2
+                        </button>
+                      );
+                    })()}
+                  </div>
                   <div className="flex items-center gap-2">
                     <div className={`flex-1 min-w-0 flex font-semibold ${d.team} text-sm leading-tight`}><TeamName name={m.home_team} logo={m.home_logo} align="right" /></div>
                     <div className="flex items-center gap-1">
@@ -417,6 +465,7 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
                       {tip ? (
                         <div className={`text-xs ${d.tipText}`}>
                           {tip.home_tip}:{tip.away_tip}
+                          {tip.is_double && <span className="ml-1 font-bold text-amber-400">×2</span>}
                           {tip.scorer_tip && <span className={`ml-1 ${d.scorerVal}`}>⚽{tip.scorer_tip}</span>}
                         </div>
                       ) : (
@@ -448,7 +497,7 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
                               <span className="font-semibold w-24 truncate">{mt.user_id === userId ? '👤 ' : ''}{mt.nickname}</span>
                               <span className="font-bold">{mt.home_tip}:{mt.away_tip}</span>
                               <span className={dark ? 'text-yellow-500' : 'text-yellow-600'}>{mt.scorer_tip ? `⚽ ${mt.scorer_tip}` : ''}</span>
-                              <span className="min-w-[44px] text-right">{mt.points !== null ? pointsBadge(mt.points, mt.scorer_points) : ''}</span>
+                              <span className="min-w-[44px] text-right">{mt.points !== null ? pointsBadge(mt.points, mt.scorer_points, mt.is_double) : (mt.is_double ? <span className="font-bold text-amber-400">×2</span> : '')}</span>
                             </div>
                           ))}
                         </div>
@@ -497,7 +546,7 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
                     </div>
                     <div className={`flex-1 min-w-0 flex font-semibold ${d.teamLocked} text-xs sm:text-sm pt-1`}><TeamName name={m.away_team} logo={m.away_logo} align="left" /></div>
                     <div className="min-w-[52px] text-right flex flex-col items-end gap-1">
-                      {tip ? pointsBadge(tip.points, tip.scorer_points) : null}
+                      {tip ? pointsBadge(tip.points, tip.scorer_points, tip.is_double) : null}
                       <button
                         onClick={() => toggleMatchTips(m.id)}
                         className={`text-[10px] px-1.5 py-0.5 rounded transition ${
@@ -529,7 +578,7 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
                                 {mt.scorer_tip ? `⚽ ${mt.scorer_tip}` : ''}
                               </span>
                               <span className="text-right">
-                                {mt.points !== null ? pointsBadge(mt.points, mt.scorer_points) : ''}
+                                {mt.points !== null ? pointsBadge(mt.points, mt.scorer_points, mt.is_double) : ''}
                               </span>
                             </div>
                           ))}

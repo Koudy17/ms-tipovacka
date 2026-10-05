@@ -46,6 +46,7 @@ export async function GET(req: NextRequest) {
   // Sloupce pro znaky klubů se doplní automaticky při prvním běhu
   try {
     await sql`SELECT home_logo FROM matches LIMIT 1`;
+    await sql`SELECT is_double FROM tips LIMIT 1`;
   } catch {
     await initSchema();
   }

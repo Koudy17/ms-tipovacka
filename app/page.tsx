@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
+import AuthCard, { type AuthUser } from '@/components/AuthCard';
 import TipsSection from '@/components/TipsSection';
 import Leaderboard from '@/components/Leaderboard';
 import { checkPassword } from '@/lib/passwordPolicy';
@@ -13,9 +14,7 @@ interface User {
 
 export default function Home() {
   const [user, setUser] = useState<User | null>(null);
-  const [nickname, setNickname] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [password, setPassword] = useState(''); // zadané při přihlášení – potřeba pro povinnou změnu hesla
   const [changePwdState, setChangePwdState] = useState<{ newPwd: string; confirmPwd: string; error: string; loading: boolean }>({ newPwd: '', confirmPwd: '', error: '', loading: false });
   const [tab, setTab] = useState<'tips' | 'leaderboard'>('tips');
   const [dark, setDark] = useState(true);
@@ -52,25 +51,11 @@ export default function Home() {
     localStorage.setItem('wc_theme', next ? 'dark' : 'light');
   };
 
-  const handleLogin = useCallback(async () => {
-    if (nickname.trim().length < 2) {
-      setError('Přezdívka musí mít alespoň 2 znaky.');
-      return;
-    }
-    if (!password) {
-      setError('Zadej heslo.');
-      return;
-    }
-    const res = await fetch('/api/users', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nickname: nickname.trim(), password }),
-    });
-    const data = await res.json();
-    if (data.error) { setError(data.error); return; }
+  const handleAuthed = (data: AuthUser, enteredPassword: string) => {
+    setPassword(enteredPassword);
     localStorage.setItem('wc_user', JSON.stringify(data));
     setUser(data);
-  }, [nickname, password]);
+  };
 
   const handleChangePassword = async () => {
     if (changePwdState.newPwd.length < 3) {
@@ -112,40 +97,7 @@ export default function Home() {
   if (!user) {
     return (
       <div className={`min-h-screen flex items-center justify-center p-4 ${dark ? 'bg-gradient-to-br from-slate-900 via-slate-900 to-green-950' : 'bg-gradient-to-br from-gray-100 via-gray-100 to-green-50'}`}>
-        <div className={`${dark ? 'bg-slate-800' : 'bg-white'} border border-green-500 rounded-2xl shadow-2xl p-8 w-full max-w-sm`}
-          style={{ boxShadow: '0 0 24px 2px rgba(34,197,94,0.18)' }}>
-          <div className="text-center mb-6">
-            <div className="text-5xl mb-2">⚽</div>
-            <h1 className={`text-2xl font-bold ${t.headerText}`}>Premier League Tipovačka</h1>
-            <p className={`${t.mutedText} text-sm mt-1`}>Přihlás se a tipuj!</p>
-          </div>
-          <input
-            className={`w-full ${dark ? 'bg-slate-900 border-slate-600 text-white placeholder-slate-500' : 'bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-400'} border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 mb-2`}
-            placeholder="Přezdívka"
-            value={nickname}
-            onChange={e => { setNickname(e.target.value); setError(''); }}
-            onKeyDown={e => e.key === 'Enter' && handleLogin()}
-            maxLength={30}
-          />
-          <input
-            type="password"
-            className={`w-full ${dark ? 'bg-slate-900 border-slate-600 text-white placeholder-slate-500' : 'bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-400'} border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 mb-3`}
-            placeholder="Heslo"
-            value={password}
-            onChange={e => { setPassword(e.target.value); setError(''); }}
-            onKeyDown={e => e.key === 'Enter' && handleLogin()}
-          />
-          {error && <p className="text-red-400 text-sm mb-2">{error}</p>}
-          <button
-            onClick={handleLogin}
-            className="w-full bg-green-600 hover:bg-green-500 text-white font-semibold rounded-lg py-2 transition"
-          >
-            Přihlásit se
-          </button>
-          <p className="text-center text-green-500 text-xs mt-4 opacity-80">
-            ⚽ Sezóna 2026/27 právě probíhá!
-          </p>
-        </div>
+        <AuthCard dark={dark} onAuthed={handleAuthed} />
       </div>
     );
   }
@@ -231,7 +183,7 @@ export default function Home() {
           </button>
           <span className={`text-sm ${t.subText}`}>👤 {user.nickname}</span>
           <button
-            onClick={() => { localStorage.removeItem('wc_user'); setUser(null); setNickname(''); }}
+            onClick={() => { localStorage.removeItem('wc_user'); setUser(null); setPassword(''); }}
             className={`text-xs ${t.mutedText} hover:text-white underline`}
           >
             Odhlásit

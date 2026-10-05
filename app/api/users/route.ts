@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
   const rows = await sql`SELECT * FROM users WHERE LOWER(nickname) = LOWER(${trimmed})`;
 
   if (rows.length === 0) {
-    return NextResponse.json({ error: 'Přezdívka nenalezena. Požádej admina o přístup.' }, { status: 401 });
+    return NextResponse.json({ error: 'Přezdívka nenalezena. Zkontroluj ji, nebo se zaregistruj.' }, { status: 401 });
   }
 
   const user = rows[0];
