@@ -4,6 +4,7 @@ import { getSql, auditLog } from '@/lib/db';
 import { checkPassword } from '@/lib/passwordPolicy';
 import { getClientIp, rateLimit } from '@/lib/rateLimit';
 import { startSession } from '@/lib/session';
+import { emailVerificationEnabled, sendVerification } from '@/lib/verifyEmail';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -54,6 +55,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Přezdívka nebo e-mail je už obsazený.' }, { status: 409 });
   }
 
+  if (emailVerificationEnabled()) {
+    // chyba při odeslání nesmí zablokovat registraci – uživatel si pak pošle odkaz znovu z appky
+    try { await sendVerification(user.id, email, req.nextUrl.origin); } catch (e) { console.error('[register] potvrzení e-mailu selhalo', e); }
+  }
   await auditLog('REGISTER', 'user', { userId: user.id, nickname }, `user:${user.id}`);
   const res = NextResponse.json({ id: user.id, nickname: user.nickname, mustChangePassword: false });
   await startSession(res, user.id);

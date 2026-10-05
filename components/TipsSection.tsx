@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { shortName } from '@/lib/teams';
+import MatchInfo from '@/components/MatchInfo';
+import LiveTimeline, { type LiveEvent } from '@/components/LiveTimeline';
 import { todayWindow } from '@/lib/time';
 
 interface Match {
@@ -40,6 +42,16 @@ function formatKickoff(kickoff: string) {
     weekday: 'short', day: 'numeric', month: 'numeric',
     hour: '2-digit', minute: '2-digit',
   });
+}
+
+interface LiveInfo {
+  id: number;
+  status: string;
+  minute: number | null;
+  extra: number | null;
+  home: { goals: number | null };
+  away: { goals: number | null };
+  events: LiveEvent[];
 }
 
 // Záložky: ODEHRANE, DNES, nebo "KOLO_<n>"
@@ -110,6 +122,8 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
   const [doubles, setDoubles] = useState<Set<number>>(new Set()); // zápasy s doublem (včetně neuložených změn)
   const [inputs, setInputs] = useState<Map<number, [string, string]>>(new Map());
   const [expandedMatch, setExpandedMatch] = useState<number | null>(null);
+  const [liveMap, setLiveMap] = useState<Map<number, LiveInfo>>(new Map()); // živá data z API (minuta, skóre, průběh)
+  const [infoOpen, setInfoOpen] = useState<number | null>(null); // rozbalená forma / vzájemné zápasy
   const [matchTips, setMatchTips] = useState<Map<number, MatchTip[]>>(new Map());
   const [scorerInputs, setScorerInputs] = useState<Map<number, string>>(new Map());
   const [players, setPlayers] = useState<Player[]>([]);
@@ -159,6 +173,33 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
   }, [userId]);
 
   useEffect(() => { load(); }, [load]);
+
+  // Během zápasů průběžně načítat minutu, skóre a průběh (server to cachuje, takže počet návštěvníků nevadí)
+  const hasLiveCandidate = matches.some(m => m.status !== 'finished' && isLocked(m.kickoff) && Date.now() - new Date(m.kickoff).getTime() < 4 * 3600 * 1000);
+  useEffect(() => {
+    if (!hasLiveCandidate) return;
+    let stop = false;
+    let n = 0;
+    const tick = async () => {
+      try {
+        const r = await fetch('/api/live');
+        if (r.ok && !stop) {
+          const data: { matches: LiveInfo[] } = await r.json();
+          setLiveMap(new Map(data.matches.map(x => [x.id, x])));
+        }
+        // jednou za minutu obnovit i zápasy z DB (dohráno, body), ale bez zásahu do rozepsaných tipů
+        if (!stop && n++ % 2 === 1) {
+          const mr = await fetch('/api/matches');
+          if (mr.ok) setMatches(await mr.json());
+        }
+      } catch {
+        // výpadek spojení – zkusí se to za 30 s
+      }
+    };
+    tick();
+    const id = setInterval(tick, 30000);
+    return () => { stop = true; clearInterval(id); };
+  }, [hasLiveCandidate]);
 
   const setInput = (matchId: number, idx: 0 | 1, val: string) => {
     const cur = inputs.get(matchId) ?? ['', ''];
@@ -322,7 +363,18 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
               return (
                 <div key={m.id} className={`${dark ? 'bg-slate-800' : 'bg-white'} rounded-xl p-3 border ${borderClass}`}>
                   <div className="flex items-center justify-between mb-2">
-                    <div className={`text-xs ${d.time}`}>{formatKickoff(m.kickoff)}</div>
+                    <div className="flex items-center gap-2">
+                      <span className={`text-xs ${d.time}`}>{formatKickoff(m.kickoff)}</span>
+                      {m.home_team_id && m.away_team_id && (
+                        <button
+                          type="button"
+                          onClick={() => setInfoOpen(infoOpen === m.id ? null : m.id)}
+                          className={`text-[11px] px-1.5 py-0.5 rounded transition ${infoOpen === m.id ? (dark ? 'bg-slate-600 text-white' : 'bg-gray-300 text-gray-800') : (dark ? 'text-slate-400 hover:text-slate-200' : 'text-gray-500 hover:text-gray-700')}`}
+                        >
+                          📊 forma{infoOpen === m.id ? ' ▲' : ' ▼'}
+                        </button>
+                      )}
+                    </div>
                     {(() => {
                       const active = doubles.has(m.id);
                       const blocked = !active && doubleBlocked(m);
@@ -395,7 +447,20 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
                           ) : null;
                         })}
                       </select>
+                      {(() => {
+                        const sid = scorerInputs.get(m.id);
+                        const p = sid ? matchPlayers.find(x => String(x.id) === sid) : null;
+                        return p ? (
+                          <div className="flex items-center gap-2 mt-1.5">
+                            <img src={`https://media.api-sports.io/football/players/${p.id}.png`} alt="" className="h-9 w-9 rounded-full object-cover bg-slate-600" />
+                            <span className={`text-xs font-semibold ${d.scorerVal}`}>⚽ {p.name}</span>
+                          </div>
+                        ) : null;
+                      })()}
                     </div>
+                  )}
+                  {infoOpen === m.id && m.home_team_id && m.away_team_id && (
+                    <MatchInfo homeId={m.home_team_id} awayId={m.away_team_id} homeName={m.home_team} awayName={m.away_team} homeLogo={m.home_logo} awayLogo={m.away_logo} dark={dark} />
                   )}
                   {err && <p className="text-red-400 text-xs mt-1">{err}</p>}
                 </div>
@@ -415,16 +480,20 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
             {playing.map(m => {
               const tip = tips.get(m.id);
               const finished = false;
-              const live = m.status === 'live';
+              const li = liveMap.get(m.id);
+              const live = m.status === 'live' || !!li;
+              const liveHome = li ? li.home.goals : m.home_score;
+              const liveAway = li ? li.away.goals : m.away_score;
+              const liveLabel = li ? (li.status === 'HT' ? 'přestávka' : li.minute ? `${li.minute}${li.extra ? `+${li.extra}` : ''}'` : 'LIVE') : 'LIVE';
               return (
                 <div key={m.id} className={`rounded-xl px-3 py-2.5 border ${dark ? 'bg-slate-800 border-red-800' : 'bg-red-50 border-red-200'}`}>
                   <div className="flex items-center gap-2">
                     <div className={`flex-1 min-w-0 flex font-semibold ${d.teamLocked} text-sm leading-tight`}><TeamName name={m.home_team} logo={m.home_logo} align="right" /></div>
                     <div className="text-center min-w-[72px]">
-                      {live && m.home_score !== null ? (
+                      {live && liveHome !== null ? (
                         <div>
-                          <span className={`text-base font-bold ${d.score}`}>{m.home_score}:{m.away_score}</span>
-                          <span className="ml-1 text-xs font-bold text-red-500 animate-pulse">LIVE</span>
+                          <span className={`text-base font-bold ${d.score}`}>{liveHome}:{liveAway}</span>
+                          <span className="ml-1 text-xs font-bold text-red-500 animate-pulse">{liveLabel}</span>
                         </div>
                       ) : (
                         <span className={`${d.lockIcon} text-xs`}>🔒</span>
@@ -449,12 +518,17 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
                             : (dark ? 'text-slate-500 hover:text-slate-300' : 'text-gray-400 hover:text-gray-600')
                         }`}
                       >
-                        {expandedMatch === m.id ? '▲ skrýt' : '▼ tipy'}
+                        {expandedMatch === m.id ? '▲ skrýt' : (li ? '▼ průběh' : '▼ tipy')}
                       </button>
                     </div>
                   </div>
                   {expandedMatch === m.id && (
                     <div className={`mt-2 pt-2 border-t ${dark ? 'border-slate-700' : 'border-gray-200'}`}>
+                      {li && (
+                        <div className={`mb-2 pb-2 border-b ${dark ? 'border-slate-700' : 'border-gray-200'}`}>
+                          <LiveTimeline events={li.events} homeTeamId={m.home_team_id} dark={dark} />
+                        </div>
+                      )}
                       {(matchTips.get(m.id) ?? []).length === 0 ? (
                         <p className={`text-xs text-center ${d.empty}`}>Nikdo netipoval</p>
                       ) : (

@@ -21,6 +21,7 @@ export async function initSchema() {
   await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS must_change_password BOOLEAN DEFAULT TRUE`;
   await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS email TEXT`;
   await sql`CREATE UNIQUE INDEX IF NOT EXISTS users_email_lower_idx ON users (LOWER(email)) WHERE email IS NOT NULL`;
+  await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS email_verified_at TIMESTAMP`;
   await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS notify_reminders BOOLEAN NOT NULL DEFAULT TRUE`;
   await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS notify_results BOOLEAN NOT NULL DEFAULT TRUE`;
   await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS session_token TEXT`;
@@ -37,6 +38,16 @@ export async function initSchema() {
     CREATE TABLE IF NOT EXISTS password_resets (
       token_hash TEXT PRIMARY KEY,
       user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      expires_at TIMESTAMP NOT NULL,
+      used_at TIMESTAMP,
+      created_at TIMESTAMP DEFAULT NOW()
+    )
+  `;
+  await sql`
+    CREATE TABLE IF NOT EXISTS email_verifications (
+      token_hash TEXT PRIMARY KEY,
+      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      email TEXT NOT NULL,
       expires_at TIMESTAMP NOT NULL,
       used_at TIMESTAMP,
       created_at TIMESTAMP DEFAULT NOW()

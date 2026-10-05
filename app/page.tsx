@@ -5,6 +5,7 @@ import AuthCard, { type AuthUser } from '@/components/AuthCard';
 import NotificationSettings from '@/components/NotificationSettings';
 import TipsSection from '@/components/TipsSection';
 import Leaderboard from '@/components/Leaderboard';
+import LeagueView from '@/components/LeagueView';
 import { checkPassword } from '@/lib/passwordPolicy';
 
 interface User {
@@ -17,7 +18,7 @@ export default function Home() {
   const [user, setUser] = useState<User | null>(null);
   const [password, setPassword] = useState(''); // zadané při přihlášení – potřeba pro povinnou změnu hesla
   const [changePwdState, setChangePwdState] = useState<{ newPwd: string; confirmPwd: string; error: string; loading: boolean }>({ newPwd: '', confirmPwd: '', error: '', loading: false });
-  const [tab, setTab] = useState<'tips' | 'leaderboard'>('tips');
+  const [tab, setTab] = useState<'tips' | 'leaderboard' | 'league'>('tips');
   const [dark, setDark] = useState(true);
   const [showNotifications, setShowNotifications] = useState(false);
   const [isInAppBrowser, setIsInAppBrowser] = useState(false);
@@ -59,12 +60,14 @@ export default function Home() {
     localStorage.removeItem('wc_user');
     setUser(null);
     setPassword('');
+    window.dispatchEvent(new Event('auth-changed'));
   };
 
   const handleAuthed =(data: AuthUser, enteredPassword: string) => {
     setPassword(enteredPassword);
     localStorage.setItem('wc_user', JSON.stringify(data));
     setUser(data);
+    window.dispatchEvent(new Event('auth-changed'));
   };
 
   const handleChangePassword = async () => {
@@ -222,11 +225,18 @@ export default function Home() {
         >
           🏆 Tabulka
         </button>
+        <button
+          onClick={() => setTab('league')}
+          className={`flex-1 py-3 text-sm font-semibold transition border-b-2 ${tab === 'league' ? t.navActive : t.navInactive}`}
+        >
+          ⚽ Liga
+        </button>
       </nav>
 
       <main className="max-w-2xl mx-auto w-full p-4">
         {tab === 'tips' && <TipsSection userId={user.id} dark={dark} onSessionExpired={async () => { await fetch('/api/users/logout', { method: 'POST' }); localStorage.removeItem('wc_user'); setUser(null); }} />}
         {tab === 'leaderboard' && <Leaderboard currentUserId={user.id} dark={dark} />}
+        {tab === 'league' && <LeagueView dark={dark} />}
         {showNotifications && <NotificationSettings dark={dark} onClose={() => setShowNotifications(false)} />}
       </main>
     </div>
