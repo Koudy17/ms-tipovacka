@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSql, initSchema } from '@/lib/db';
 import { calcPoints } from '@/lib/scoring';
 import { checkAdminAuth } from '@/lib/adminAuth';
+import { sendResults } from '@/lib/notify';
 import { fetchFixtures, matchState, roundNumber, PL_FIRST_MATCHDAY, type ApiFixture } from '@/lib/apifootball';
 
 // mode=full (výchozí): stáhne celou sezónu – nové zápasy, přesuny, výsledky. Cron 1× denně + admin.
@@ -55,6 +56,7 @@ export async function GET(req: NextRequest) {
   const db = new Map(dbMatches.map(m => [m.id as number, m]));
 
   let inserted = 0, updated = 0, finishedNow = 0;
+  const finishedIds: number[] = [];
 
   for (const f of fixtures) {
     const id = f.fixture.id;
@@ -99,7 +101,7 @@ export async function GET(req: NextRequest) {
       for (const tip of tips) {
         await sql`UPDATE tips SET points = ${calcPoints(hs, as, tip.home_tip, tip.away_tip)} WHERE id = ${tip.id}`;
       }
-      if (!wasFinished) finishedNow++;
+      if (!wasFinished) { finishedNow++; finishedIds.push(id); }
       updated++;
     } else if (state === 'scheduled' && existing?.status === 'live') {
       // zápas se vrátil do plánu (chybně označený live) – srovnat
@@ -107,5 +109,13 @@ export async function GET(req: NextRequest) {
     }
   }
 
-  return NextResponse.json({ ok: true, mode: live ? 'live' : 'full', fixtures: fixtures.length, inserted, updated, finishedNow });
+  // Upozornění na výsledky – chyba při odesílání nesmí shodit sync
+  let notified;
+  try {
+    notified = await sendResults(finishedIds);
+  } catch (e) {
+    console.error('[sync] upozornění na výsledky selhalo', e);
+  }
+
+  return NextResponse.json({ ok: true, mode: live ? 'live' : 'full', fixtures: fixtures.length, inserted, updated, finishedNow, notified });
 }

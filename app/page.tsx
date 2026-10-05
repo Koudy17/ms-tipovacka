@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import AuthCard, { type AuthUser } from '@/components/AuthCard';
+import NotificationSettings from '@/components/NotificationSettings';
 import TipsSection from '@/components/TipsSection';
 import Leaderboard from '@/components/Leaderboard';
 import { checkPassword } from '@/lib/passwordPolicy';
@@ -18,6 +19,7 @@ export default function Home() {
   const [changePwdState, setChangePwdState] = useState<{ newPwd: string; confirmPwd: string; error: string; loading: boolean }>({ newPwd: '', confirmPwd: '', error: '', loading: false });
   const [tab, setTab] = useState<'tips' | 'leaderboard'>('tips');
   const [dark, setDark] = useState(true);
+  const [showNotifications, setShowNotifications] = useState(false);
   const [isInAppBrowser, setIsInAppBrowser] = useState(false);
   useEffect(() => {
     const ua = navigator.userAgent;
@@ -189,6 +191,14 @@ export default function Home() {
           >
             {dark ? '☀️' : '🌙'}
           </button>
+          <button
+            onClick={() => setShowNotifications(true)}
+            className="text-lg transition hover:scale-110"
+            title="Upozornění"
+            aria-label="Upozornění"
+          >
+            🔔
+          </button>
           <span className={`text-sm ${t.subText}`}>👤 {user.nickname}</span>
           <button
             onClick={logout}
@@ -217,6 +227,7 @@ export default function Home() {
       <main className="max-w-2xl mx-auto w-full p-4">
         {tab === 'tips' && <TipsSection userId={user.id} dark={dark} onSessionExpired={async () => { await fetch('/api/users/logout', { method: 'POST' }); localStorage.removeItem('wc_user'); setUser(null); }} />}
         {tab === 'leaderboard' && <Leaderboard currentUserId={user.id} dark={dark} />}
+        {showNotifications && <NotificationSettings dark={dark} onClose={() => setShowNotifications(false)} />}
       </main>
     </div>
   );

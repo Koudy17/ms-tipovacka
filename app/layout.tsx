@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -15,9 +15,15 @@ const geistMono = Geist_Mono({
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://koudyho-tipovacka.vercel.app";
 const DESCRIPTION = "Tipuj výsledky Premier League s přáteli. Živá tabulka, bodování, celá sezóna 2026/27.";
 
+export const viewport: Viewport = {
+  themeColor: "#0f172a",
+};
+
 export const metadata: Metadata = {
   title: "Premier League Tipovačka",
   description: DESCRIPTION,
+  icons: { icon: "/api/icon?size=192", apple: "/api/icon?size=180" },
+  appleWebApp: { capable: true, title: "PL Tipovačka", statusBarStyle: "black-translucent" },
   openGraph: {
     title: "Premier League Tipovačka ⚽",
     description: DESCRIPTION,

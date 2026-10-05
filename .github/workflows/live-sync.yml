@@ -1,18 +1,25 @@
-# Živé skóre: Vercel Hobby cron umí jen 1× denně, tak endpoint volá GitHub Actions každých 5 minut.
-# Endpoint sám zkontroluje, jestli se zrovna hraje – když ne, API-Football vůbec nevolá.
+# Plánovač: živé skóre a připomínky před zápasy.
+# Vercel Hobby cron umí jen 1× denně, tak endpointy volá GitHub Actions každých 5 minut.
+# Endpointy samy zkontrolují, jestli se zrovna něco děje – když ne, API-Football nevolají.
+# Běží jen v hodinách, kdy se hrají zápasy PL (UTC), aby zbytečně nebudil databázi (Neon).
 # Potřebné secrets v repu: APP_URL (např. https://tvoje-domena.cz) a CRON_SECRET (stejný jako ve Vercelu).
 name: live-sync
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '*/5 10-22 * * *'
   workflow_dispatch:
 
 jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Zavolej live sync
+      - name: Živé skóre a výsledky
         run: |
           curl --fail --silent --show-error --max-time 50 \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
             "${{ secrets.APP_URL }}/api/sync-results?mode=live"
+      - name: Připomínky před zápasy
+        run: |
+          curl --fail --silent --show-error --max-time 50 \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            "${{ secrets.APP_URL }}/api/notify"

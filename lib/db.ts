@@ -21,6 +21,8 @@ export async function initSchema() {
   await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS must_change_password BOOLEAN DEFAULT TRUE`;
   await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS email TEXT`;
   await sql`CREATE UNIQUE INDEX IF NOT EXISTS users_email_lower_idx ON users (LOWER(email)) WHERE email IS NOT NULL`;
+  await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS notify_reminders BOOLEAN NOT NULL DEFAULT TRUE`;
+  await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS notify_results BOOLEAN NOT NULL DEFAULT TRUE`;
   await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS session_token TEXT`;
   await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS session_expires_at TIMESTAMP`;
   await sql`
@@ -38,6 +40,25 @@ export async function initSchema() {
       expires_at TIMESTAMP NOT NULL,
       used_at TIMESTAMP,
       created_at TIMESTAMP DEFAULT NOW()
+    )
+  `;
+  await sql`
+    CREATE TABLE IF NOT EXISTS push_subscriptions (
+      id SERIAL PRIMARY KEY,
+      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      endpoint TEXT UNIQUE NOT NULL,
+      p256dh TEXT NOT NULL,
+      auth TEXT NOT NULL,
+      created_at TIMESTAMP DEFAULT NOW()
+    )
+  `;
+  await sql`
+    CREATE TABLE IF NOT EXISTS notifications_sent (
+      kind TEXT NOT NULL,
+      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      match_id INTEGER NOT NULL,
+      sent_at TIMESTAMP DEFAULT NOW(),
+      PRIMARY KEY (kind, user_id, match_id)
     )
   `;
   await sql`
