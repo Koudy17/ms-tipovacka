@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSql, initSchema } from '@/lib/db';
 import { calcPoints } from '@/lib/scoring';
 import { checkAdminAuth } from '@/lib/adminAuth';
-import { fetchFixtures, matchState, roundNumber, type ApiFixture } from '@/lib/apifootball';
+import { fetchFixtures, matchState, roundNumber, PL_FIRST_MATCHDAY, type ApiFixture } from '@/lib/apifootball';
 
 // mode=full (výchozí): stáhne celou sezónu – nové zápasy, přesuny, výsledky. Cron 1× denně + admin.
 // mode=live: levný průchod kolem začátku zápasů – bez zápasu v okně nevolá API vůbec.
@@ -62,6 +62,7 @@ export async function GET(req: NextRequest) {
     const kickoff = new Date(f.fixture.date).toISOString();
     const state = matchState(f.fixture.status.short);
     const matchday = roundNumber(f.league.round);
+    if (matchday != null && matchday < PL_FIRST_MATCHDAY) continue;
     const hl = f.teams.home.logo, al = f.teams.away.logo;
     const existing = db.get(id);
 

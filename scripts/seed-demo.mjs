@@ -26,14 +26,14 @@ const h = 3600 * 1000;
 const now = Date.now();
 // [domácí, hosté, posun začátku v hodinách, kolo, stav, skóre]
 const rows = [
-  ['ARS', 'LIV', -48, 1, 'finished', [2, 1]],
-  ['MCI', 'CHE', -47, 1, 'finished', [1, 1]],
-  ['MUN', 'TOT', -1, 1, 'live', [0, 1]],
-  ['NEW', 'AVL', 3, 2, 'scheduled'],
-  ['LIV', 'MCI', 26, 2, 'scheduled'],
-  ['CHE', 'ARS', 27, 2, 'scheduled'],
-  ['TOT', 'NEW', 24 * 8, 3, 'scheduled'],
-  ['AVL', 'MUN', 24 * 8 + 2, 3, 'scheduled'],
+  ['ARS', 'LIV', -48, 6, 'finished', [2, 1]],
+  ['MCI', 'CHE', -47, 6, 'finished', [1, 1]],
+  ['MUN', 'TOT', -1, 6, 'live', [0, 1]],
+  ['NEW', 'AVL', 3, 7, 'scheduled'],
+  ['LIV', 'MCI', 26, 7, 'scheduled'],
+  ['CHE', 'ARS', 27, 7, 'scheduled'],
+  ['TOT', 'NEW', 24 * 8, 8, 'scheduled'],
+  ['AVL', 'MUN', 24 * 8 + 2, 8, 'scheduled'],
 ];
 
 let id = 9000001;

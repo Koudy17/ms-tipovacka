@@ -3,6 +3,8 @@ const BASE = 'https://v3.football.api-sports.io';
 
 export const PL_LEAGUE_ID = 39;
 export const PL_SEASON = Number(process.env.PL_SEASON ?? 2026); // sezóna 2026/27
+// Tipovačka startuje až od tohoto kola, dřívější kola se neimportují
+export const PL_FIRST_MATCHDAY = Number(process.env.PL_FIRST_MATCHDAY ?? 6);
 
 export interface ApiFixture {
   fixture: { id: number; date: string; status: { short: string } };
