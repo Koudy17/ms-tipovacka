@@ -51,7 +51,15 @@ export default function Home() {
     localStorage.setItem('wc_theme', next ? 'dark' : 'light');
   };
 
-  const handleAuthed = (data: AuthUser, enteredPassword: string) => {
+  const logout = () => {
+    // smaže i session cookie, jinak by obnovení stránky přihlásilo uživatele znovu
+    fetch('/api/users/logout', { method: 'POST' }).catch(() => {});
+    localStorage.removeItem('wc_user');
+    setUser(null);
+    setPassword('');
+  };
+
+  const handleAuthed =(data: AuthUser, enteredPassword: string) => {
     setPassword(enteredPassword);
     localStorage.setItem('wc_user', JSON.stringify(data));
     setUser(data);
@@ -147,7 +155,7 @@ export default function Home() {
             {changePwdState.loading ? 'Ukládám…' : 'Uložit heslo'}
           </button>
           <button
-            onClick={() => { localStorage.removeItem('wc_user'); setUser(null); setPassword(''); }}
+            onClick={logout}
             className={`w-full mt-2 text-xs ${t.mutedText} hover:text-white underline`}
           >
             Odhlásit se
@@ -183,7 +191,7 @@ export default function Home() {
           </button>
           <span className={`text-sm ${t.subText}`}>👤 {user.nickname}</span>
           <button
-            onClick={() => { localStorage.removeItem('wc_user'); setUser(null); setPassword(''); }}
+            onClick={logout}
             className={`text-xs ${t.mutedText} hover:text-white underline`}
           >
             Odhlásit
