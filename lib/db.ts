@@ -59,6 +59,8 @@ export async function initSchema() {
   await sql`ALTER TABLE tips ADD COLUMN IF NOT EXISTS scorer_tip TEXT`;
   await sql`ALTER TABLE tips ADD COLUMN IF NOT EXISTS scorer_points INTEGER`;
   await sql`ALTER TABLE matches ADD COLUMN IF NOT EXISTS goal_scorers TEXT`;
+  await sql`ALTER TABLE matches ADD COLUMN IF NOT EXISTS home_logo TEXT`;
+  await sql`ALTER TABLE matches ADD COLUMN IF NOT EXISTS away_logo TEXT`;
   await sql`
     CREATE TABLE IF NOT EXISTS audit_log (
       id SERIAL PRIMARY KEY,

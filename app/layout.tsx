@@ -12,17 +12,20 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://koudyho-tipovacka.vercel.app";
+const DESCRIPTION = "Tipuj výsledky Premier League s přáteli. Živá tabulka, bodování, celá sezóna 2026/27.";
+
 export const metadata: Metadata = {
-  title: "MS 2026 Tipovačka",
-  description: "Tipuj výsledky MS ve fotbale 2026 s přáteli. Živá tabulka, bodování, střelci.",
+  title: "Premier League Tipovačka",
+  description: DESCRIPTION,
   openGraph: {
-    title: "MS 2026 Tipovačka ⚽",
-    description: "Tipuj výsledky MS ve fotbale 2026 s přáteli. Živá tabulka, bodování, střelci.",
-    url: "https://koudyho-tipovacka.vercel.app",
-    siteName: "MS 2026 Tipovačka",
+    title: "Premier League Tipovačka ⚽",
+    description: DESCRIPTION,
+    url: SITE_URL,
+    siteName: "Premier League Tipovačka",
     locale: "cs_CZ",
     type: "website",
-    images: [{ url: "https://koudyho-tipovacka.vercel.app/api/og", width: 1200, height: 630 }],
+    images: [{ url: `${SITE_URL}/api/og`, width: 1200, height: 630 }],
   },
 };
 

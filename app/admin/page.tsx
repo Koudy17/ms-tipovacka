@@ -37,18 +37,9 @@ interface Player {
   position: string;
 }
 
-const TEAM_NAME_MAP: Record<string, string> = {
-  'JIŽNÍ AFRIKA': 'JIHOAFRICKÁ REPUBLIKA',
-  'CAPE VERDE ISLANDS': 'KAPVERDY',
-  'CONGO DR': 'DR KONGO',
-};
-
 function toPlayerKey(team: string) {
-  const upper = team.toUpperCase();
-  return TEAM_NAME_MAP[upper] ?? upper;
+  return team.toUpperCase();
 }
-
-const MS_STAGES = ['GROUP_STAGE', 'LAST_16', 'QUARTER_FINALS', 'SEMI_FINALS', 'THIRD_PLACE', 'FINAL'];
 
 export default function AdminPage() {
   const [token, setToken] = useState('');
@@ -183,7 +174,7 @@ export default function AdminPage() {
     const lines = auditLog.map(e =>
       `${new Date(e.ts).toLocaleString('cs-CZ')}  ${e.action.padEnd(8)}  ${e.entity.padEnd(16)}  ${e.actor.padEnd(12)}  ${JSON.stringify(e.details)}`
     );
-    const header = `MS 2026 Tipovačka – Audit Log\nExport: ${new Date().toLocaleString('cs-CZ')}\n${'─'.repeat(80)}\n`;
+    const header = `PL Tipovačka – Audit Log\nExport: ${new Date().toLocaleString('cs-CZ')}\n${'─'.repeat(80)}\n`;
     const blob = new Blob([header + lines.join('\n')], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');

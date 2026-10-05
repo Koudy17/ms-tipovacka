@@ -1,23 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSql } from '@/lib/db';
 import { checkAdminAuth } from '@/lib/adminAuth';
+import { todayWindow } from '@/lib/time';
 
 export async function GET(req: NextRequest) {
   if (!checkAdminAuth(req)) return NextResponse.json({ error: 'Neautorizováno.' }, { status: 401 });
 
   const sql = getSql();
 
-  // Dnešní okno: 10:00 SELČ (UTC+2) → zítra 10:00 SELČ
-  const now = new Date();
-  const selcOffset = 2 * 60; // SELČ = UTC+2
-  const localMinutes = now.getUTCHours() * 60 + now.getUTCMinutes() + selcOffset;
-  const windowStart = new Date(now);
-  if (localMinutes < 8 * 60) {
-    windowStart.setUTCDate(windowStart.getUTCDate() - 1);
-  }
-  windowStart.setUTCHours(6, 0, 0, 0); // 8:00 SELČ = 06:00 UTC
-  const windowEnd = new Date(windowStart);
-  windowEnd.setUTCDate(windowEnd.getUTCDate() + 1);
+  // Dnešní okno: 8:00 pražského času → zítra 8:00
+  const { from: windowStart, to: windowEnd } = todayWindow();
 
   // Dnešní zápasy které ještě nezačaly
   const todayMatches = await sql`

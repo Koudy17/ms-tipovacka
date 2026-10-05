@@ -116,12 +116,7 @@ export default function Home() {
           style={{ boxShadow: '0 0 24px 2px rgba(34,197,94,0.18)' }}>
           <div className="text-center mb-6">
             <div className="text-5xl mb-2">⚽</div>
-            <h1 className={`text-2xl font-bold ${t.headerText}`}>MS 2026 Tipovačka</h1>
-            <div className="flex items-center justify-center gap-2 mt-2 mb-1">
-              <img src="/flags/us.png" alt="USA" className="h-4 rounded-sm opacity-90" />
-              <img src="/flags/ca.png" alt="Kanada" className="h-4 rounded-sm opacity-90" />
-              <img src="/flags/mx.png" alt="Mexiko" className="h-4 rounded-sm opacity-90" />
-            </div>
+            <h1 className={`text-2xl font-bold ${t.headerText}`}>Premier League Tipovačka</h1>
             <p className={`${t.mutedText} text-sm mt-1`}>Přihlás se a tipuj!</p>
           </div>
           <input
@@ -148,7 +143,7 @@ export default function Home() {
             Přihlásit se
           </button>
           <p className="text-center text-green-500 text-xs mt-4 opacity-80">
-            ⚽ MS 2026 právě probíhá!
+            ⚽ Sezóna 2026/27 právě probíhá!
           </p>
         </div>
       </div>
@@ -224,7 +219,7 @@ export default function Home() {
       <header className={`${t.header} border-b px-4 py-3 flex items-center justify-between`}>
         <div className="flex items-center gap-2">
           <span className="text-xl">⚽</span>
-          <h1 className={`font-bold ${t.headerText}`}>MS 2026 Tipovačka</h1>
+          <h1 className={`font-bold ${t.headerText}`}>PL Tipovačka</h1>
         </div>
         <div className="flex items-center gap-3">
           <button

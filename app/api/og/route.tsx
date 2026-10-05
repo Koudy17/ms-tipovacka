@@ -26,9 +26,9 @@ export async function GET() {
         {/* míč emoji */}
         <div style={{ fontSize: '120px', marginBottom: '20px', display: 'flex' }}>⚽</div>
 
-        {/* MS 2026 */}
-        <div style={{ fontSize: '96px', fontWeight: 'bold', color: '#ffffff', letterSpacing: '-2px', display: 'flex' }}>
-          MS 2026
+        {/* Premier League */}
+        <div style={{ fontSize: '88px', fontWeight: 'bold', color: '#ffffff', letterSpacing: '-2px', display: 'flex' }}>
+          PREMIER LEAGUE
         </div>
 
         {/* TIPOVAČKA */}
@@ -51,7 +51,7 @@ export async function GET() {
           color: '#22d3ee',
           display: 'flex',
         }}>
-          koudyho-tipovacka.vercel.app
+          {(process.env.NEXT_PUBLIC_SITE_URL ?? 'koudyho-tipovacka.vercel.app').replace(/^https?:\/\//, '')}
         </div>
       </div>
     ),

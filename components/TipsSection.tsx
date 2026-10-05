@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { shortName } from '@/lib/teams';
+import { todayWindow } from '@/lib/time';
 
 interface Match {
   id: number;
@@ -11,8 +13,9 @@ interface Match {
   away_score: number | null;
   status: string;
   stage: string;
-  matchday: number;
-  group_name: string;
+  matchday: number | null;
+  home_logo: string | null;
+  away_logo: string | null;
 }
 
 interface Tip {
@@ -35,28 +38,22 @@ function formatKickoff(kickoff: string) {
   });
 }
 
-function stageLabel(stage: string) {
-  const labels: Record<string, string> = {
-    ODEHRANE: '✅ Odehrané',
-    DNES: '📅 Dnes',
-    GROUP_STAGE: 'Skupinová fáze',
-    LAST_16: 'Osmifinále',
-    LAST_32: 'Šestnáctifinále',
-    QUARTER_FINALS: 'Čtvrtfinále',
-    SEMI_FINALS: 'Semifinále',
-    THIRD_PLACE: 'O 3. místo',
-    FINAL: 'Finále',
-    TEST: '📅 Dnes',
-  };
-  return labels[stage] ?? stage;
+// Záložky: ODEHRANE, DNES, nebo "KOLO_<n>"
+function tabLabel(tab: string) {
+  if (tab === 'ODEHRANE') return '✅ Odehrané';
+  if (tab === 'DNES') return '📅 Dnes';
+  return `Kolo ${tab.replace('KOLO_', '')}`;
 }
 
-function groupLabel(group: string) {
-  if (group === 'VSE') return 'Všechny';
-  // GROUP_A → Skupina A, GROUP_B → Skupina B, …
-  const match = group.match(/^GROUP_([A-Z]+)$/);
-  if (match) return `Skupina ${match[1]}`;
-  return group;
+function TeamName({ name, logo, align }: { name: string; logo: string | null; align: 'left' | 'right' }) {
+  const crest = logo ? <img src={logo} alt="" className="h-5 w-5 object-contain shrink-0" loading="lazy" /> : null;
+  return (
+    <span className={`flex-1 flex items-center gap-1.5 min-w-0 ${align === 'right' ? 'justify-end' : 'justify-start'}`}>
+      {align === 'right' && <span className="truncate">{shortName(name)}</span>}
+      {crest}
+      {align === 'left' && <span className="truncate">{shortName(name)}</span>}
+    </span>
+  );
 }
 
 function pointsBadge(points: number | null, scorerPoints: number | null) {
@@ -88,38 +85,8 @@ interface Player {
 
 const POSITION_ORDER: Record<string, number> = { 'Brankář': 0, 'Obránce': 1, 'Záložník': 2, 'Útočník': 3 };
 
-const SHORT_NAMES: Record<string, string> = {
-  'Bosna a Hercegovina': 'Bosna a Herc.',
-  'Severní Makedonie': 'S. Makedonie',
-  'Dominikánská republika': 'Dominik. rep.',
-  'Britské Panenské ostrovy': 'Brit. P. ostrovy',
-  'Pobřeží slonoviny': 'Pobř. slonoviny',
-  'Jihoafrická republika': 'J. Afrika',
-  'Rovníková Guinea': 'Rovník. Guinea',
-  'Středoafrická republika': 'SAR',
-  'Trinidad a Tobago': 'Trinidad',
-  'Antigua a Barbuda': 'Antigua',
-  'Svatý Vincenc a Grenadiny': 'Sv. Vincenc',
-  'Svatý Kryštof a Nevis': 'Sv. Kryštof',
-};
-
-function shortName(team: string): string {
-  return SHORT_NAMES[team] ?? team;
-}
-
-// Mapování DB názvů → klíče v players.json (velkými písmeny)
-const TEAM_NAME_MAP: Record<string, string> = {
-  'JIŽNÍ AFRIKA': 'JIHOAFRICKÁ REPUBLIKA',
-  'CAPE VERDE ISLANDS': 'KAPVERDY',
-  'CONGO DR': 'DR KONGO',
-  'DR KONGO': 'DR KONGO',
-  'AUSTRIA': 'RAKOUSKO',
-  'IRAQ': 'IRÁK',
-  'JORDAN': 'JORDÁNSKO',
-  'NORWAY': 'NORSKO',
-  'SCOTLAND': 'SKOTSKO',
-  'UZBEKISTAN': 'UZBEKISTÁN',
-};
+// Tip na střelce (+3b) je zatím vypnutý – soupisky PL zatím nemáme. Zapnout až budou data.
+const SCORER_ENABLED = false;
 
 interface MatchTip {
   nickname: string;
@@ -143,38 +110,28 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
   const [savedAll, setSavedAll] = useState(false);
   const [errors, setErrors] = useState<Map<number, string>>(new Map());
   const [activeStage, setActiveStage] = useState<string>('');
-  const [activeGroup, setActiveGroup] = useState<string>('VSE');
 
   const load = useCallback(async () => {
     const [mRes, tRes, pRes] = await Promise.all([
       fetch('/api/matches'),
       fetch(`/api/tips?userId=${userId}`),
-      fetch('/api/players'),
+      SCORER_ENABLED ? fetch('/api/players') : Promise.resolve(null),
     ]);
     const matchData: Match[] = await mRes.json();
     if (tRes.status === 401) { onSessionExpired?.(); return; }
     const tipData: Tip[] = await tRes.json();
-    const playerData: Player[] = await pRes.json();
-    setPlayers(playerData);
+    if (pRes) setPlayers(await pRes.json());
 
     setMatches(matchData);
 
-    // Výchozí záložka: DNES pokud tam jsou zápasy, jinak stage prvního nadcházejícího, jinak ODEHRANE
+    // Výchozí záložka: DNES pokud tam jsou zápasy, jinak kolo prvního nadcházejícího zápasu, jinak ODEHRANE
     setActiveStage(s => {
       if (s) return s;
-      const selcOffset = 2 * 60;
-      const now = new Date();
-      const localMs = now.getTime() + (now.getTimezoneOffset() + selcOffset) * 60000;
-      const local = new Date(localMs);
-      const base = new Date(local);
-      base.setHours(8, 0, 0, 0);
-      if (local.getHours() < 8) base.setDate(base.getDate() - 1);
-      const from = new Date(base.getTime() - (now.getTimezoneOffset() + selcOffset) * 60000);
-      const to = new Date(from.getTime() + 24 * 60 * 60 * 1000);
+      const { from, to } = todayWindow();
       const hasDnes = matchData.some(m => { const k = new Date(m.kickoff); return k >= from && k < to; });
       if (hasDnes) return 'DNES';
-      const firstUpcoming = matchData.find(m => !isLocked(m.kickoff));
-      if (firstUpcoming) return firstUpcoming.stage;
+      const firstUpcoming = matchData.find(m => !isLocked(m.kickoff) && m.matchday != null);
+      if (firstUpcoming) return `KOLO_${firstUpcoming.matchday}`;
       return 'ODEHRANE';
     });
 
@@ -242,10 +199,7 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
     load();
   };
 
-  const toPlayerKey = (team: string) => {
-    const upper = team.toUpperCase();
-    return TEAM_NAME_MAP[upper] ?? upper;
-  };
+  const toPlayerKey = (team: string) => team.toUpperCase();
 
   const getMatchPlayers = (m: Match): Player[] => {
     const homeKey = toPlayerKey(m.home_team);
@@ -261,42 +215,22 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
   const ODEHRANE = 'ODEHRANE';
   const DNES = 'DNES';
 
-  // Okno "dnes": od dnešní 10:00 SELČ (UTC+2) do zítřejší 10:00 SELČ
-  const todayWindow = (() => {
-    const now = new Date();
-    const selcOffset = 2 * 60; // SELČ = UTC+2 (letní čas)
-    const localMs = now.getTime() + (now.getTimezoneOffset() + selcOffset) * 60000;
-    const local = new Date(localMs);
-    const base = new Date(local);
-    base.setHours(8, 0, 0, 0);
-    if (local.getHours() < 8) base.setDate(base.getDate() - 1);
-    const from = new Date(base.getTime() - (now.getTimezoneOffset() + selcOffset) * 60000);
-    const to = new Date(from.getTime() + 24 * 60 * 60 * 1000);
-    return { from, to };
-  })();
-
+  // Okno "dnes": od 8:00 pražského času do 8:00 dalšího dne
+  const window_ = todayWindow();
   const dnesMatches = matches.filter(m => {
     const k = new Date(m.kickoff);
-    return k >= todayWindow.from && k < todayWindow.to;
+    return k >= window_.from && k < window_.to;
   });
 
-  const dbStages = [...new Set(matches.filter(m => m.stage !== 'TEST').map(m => m.stage))];
-  const stages = [ODEHRANE, DNES, ...dbStages];
+  const matchdays = [...new Set(matches.map(m => m.matchday).filter((n): n is number => n != null))].sort((a, b) => a - b);
+  const stages = [ODEHRANE, DNES, ...matchdays.map(n => `KOLO_${n}`)];
 
   const isOdehrane = activeStage === ODEHRANE;
   const isDnes = activeStage === DNES;
 
-  const filteredByStage = (isOdehrane || isDnes)
+  const filtered = (isOdehrane || isDnes)
     ? (isDnes ? dnesMatches : matches)
-    : (activeStage ? matches.filter(m => m.stage === activeStage) : matches);
-
-  const groups = activeStage === 'GROUP_STAGE'
-    ? ['VSE', ...new Set(filteredByStage.map(m => m.group_name).filter(Boolean))]
-    : [];
-
-  const filtered = groups.length > 1 && activeGroup !== 'VSE'
-    ? filteredByStage.filter(m => m.group_name === activeGroup)
-    : filteredByStage;
+    : matches.filter(m => `KOLO_${m.matchday}` === activeStage);
 
   const upcoming = (isOdehrane) ? [] : filtered.filter(m => !isLocked(m.kickoff));
   const playing = (isOdehrane) ? [] : filtered.filter(m => isLocked(m.kickoff) && m.status !== 'finished');
@@ -344,28 +278,13 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
         {stages.map(s => (
           <button
             key={s}
-            onClick={() => { setActiveStage(s); setActiveGroup('VSE'); }}
+            onClick={() => setActiveStage(s)}
             className={`whitespace-nowrap px-3 py-1.5 rounded-full text-xs font-semibold transition ${d.stageBtn(activeStage === s)}`}
           >
-            {stageLabel(s)}
+            {tabLabel(s)}
           </button>
         ))}
       </div>
-
-      {/* Skupinové filtry */}
-      {groups.length > 1 && (
-        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-          {groups.map(g => (
-            <button
-              key={g}
-              onClick={() => setActiveGroup(g)}
-              className={`whitespace-nowrap px-3 py-1.5 rounded-full text-xs font-semibold transition ${d.groupBtn(activeGroup === g)}`}
-            >
-              {groupLabel(g)}
-            </button>
-          ))}
-        </div>
-      )}
 
       {/* Nadcházející */}
       {upcoming.length > 0 && (
@@ -385,7 +304,7 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
                 <div key={m.id} className={`${dark ? 'bg-slate-800' : 'bg-white'} rounded-xl p-3 border ${borderClass}`}>
                   <div className={`text-xs ${d.time} mb-2`}>{formatKickoff(m.kickoff)}</div>
                   <div className="flex items-center gap-2">
-                    <span className={`flex-1 font-semibold ${d.team} text-right text-sm leading-tight`}>{shortName(m.home_team)}</span>
+                    <div className={`flex-1 min-w-0 flex font-semibold ${d.team} text-sm leading-tight`}><TeamName name={m.home_team} logo={m.home_logo} align="right" /></div>
                     <div className="flex items-center gap-1">
                       {([0, 1] as const).map(idx => (
                         <input
@@ -412,10 +331,10 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
                         />
                       )).reduce((acc, el, i) => i === 0 ? [el] : [...acc, <span key="sep" className="text-slate-500 font-bold">:</span>, el], [] as React.ReactNode[])}
                     </div>
-                    <span className={`flex-1 font-semibold ${d.team} text-sm leading-tight`}>{shortName(m.away_team)}</span>
+                    <div className={`flex-1 min-w-0 flex font-semibold ${d.team} text-sm leading-tight`}><TeamName name={m.away_team} logo={m.away_logo} align="left" /></div>
                   </div>
-                  {(() => {
-                    const hasHome = matchPlayers.some(p => p.team === toPlayerKey(m.home_team));
+                  {SCORER_ENABLED && (() => {
+                    const hasHome =matchPlayers.some(p => p.team === toPlayerKey(m.home_team));
                     const hasAway = matchPlayers.some(p => p.team === toPlayerKey(m.away_team));
                     const hasAny = hasHome || hasAway;
                     const currentVal = scorerInputs.get(m.id) ?? '';
@@ -485,7 +404,7 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
               return (
                 <div key={m.id} className={`rounded-xl px-3 py-2.5 border ${dark ? 'bg-slate-800 border-red-800' : 'bg-red-50 border-red-200'}`}>
                   <div className="flex items-center gap-2">
-                    <span className={`flex-1 font-semibold ${d.teamLocked} text-right text-sm leading-tight`}>{m.home_team}</span>
+                    <div className={`flex-1 min-w-0 flex font-semibold ${d.teamLocked} text-sm leading-tight`}><TeamName name={m.home_team} logo={m.home_logo} align="right" /></div>
                     <div className="text-center min-w-[72px]">
                       {live && m.home_score !== null ? (
                         <div>
@@ -504,7 +423,7 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
                         <div className={`text-xs ${d.noTip}`}>—</div>
                       )}
                     </div>
-                    <span className={`flex-1 font-semibold ${d.teamLocked} text-sm leading-tight`}>{m.away_team}</span>
+                    <div className={`flex-1 min-w-0 flex font-semibold ${d.teamLocked} text-sm leading-tight`}><TeamName name={m.away_team} logo={m.away_logo} align="left" /></div>
                     <div className="min-w-[52px] text-right flex flex-col items-end gap-1">
                       <button
                         onClick={() => toggleMatchTips(m.id)}
@@ -556,7 +475,7 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
                 <div key={m.id} className={`rounded-xl px-3 py-2.5 border ${d.cardLocked(true)}`}>
                   <div className={`text-[10px] ${d.time} mb-1`}>{new Date(m.kickoff).toLocaleString('cs-CZ', { day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' })}</div>
                   <div className="flex items-start gap-1.5">
-                    <span className={`flex-1 font-semibold ${d.teamLocked} text-right text-xs sm:text-sm pt-1 truncate`}>{m.home_team}</span>
+                    <div className={`flex-1 min-w-0 flex font-semibold ${d.teamLocked} text-xs sm:text-sm pt-1`}><TeamName name={m.home_team} logo={m.home_logo} align="right" /></div>
                     <div className="text-center min-w-[76px] shrink-0">
                       {m.home_score !== null ? (
                         <>
@@ -576,7 +495,7 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
                         <span className={`${d.lockIcon} text-xs`}>🔒</span>
                       )}
                     </div>
-                    <span className={`flex-1 font-semibold ${d.teamLocked} text-xs sm:text-sm pt-1 truncate`}>{m.away_team}</span>
+                    <div className={`flex-1 min-w-0 flex font-semibold ${d.teamLocked} text-xs sm:text-sm pt-1`}><TeamName name={m.away_team} logo={m.away_logo} align="left" /></div>
                     <div className="min-w-[52px] text-right flex flex-col items-end gap-1">
                       {tip ? pointsBadge(tip.points, tip.scorer_points) : null}
                       <button
