@@ -61,13 +61,15 @@ function tabLabel(tab: string) {
   return `Kolo ${tab.replace('KOLO_', '')}`;
 }
 
-function TeamName({ name, logo, align }: { name: string; logo: string | null; align: 'left' | 'right' }) {
+function TeamName({ name, logo, align, wrap = false }: { name: string; logo: string | null; align: 'left' | 'right'; wrap?: boolean }) {
   const crest = logo ? <img src={logo} alt="" className="h-5 w-5 object-contain shrink-0" loading="lazy" /> : null;
+  // wrap: na úzkém displeji se název zalomí (max. 2 řádky) místo useknutí
+  const label = <span className={wrap ? `leading-tight break-words ${align === 'right' ? 'text-right' : 'text-left'}` : 'truncate'}>{shortName(name)}</span>;
   return (
     <span className={`flex-1 flex items-center gap-1.5 min-w-0 ${align === 'right' ? 'justify-end' : 'justify-start'}`}>
-      {align === 'right' && <span className="truncate">{shortName(name)}</span>}
+      {align === 'right' && label}
       {crest}
-      {align === 'left' && <span className="truncate">{shortName(name)}</span>}
+      {align === 'left' && label}
     </span>
   );
 }
@@ -364,39 +366,41 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
               return (
                 <div key={m.id} className={`rounded-xl px-3 py-2.5 border ${dark ? 'bg-slate-800 border-red-800' : 'bg-red-50 border-red-200'}`}>
                   <div className="flex items-center gap-2">
-                    <div className={`flex-1 min-w-0 flex font-semibold ${d.teamLocked} text-sm leading-tight`}><TeamName name={m.home_team} logo={m.home_logo} align="right" /></div>
-                    <div className="text-center min-w-[72px]">
+                    <div className={`flex-1 min-w-0 flex font-semibold ${d.teamLocked} text-sm`}><TeamName name={m.home_team} logo={m.home_logo} align="right" wrap /></div>
+                    <div className="text-center shrink-0 min-w-[64px]">
                       {live && liveHome !== null ? (
-                        <div>
-                          <span className={`text-base font-bold ${d.score}`}>{liveHome}:{liveAway}</span>
-                          <span className="ml-1 text-xs font-bold text-red-500 animate-pulse">{liveLabel}</span>
-                        </div>
+                        <>
+                          <div className={`text-xl font-bold leading-none ${d.score}`}>{liveHome}:{liveAway}</div>
+                          <div className="mt-1 text-xs font-bold text-red-500 animate-pulse">{liveLabel}</div>
+                        </>
                       ) : (
                         <span className={`${d.lockIcon} text-xs`}>🔒</span>
                       )}
+                    </div>
+                    <div className={`flex-1 min-w-0 flex font-semibold ${d.teamLocked} text-sm`}><TeamName name={m.away_team} logo={m.away_logo} align="left" wrap /></div>
+                  </div>
+                  <div className="mt-2 flex items-center justify-between gap-2">
+                    <div className={`text-xs min-w-0 ${d.tipText}`}>
                       {tip ? (
-                        <div className={`text-xs ${d.tipText}`}>
-                          {tip.home_tip}:{tip.away_tip}
+                        <>
+                          Tvůj tip <span className="font-semibold">{tip.home_tip}:{tip.away_tip}</span>
                           {tip.is_double && <span className="ml-1 font-bold text-amber-400">×2</span>}
-                          {tip.scorer_tip && <span className={`ml-1 ${d.scorerVal}`}>⚽{tip.scorer_tip}</span>}
-                        </div>
+                          {tip.scorer_tip && <span className={`ml-1 ${d.scorerVal}`}>⚽ {tip.scorer_tip}</span>}
+                        </>
                       ) : (
-                        <div className={`text-xs ${d.noTip}`}>—</div>
+                        <span className={d.noTip}>Netipoval jsi</span>
                       )}
                     </div>
-                    <div className={`flex-1 min-w-0 flex font-semibold ${d.teamLocked} text-sm leading-tight`}><TeamName name={m.away_team} logo={m.away_logo} align="left" /></div>
-                    <div className="min-w-[52px] text-right flex flex-col items-end gap-1">
-                      <button
+                    <button
                         onClick={() => toggleMatchTips(m.id)}
-                        className={`text-[10px] px-1.5 py-0.5 rounded transition ${
+                        className={`text-[11px] px-2 py-1 rounded transition shrink-0 ${
                           expandedMatch === m.id
                             ? (dark ? 'bg-slate-600 text-white' : 'bg-gray-300 text-gray-800')
-                            : (dark ? 'text-slate-500 hover:text-slate-300' : 'text-gray-400 hover:text-gray-600')
+                            : (dark ? 'bg-slate-700 text-slate-300 hover:text-white' : 'bg-gray-100 text-gray-500 hover:text-gray-700')
                         }`}
                       >
                         {expandedMatch === m.id ? '▲ skrýt' : (li ? '▼ průběh' : '▼ tipy')}
                       </button>
-                    </div>
                   </div>
                   {expandedMatch === m.id && (
                     <div className={`mt-2 pt-2 border-t ${dark ? 'border-slate-700' : 'border-gray-200'}`}>
@@ -564,36 +568,36 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
               return (
                 <div key={m.id} className={`rounded-xl px-3 py-2.5 border ${d.cardLocked(true)}`}>
                   <div className={`text-[10px] ${d.time} mb-1`}>{new Date(m.kickoff).toLocaleString('cs-CZ', { day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' })}</div>
-                  <div className="flex items-start gap-1.5">
-                    <div className={`flex-1 min-w-0 flex font-semibold ${d.teamLocked} text-xs sm:text-sm pt-1`}><TeamName name={m.home_team} logo={m.home_logo} align="right" /></div>
-                    <div className="text-center min-w-[76px] shrink-0">
+                  <div className="flex items-center gap-2">
+                    <div className={`flex-1 min-w-0 flex font-semibold ${d.teamLocked} text-sm`}><TeamName name={m.home_team} logo={m.home_logo} align="right" wrap /></div>
+                    <div className="text-center shrink-0 min-w-[56px]">
                       {m.home_score !== null ? (
-                        <>
-                          <div className={`text-base font-bold ${d.score}`}>{m.home_score}:{m.away_score}</div>
-                          {tip ? (
-                            <div className={`text-[10px] sm:text-xs ${d.tipText}`}>
-                              <span>tip: <span className="font-semibold">{tip.home_tip}:{tip.away_tip}</span></span>
-                              {tip.scorer_tip && (
-                                <span className={`ml-1 ${d.scorerVal}`}>⚽ {tip.scorer_tip.split(' ').slice(-1)}</span>
-                              )}
-                            </div>
-                          ) : (
-                            <div className={`text-[10px] ${d.noTip}`}>netipoval</div>
-                          )}
-                        </>
+                        <div className={`text-xl font-bold leading-none ${d.score}`}>{m.home_score}:{m.away_score}</div>
                       ) : (
                         <span className={`${d.lockIcon} text-xs`}>🔒</span>
                       )}
                     </div>
-                    <div className={`flex-1 min-w-0 flex font-semibold ${d.teamLocked} text-xs sm:text-sm pt-1`}><TeamName name={m.away_team} logo={m.away_logo} align="left" /></div>
-                    <div className="min-w-[52px] text-right flex flex-col items-end gap-1">
+                    <div className={`flex-1 min-w-0 flex font-semibold ${d.teamLocked} text-sm`}><TeamName name={m.away_team} logo={m.away_logo} align="left" wrap /></div>
+                  </div>
+                  <div className="mt-2 flex items-center justify-between gap-2">
+                    <div className={`text-xs min-w-0 ${d.tipText}`}>
+                      {tip ? (
+                        <>
+                          Tvůj tip <span className="font-semibold">{tip.home_tip}:{tip.away_tip}</span>
+                          {tip.scorer_tip && <span className={`ml-1 ${d.scorerVal}`}>⚽ {tip.scorer_tip}</span>}
+                        </>
+                      ) : (
+                        <span className={d.noTip}>Netipoval jsi</span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0">
                       {tip ? pointsBadge(tip.points, tip.scorer_points, tip.is_double) : null}
                       <button
                         onClick={() => toggleMatchTips(m.id)}
-                        className={`text-[10px] px-1.5 py-0.5 rounded transition ${
+                        className={`text-[11px] px-2 py-1 rounded transition shrink-0 ${
                           expandedMatch === m.id
                             ? (dark ? 'bg-slate-600 text-white' : 'bg-gray-300 text-gray-800')
-                            : (dark ? 'text-slate-500 hover:text-slate-300' : 'text-gray-400 hover:text-gray-600')
+                            : (dark ? 'bg-slate-700 text-slate-300 hover:text-white' : 'bg-gray-100 text-gray-500 hover:text-gray-700')
                         }`}
                       >
                         {expandedMatch === m.id ? '▲ skrýt' : '▼ tipy'}

@@ -185,10 +185,10 @@ export default function Home() {
       )}
       <header className={`${t.header} border-b px-4 py-3 flex items-center justify-between`}>
         <div className="flex items-center gap-2">
-          <span className="text-xl">⚽</span>
-          <h1 className={`font-bold ${t.headerText}`}>PL Tipovačka</h1>
+          <span className="text-xl hidden min-[420px]:inline">⚽</span>
+          <h1 className={`font-bold whitespace-nowrap ${t.headerText}`}>PL Tipovačka</h1>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5 min-w-0">
           <button
             onClick={toggleTheme}
             className={`text-lg transition hover:scale-110`}
@@ -212,7 +212,7 @@ export default function Home() {
           >
             🔔
           </button>
-          <span className={`text-sm ${t.subText}`}>👤 {user.nickname}</span>
+          <span className={`text-sm max-w-[80px] truncate ${t.subText}`}>👤 {user.nickname}</span>
           <button
             onClick={logout}
             className={`text-xs ${t.mutedText} hover:text-white underline`}
