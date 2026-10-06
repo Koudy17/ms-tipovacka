@@ -183,6 +183,7 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
     let stop = false;
     let n = 0;
     const tick = async () => {
+      if (document.hidden) return; // skrytá záložka / zamčený telefon: nic nestahovat
       try {
         const r = await fetch('/api/live');
         if (r.ok && !stop) {
@@ -200,7 +201,9 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
     };
     tick();
     const id = setInterval(tick, 30000);
-    return () => { stop = true; clearInterval(id); };
+    const onVisible = () => { if (!document.hidden) tick(); }; // po návratu do appky hned obnovit
+    document.addEventListener('visibilitychange', onVisible);
+    return () => { stop = true; clearInterval(id); document.removeEventListener('visibilitychange', onVisible); };
   }, [hasLiveCandidate]);
 
   const setInput = (matchId: number, idx: 0 | 1, val: string) => {

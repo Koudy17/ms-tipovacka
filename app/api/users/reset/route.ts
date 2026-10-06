@@ -7,7 +7,7 @@ import { getClientIp, rateLimit } from '@/lib/rateLimit';
 import { startSession } from '@/lib/session';
 
 export async function POST(req: NextRequest) {
-  const { allowed, retryAfterSec } = rateLimit(`reset:${getClientIp(req)}`, 10, 15 * 60_000);
+  const { allowed, retryAfterSec } = rateLimit(`reset:${getClientIp(req)}`, 30, 15 * 60_000);
   if (!allowed) {
     return NextResponse.json(
       { error: `Příliš mnoho pokusů. Zkus to za ${Math.ceil(retryAfterSec / 60)} min.` },

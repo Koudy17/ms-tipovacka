@@ -8,7 +8,7 @@ const TOKEN_TTL_MS = 60 * 60_000; // odkaz platí hodinu
 const MAX_PER_HOUR = 3; // max. žádostí na jeden účet za hodinu
 
 export async function POST(req: NextRequest) {
-  const { allowed, retryAfterSec } = rateLimit(`forgot:${getClientIp(req)}`, 5, 15 * 60_000);
+  const { allowed, retryAfterSec } = rateLimit(`forgot:${getClientIp(req)}`, 20, 15 * 60_000);
   if (!allowed) {
     return NextResponse.json(
       { error: `Příliš mnoho žádostí. Zkus to za ${Math.ceil(retryAfterSec / 60)} min.` },

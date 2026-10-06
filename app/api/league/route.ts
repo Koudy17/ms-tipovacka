@@ -15,7 +15,7 @@ export async function GET() {
       standings: standings.data,
       topScorers: scorers.data,
       updatedAt: new Date(Math.min(+standings.fetchedAt, +scorers.fetchedAt)).toISOString(),
-    });
+    }, { headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300' } });
   } catch (e) {
     return NextResponse.json({ error: e instanceof Error ? e.message : 'Data se nepodařilo načíst.' }, { status: 502 });
   }

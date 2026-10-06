@@ -2,10 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSql } from '@/lib/db';
 import bcrypt from 'bcryptjs';
 import { randomBytes } from 'crypto';
+import { rateLimit, resetRateLimit } from '@/lib/rateLimit';
 
 // --- In-memory rate limiter ---
 const loginAttempts = new Map<string, { count: number; resetAt: number }>();
-const MAX_ATTEMPTS = 5;
+const MAX_ATTEMPTS = 40; // za jednou IP bývá víc lidí; proti hádání hesla chrání limit na přezdívku níž
 const WINDOW_MS = 60_000;
 
 function getClientIp(req: NextRequest): string {
@@ -45,6 +46,15 @@ export async function POST(req: NextRequest) {
   }
 
   const { nickname, password } = await req.json();
+  // Proti hádání hesla: max. 8 pokusů za minutu na jednu přezdívku (nezávisle na IP)
+  const nickKey = `login-nick:${String(nickname ?? '').trim().toLowerCase()}`;
+  const nickLimit = rateLimit(nickKey, 8, 60_000);
+  if (!nickLimit.allowed) {
+    return NextResponse.json(
+      { error: `Příliš mnoho pokusů pro tuhle přezdívku. Zkus to za ${nickLimit.retryAfterSec} sekund.` },
+      { status: 429, headers: { 'Retry-After': String(nickLimit.retryAfterSec) } }
+    );
+  }
   if (!nickname || nickname.trim().length < 2) {
     return NextResponse.json({ error: 'Přezdívka musí mít alespoň 2 znaky.' }, { status: 400 });
   }
@@ -72,6 +82,7 @@ export async function POST(req: NextRequest) {
   }
 
   loginAttempts.delete(ip);
+  resetRateLimit(nickKey);
 
   const sessionToken = randomBytes(32).toString('hex');
   const sessionExpiresAt = new Date(Date.now() + COOKIE_MAX_AGE * 1000);

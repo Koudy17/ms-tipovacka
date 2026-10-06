@@ -9,7 +9,7 @@ import { emailVerificationEnabled, sendVerification } from '@/lib/verifyEmail';
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 export async function POST(req: NextRequest) {
-  const { allowed, retryAfterSec } = rateLimit(`register:${getClientIp(req)}`, 5, 60 * 60_000);
+  const { allowed, retryAfterSec } = rateLimit(`register:${getClientIp(req)}`, 40, 60 * 60_000) // štědré: za jednou IP (mobilní síť, hospoda, škola) bývá víc lidí;
   if (!allowed) {
     return NextResponse.json(
       { error: `Příliš mnoho registrací z tvé adresy. Zkus to za ${Math.ceil(retryAfterSec / 60)} min.` },

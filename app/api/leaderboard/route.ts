@@ -19,5 +19,5 @@ export async function GET() {
     GROUP BY u.id, u.nickname
     ORDER BY total_points DESC, u.nickname ASC
   `;
-  return NextResponse.json(rows);
+  return NextResponse.json(rows, { headers: { 'Cache-Control': 'public, s-maxage=20, stale-while-revalidate=60' } });
 }

@@ -11,6 +11,10 @@ export function getClientIp(req: NextRequest): string {
   );
 }
 
+export function resetRateLimit(key: string) {
+  buckets.delete(key);
+}
+
 export function rateLimit(key: string, max: number, windowMs: number): { allowed: boolean; retryAfterSec: number } {
   const now = Date.now();
   const e = buckets.get(key);

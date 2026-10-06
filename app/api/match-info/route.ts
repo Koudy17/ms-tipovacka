@@ -25,5 +25,5 @@ export async function GET(req: NextRequest) {
     home: { form: row(home)?.form ?? null, rank: row(home)?.rank ?? null, points: row(home)?.points ?? null },
     away: { form: row(away)?.form ?? null, rank: row(away)?.rank ?? null, points: row(away)?.points ?? null },
     h2h,
-  });
+  }, { headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=3600' } });
 }
