@@ -346,6 +346,88 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
         ))}
       </div>
 
+      {/* Hraje se */}
+      {playing.length > 0 && (
+        <section>
+          <p className={`text-xs text-red-400 uppercase tracking-wider mb-2 font-semibold flex items-center gap-1`}>
+            <span className="animate-pulse">🔴</span> Hraje se
+          </p>
+          <div className="space-y-1.5">
+            {playing.map(m => {
+              const tip = tips.get(m.id);
+              const finished = false;
+              const li = liveMap.get(m.id);
+              const live = m.status === 'live' || !!li;
+              const liveHome = li ? li.home.goals : m.home_score;
+              const liveAway = li ? li.away.goals : m.away_score;
+              const liveLabel = li ? (li.status === 'HT' ? 'přestávka' : li.minute ? `${li.minute}${li.extra ? `+${li.extra}` : ''}'` : 'LIVE') : 'LIVE';
+              return (
+                <div key={m.id} className={`rounded-xl px-3 py-2.5 border ${dark ? 'bg-slate-800 border-red-800' : 'bg-red-50 border-red-200'}`}>
+                  <div className="flex items-center gap-2">
+                    <div className={`flex-1 min-w-0 flex font-semibold ${d.teamLocked} text-sm leading-tight`}><TeamName name={m.home_team} logo={m.home_logo} align="right" /></div>
+                    <div className="text-center min-w-[72px]">
+                      {live && liveHome !== null ? (
+                        <div>
+                          <span className={`text-base font-bold ${d.score}`}>{liveHome}:{liveAway}</span>
+                          <span className="ml-1 text-xs font-bold text-red-500 animate-pulse">{liveLabel}</span>
+                        </div>
+                      ) : (
+                        <span className={`${d.lockIcon} text-xs`}>🔒</span>
+                      )}
+                      {tip ? (
+                        <div className={`text-xs ${d.tipText}`}>
+                          {tip.home_tip}:{tip.away_tip}
+                          {tip.is_double && <span className="ml-1 font-bold text-amber-400">×2</span>}
+                          {tip.scorer_tip && <span className={`ml-1 ${d.scorerVal}`}>⚽{tip.scorer_tip}</span>}
+                        </div>
+                      ) : (
+                        <div className={`text-xs ${d.noTip}`}>—</div>
+                      )}
+                    </div>
+                    <div className={`flex-1 min-w-0 flex font-semibold ${d.teamLocked} text-sm leading-tight`}><TeamName name={m.away_team} logo={m.away_logo} align="left" /></div>
+                    <div className="min-w-[52px] text-right flex flex-col items-end gap-1">
+                      <button
+                        onClick={() => toggleMatchTips(m.id)}
+                        className={`text-[10px] px-1.5 py-0.5 rounded transition ${
+                          expandedMatch === m.id
+                            ? (dark ? 'bg-slate-600 text-white' : 'bg-gray-300 text-gray-800')
+                            : (dark ? 'text-slate-500 hover:text-slate-300' : 'text-gray-400 hover:text-gray-600')
+                        }`}
+                      >
+                        {expandedMatch === m.id ? '▲ skrýt' : (li ? '▼ průběh' : '▼ tipy')}
+                      </button>
+                    </div>
+                  </div>
+                  {expandedMatch === m.id && (
+                    <div className={`mt-2 pt-2 border-t ${dark ? 'border-slate-700' : 'border-gray-200'}`}>
+                      {li && (
+                        <div className={`mb-2 pb-2 border-b ${dark ? 'border-slate-700' : 'border-gray-200'}`}>
+                          <LiveTimeline events={li.events} homeTeamId={m.home_team_id} dark={dark} />
+                        </div>
+                      )}
+                      {(matchTips.get(m.id) ?? []).length === 0 ? (
+                        <p className={`text-xs text-center ${d.empty}`}>Nikdo netipoval</p>
+                      ) : (
+                        <div className="space-y-1">
+                          {(matchTips.get(m.id) ?? []).map(mt => (
+                            <div key={mt.user_id} className={`flex items-center justify-between text-xs ${mt.user_id === userId ? (dark ? 'text-green-400' : 'text-green-700') : (dark ? 'text-slate-300' : 'text-gray-700')}`}>
+                              <span className="font-semibold w-24 truncate">{mt.user_id === userId ? '👤 ' : ''}{mt.nickname}</span>
+                              <span className="font-bold">{mt.home_tip}:{mt.away_tip}</span>
+                              <span className={dark ? 'text-yellow-500' : 'text-yellow-600'}>{mt.scorer_tip ? `⚽ ${mt.scorer_tip}` : ''}</span>
+                              <span className="min-w-[44px] text-right">{mt.points !== null ? pointsBadge(mt.points, mt.scorer_points, mt.is_double) : (mt.is_double ? <span className="font-bold text-amber-400">×2</span> : '')}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
       {/* Nadcházející */}
       {upcoming.length > 0 && (
         <section>
@@ -463,88 +545,6 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
                     <MatchInfo homeId={m.home_team_id} awayId={m.away_team_id} homeName={m.home_team} awayName={m.away_team} homeLogo={m.home_logo} awayLogo={m.away_logo} dark={dark} />
                   )}
                   {err && <p className="text-red-400 text-xs mt-1">{err}</p>}
-                </div>
-              );
-            })}
-          </div>
-        </section>
-      )}
-
-      {/* Hraje se */}
-      {playing.length > 0 && (
-        <section>
-          <p className={`text-xs text-red-400 uppercase tracking-wider mb-2 font-semibold flex items-center gap-1`}>
-            <span className="animate-pulse">🔴</span> Hraje se
-          </p>
-          <div className="space-y-1.5">
-            {playing.map(m => {
-              const tip = tips.get(m.id);
-              const finished = false;
-              const li = liveMap.get(m.id);
-              const live = m.status === 'live' || !!li;
-              const liveHome = li ? li.home.goals : m.home_score;
-              const liveAway = li ? li.away.goals : m.away_score;
-              const liveLabel = li ? (li.status === 'HT' ? 'přestávka' : li.minute ? `${li.minute}${li.extra ? `+${li.extra}` : ''}'` : 'LIVE') : 'LIVE';
-              return (
-                <div key={m.id} className={`rounded-xl px-3 py-2.5 border ${dark ? 'bg-slate-800 border-red-800' : 'bg-red-50 border-red-200'}`}>
-                  <div className="flex items-center gap-2">
-                    <div className={`flex-1 min-w-0 flex font-semibold ${d.teamLocked} text-sm leading-tight`}><TeamName name={m.home_team} logo={m.home_logo} align="right" /></div>
-                    <div className="text-center min-w-[72px]">
-                      {live && liveHome !== null ? (
-                        <div>
-                          <span className={`text-base font-bold ${d.score}`}>{liveHome}:{liveAway}</span>
-                          <span className="ml-1 text-xs font-bold text-red-500 animate-pulse">{liveLabel}</span>
-                        </div>
-                      ) : (
-                        <span className={`${d.lockIcon} text-xs`}>🔒</span>
-                      )}
-                      {tip ? (
-                        <div className={`text-xs ${d.tipText}`}>
-                          {tip.home_tip}:{tip.away_tip}
-                          {tip.is_double && <span className="ml-1 font-bold text-amber-400">×2</span>}
-                          {tip.scorer_tip && <span className={`ml-1 ${d.scorerVal}`}>⚽{tip.scorer_tip}</span>}
-                        </div>
-                      ) : (
-                        <div className={`text-xs ${d.noTip}`}>—</div>
-                      )}
-                    </div>
-                    <div className={`flex-1 min-w-0 flex font-semibold ${d.teamLocked} text-sm leading-tight`}><TeamName name={m.away_team} logo={m.away_logo} align="left" /></div>
-                    <div className="min-w-[52px] text-right flex flex-col items-end gap-1">
-                      <button
-                        onClick={() => toggleMatchTips(m.id)}
-                        className={`text-[10px] px-1.5 py-0.5 rounded transition ${
-                          expandedMatch === m.id
-                            ? (dark ? 'bg-slate-600 text-white' : 'bg-gray-300 text-gray-800')
-                            : (dark ? 'text-slate-500 hover:text-slate-300' : 'text-gray-400 hover:text-gray-600')
-                        }`}
-                      >
-                        {expandedMatch === m.id ? '▲ skrýt' : (li ? '▼ průběh' : '▼ tipy')}
-                      </button>
-                    </div>
-                  </div>
-                  {expandedMatch === m.id && (
-                    <div className={`mt-2 pt-2 border-t ${dark ? 'border-slate-700' : 'border-gray-200'}`}>
-                      {li && (
-                        <div className={`mb-2 pb-2 border-b ${dark ? 'border-slate-700' : 'border-gray-200'}`}>
-                          <LiveTimeline events={li.events} homeTeamId={m.home_team_id} dark={dark} />
-                        </div>
-                      )}
-                      {(matchTips.get(m.id) ?? []).length === 0 ? (
-                        <p className={`text-xs text-center ${d.empty}`}>Nikdo netipoval</p>
-                      ) : (
-                        <div className="space-y-1">
-                          {(matchTips.get(m.id) ?? []).map(mt => (
-                            <div key={mt.user_id} className={`flex items-center justify-between text-xs ${mt.user_id === userId ? (dark ? 'text-green-400' : 'text-green-700') : (dark ? 'text-slate-300' : 'text-gray-700')}`}>
-                              <span className="font-semibold w-24 truncate">{mt.user_id === userId ? '👤 ' : ''}{mt.nickname}</span>
-                              <span className="font-bold">{mt.home_tip}:{mt.away_tip}</span>
-                              <span className={dark ? 'text-yellow-500' : 'text-yellow-600'}>{mt.scorer_tip ? `⚽ ${mt.scorer_tip}` : ''}</span>
-                              <span className="min-w-[44px] text-right">{mt.points !== null ? pointsBadge(mt.points, mt.scorer_points, mt.is_double) : (mt.is_double ? <span className="font-bold text-amber-400">×2</span> : '')}</span>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  )}
                 </div>
               );
             })}

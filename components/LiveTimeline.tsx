@@ -17,9 +17,8 @@ export default function LiveTimeline({ events, homeTeamId, dark }: { events: Liv
   return (
     <div className="space-y-1">
       {events.map((e, i) => {
-        const isHome = e.teamId === homeTeamId;
-        // vlastní gól se připíše soupeři
-        const left = e.type === 'own-goal' ? !isHome : isHome;
+        // API u vlastního gólu uvádí tým, kterému se gól PŘIČÍTÁ (hráč je ze soupeře), takže se kreslí tam, kde je v tabulce skóre
+        const left = e.teamId === homeTeamId;
         const body = (
           <span className={`flex items-center gap-1 text-xs ${dark ? 'text-slate-200' : 'text-gray-800'} ${left ? '' : 'flex-row-reverse'}`}>
             <span>{ICON[e.type]}</span>
