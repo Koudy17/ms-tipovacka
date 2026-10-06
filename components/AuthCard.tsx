@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { checkPassword } from '@/lib/passwordPolicy';
+import Rules from '@/components/Rules';
 
 export interface AuthUser {
   id: number;
@@ -35,6 +36,7 @@ export default function AuthCard({ dark, onAuthed }: Props) {
   const [info, setInfo] = useState('');
   const [busy, setBusy] = useState(false);
   const [resetToken, setResetToken] = useState('');
+  const [showRules, setShowRules] = useState(false);
 
   // Odkaz z e-mailu: /?reset=<token>
   useEffect(() => {
@@ -146,7 +148,9 @@ export default function AuthCard({ dark, onAuthed }: Props) {
         {(mode === 'forgot' || mode === 'reset') && <p><button className={linkCls} onClick={() => go('login')}>Zpět na přihlášení</button></p>}
       </div>
 
-      <p className="text-center text-green-500 text-xs mt-4 opacity-80">⚽ Sezóna 2026/27 právě probíhá!</p>
+      <p className="text-center text-xs mt-3"><button className={linkCls} onClick={() => setShowRules(true)}>📖 Pravidla hry</button></p>
+      <p className="text-center text-green-500 text-xs mt-3 opacity-80">⚽ Sezóna 2026/27 právě probíhá!</p>
+      {showRules && <Rules dark={dark} onClose={() => setShowRules(false)} />}
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import AuthCard, { type AuthUser } from '@/components/AuthCard';
 import NotificationSettings from '@/components/NotificationSettings';
+import Rules from '@/components/Rules';
 import TipsSection from '@/components/TipsSection';
 import Leaderboard from '@/components/Leaderboard';
 import LeagueView from '@/components/LeagueView';
@@ -21,6 +22,7 @@ export default function Home() {
   const [tab, setTab] = useState<'tips' | 'leaderboard' | 'league'>('tips');
   const [dark, setDark] = useState(true);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showRules, setShowRules] = useState(false);
   const [isInAppBrowser, setIsInAppBrowser] = useState(false);
   useEffect(() => {
     const ua = navigator.userAgent;
@@ -195,6 +197,14 @@ export default function Home() {
             {dark ? '☀️' : '🌙'}
           </button>
           <button
+            onClick={() => setShowRules(true)}
+            className="text-lg transition hover:scale-110"
+            title="Pravidla"
+            aria-label="Pravidla"
+          >
+            📖
+          </button>
+          <button
             onClick={() => setShowNotifications(true)}
             className="text-lg transition hover:scale-110"
             title="Upozornění"
@@ -238,6 +248,7 @@ export default function Home() {
         {tab === 'leaderboard' && <Leaderboard currentUserId={user.id} dark={dark} />}
         {tab === 'league' && <LeagueView dark={dark} />}
         {showNotifications && <NotificationSettings dark={dark} onClose={() => setShowNotifications(false)} />}
+        {showRules && <Rules dark={dark} onClose={() => setShowRules(false)} />}
       </main>
     </div>
   );
