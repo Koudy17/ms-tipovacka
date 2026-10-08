@@ -10,7 +10,7 @@ self.addEventListener('push', (event) => {
     data = { body: event.data ? event.data.text() : '' };
   }
   event.waitUntil(
-    self.registration.showNotification(data.title || 'PL Tipovačka', {
+    self.registration.showNotification(data.title || 'Emeho tipovačka', {
       body: data.body || '',
       icon: '/api/icon?size=192',
       badge: '/api/icon?size=96',

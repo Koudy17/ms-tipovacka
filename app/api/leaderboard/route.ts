@@ -6,7 +6,7 @@ export async function GET() {
   const rows = await sql`
     SELECT
       u.id, u.nickname,
-      COALESCE(SUM((COALESCE(t.points, 0) + COALESCE(t.scorer_points, 0)) * CASE WHEN t.is_double THEN 2 ELSE 1 END), 0) AS total_points,
+      COALESCE(SUM(COALESCE(t.points, 0) + COALESCE(t.scorer_points, 0)), 0) AS total_points,
       COUNT(CASE WHEN t.points IS NOT NULL THEN 1 END) AS scored_tips,
       COUNT(CASE WHEN t.points = 10 THEN 1 END) AS exact,
       COUNT(CASE WHEN t.points = 6 THEN 1 END) AS six,

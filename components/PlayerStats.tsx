@@ -8,7 +8,6 @@ interface Tip {
   scorer_tip: string | null;
   points: number | null;
   scorer_points: number | null;
-  is_double: boolean;
   home_team: string;
   away_team: string;
   kickoff: string;
@@ -29,16 +28,16 @@ function formatKickoff(kickoff: string) {
   });
 }
 
-function pointsBadge(points: number | null, scorerPoints: number | null, isDouble = false) {
+function pointsBadge(points: number | null, scorerPoints: number | null) {
   if (points === null) return <span className="text-xs text-slate-500">—</span>;
-  const total = (points + (scorerPoints ?? 0)) * (isDouble ? 2 : 1);
+  const total = points + (scorerPoints ?? 0);
   const colors: Record<number, string> = {
     10: 'bg-yellow-500 text-black', 6: 'bg-blue-500 text-white',
     4: 'bg-emerald-600 text-white', 2: 'bg-slate-500 text-white', 0: 'bg-red-900 text-red-300',
   };
   return (
     <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${colors[points] ?? 'bg-slate-600 text-white'}`}>
-      {isDouble ? '×2 ' : ''}{total}b{scorerPoints ? ' ⚽' : ''}
+      {total}b{scorerPoints ? ' ⚽' : ''}
     </span>
   );
 }
@@ -60,7 +59,7 @@ export default function PlayerStats({ userId, nickname, dark, onClose }: Props) 
   }, [userId]);
 
   const finishedTips = stats?.tips.filter(t => t.status === 'finished') ?? [];
-  const totalPoints = finishedTips.reduce((s, t) => s + ((t.points ?? 0) + (t.scorer_points ?? 0)) * (t.is_double ? 2 : 1), 0);
+  const totalPoints = finishedTips.reduce((s, t) => s + (t.points ?? 0) + (t.scorer_points ?? 0), 0);
   const exact = finishedTips.filter(t => t.points === 10).length;
   const six = finishedTips.filter(t => t.points === 6).length;
   const four = finishedTips.filter(t => t.points === 4).length;
@@ -150,8 +149,7 @@ export default function PlayerStats({ userId, nickname, dark, onClose }: Props) 
                   </div>
                   {/* Badge */}
                   <div className="shrink-0 w-[64px] text-right">
-                    {t.status !== 'finished' && t.is_double && <span className="text-[10px] font-bold text-amber-400 mr-1">×2</span>}
-                    {t.status === 'finished' ? pointsBadge(t.points, t.scorer_points, t.is_double) : (
+                    {t.status === 'finished' ? pointsBadge(t.points, t.scorer_points) : (
                       <span className={`text-[10px] ${d.sub}`}>čeká</span>
                     )}
                   </div>

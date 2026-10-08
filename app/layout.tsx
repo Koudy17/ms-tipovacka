@@ -14,22 +14,22 @@ const geistMono = Geist_Mono({
 });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://koudyho-tipovacka.vercel.app";
-const DESCRIPTION = "Tipuj výsledky Premier League s přáteli. Živá tabulka, bodování, celá sezóna 2026/27.";
+const DESCRIPTION = "Tipuj výsledky zápasů s přáteli. Živé skóre, bodování a žebříček.";
 
 export const viewport: Viewport = {
   themeColor: "#0f172a",
 };
 
 export const metadata: Metadata = {
-  title: "Premier League Tipovačka",
+  title: "Emeho tipovačka",
   description: DESCRIPTION,
   icons: { icon: "/api/icon?size=192", apple: "/api/icon?size=180" },
-  appleWebApp: { capable: true, title: "PL Tipovačka", statusBarStyle: "black-translucent" },
+  appleWebApp: { capable: true, title: "Emeho tipovačka", statusBarStyle: "black-translucent" },
   openGraph: {
-    title: "Premier League Tipovačka ⚽",
+    title: "Emeho tipovačka ⚽",
     description: DESCRIPTION,
     url: SITE_URL,
-    siteName: "Premier League Tipovačka",
+    siteName: "Emeho tipovačka",
     locale: "cs_CZ",
     type: "website",
     images: [{ url: `${SITE_URL}/api/og`, width: 1200, height: 630 }],

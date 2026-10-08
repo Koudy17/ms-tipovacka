@@ -11,7 +11,7 @@ export async function sendReminders(dryRun = false) {
   const eligible = sql`
     SELECT u.id AS user_id, m.id AS match_id
     FROM matches m CROSS JOIN users u
-    WHERE m.status IN ('scheduled', 'upcoming')
+    WHERE m.featured AND m.status IN ('scheduled', 'upcoming')
       AND m.kickoff > NOW()
       AND m.kickoff <= NOW() + INTERVAL '60 minutes'
       AND u.notify_reminders
@@ -29,7 +29,7 @@ export async function sendReminders(dryRun = false) {
     SELECT 'reminder', e.user_id, e.match_id FROM (
       SELECT u.id AS user_id, m.id AS match_id
       FROM matches m CROSS JOIN users u
-      WHERE m.status IN ('scheduled', 'upcoming')
+      WHERE m.featured AND m.status IN ('scheduled', 'upcoming')
         AND m.kickoff > NOW()
         AND m.kickoff <= NOW() + INTERVAL '60 minutes'
         AND u.notify_reminders
@@ -78,7 +78,7 @@ export async function sendResults(matchIds: number[]) {
   if (!claimed.length) return { users: 0, delivered: 0 };
 
   const rows = await sql`
-    SELECT t.user_id, t.match_id, t.home_tip, t.away_tip, t.points, t.scorer_points, t.is_double,
+    SELECT t.user_id, t.match_id, t.home_tip, t.away_tip, t.points, t.scorer_points,
            m.home_team, m.away_team, m.home_score, m.away_score
     FROM tips t JOIN matches m ON m.id = t.match_id
     WHERE t.match_id = ANY(${matchIds})`;
@@ -87,11 +87,11 @@ export async function sendResults(matchIds: number[]) {
   let delivered = 0, users = 0;
   for (const r of rows) {
     if (!claimedKeys.has(`${r.user_id}:${r.match_id}`)) continue;
-    const total = ((r.points ?? 0) + (r.scorer_points ?? 0)) * (r.is_double ? 2 : 1);
+    const total = (r.points ?? 0) + (r.scorer_points ?? 0);
     const extra = r.points === 10 ? ' 🎯 přesný tip!' : '';
     delivered += await sendToUser(r.user_id, {
       title: `${shortName(r.home_team)} ${r.home_score}:${r.away_score} ${shortName(r.away_team)}`,
-      body: `Tvůj tip ${r.home_tip}:${r.away_tip} → ${total} b${r.is_double ? ' (×2)' : ''}${extra}`,
+      body: `Tvůj tip ${r.home_tip}:${r.away_tip} → ${total} b${extra}`,
       url: '/',
       tag: `result-${r.match_id}`,
     });

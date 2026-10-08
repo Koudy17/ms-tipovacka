@@ -26,9 +26,9 @@ export async function GET() {
         {/* míč emoji */}
         <div style={{ fontSize: '120px', marginBottom: '20px', display: 'flex' }}>⚽</div>
 
-        {/* Premier League */}
+        {/* nadpis */}
         <div style={{ fontSize: '88px', fontWeight: 'bold', color: '#ffffff', letterSpacing: '-2px', display: 'flex' }}>
-          PREMIER LEAGUE
+          EMEHO
         </div>
 
         {/* TIPOVAČKA */}

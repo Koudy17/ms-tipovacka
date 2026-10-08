@@ -62,6 +62,7 @@ export default function LeagueView({ dark }: { dark: boolean }) {
 
   return (
     <div className="space-y-3">
+      <h2 className={`text-sm font-bold ${d.text}`}>Premier League 2026/27</h2>
       <div className="flex gap-2">
         <button onClick={() => setView('table')} className={`px-3 py-1.5 rounded-full text-xs font-semibold transition ${d.btn(view === 'table')}`}>📊 Tabulka</button>
         <button onClick={() => setView('scorers')} className={`px-3 py-1.5 rounded-full text-xs font-semibold transition ${d.btn(view === 'scorers')}`}>⚽ Střelci</button>

@@ -31,7 +31,7 @@ export async function sendVerification(userId: number, email: string, devOrigin:
     VALUES (${hashToken(token)}, ${userId}, ${email}, ${new Date(Date.now() + TOKEN_TTL_MS).toISOString()})`; // v DB jen hash
   return sendMail(
     email,
-    'PL Tipovačka – potvrď svůj e-mail',
+    'Emeho tipovačka – potvrď svůj e-mail',
     `Ahoj,\n\npotvrď prosím, že tenhle e-mail patří tobě (odkaz platí 24 hodin):\n\n${base}/?verify=${token}\n\n` +
       `Díky tomu ti půjde obnovit heslo a budeme ti moct posílat upozornění. Pokud ses neregistroval, tenhle e-mail ignoruj.`,
   );

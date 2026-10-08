@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
 
   const tips = await sql`
     SELECT
-      t.home_tip, t.away_tip, t.scorer_tip, t.points, t.scorer_points, t.is_double,
+      t.home_tip, t.away_tip, t.scorer_tip, t.points, t.scorer_points,
       m.home_team, m.away_team, m.kickoff, m.home_score, m.away_score,
       m.status, m.id as match_id
     FROM tips t

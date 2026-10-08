@@ -5,14 +5,19 @@ import { calcScorerBonus } from '@/lib/scoring';
 const SQUAD_MAX_AGE_HOURS = 20;
 
 /** Aktualizuje soupisky, když jsou prázdné nebo starší než ~den (nebo vynuceně). */
-export async function refreshSquadsIfStale(apiKey: string, teams: { id: number; name: string }[], force = false) {
+export async function refreshSquadsIfStale(apiKey: string, allTeams: { id: number; name: string }[], force = false) {
   const sql = getSql();
-  if (!force) {
-    const r = await sql`
-      SELECT COUNT(DISTINCT team_id)::int AS teams, MIN(updated_at) < NOW() - (${SQUAD_MAX_AGE_HOURS} * INTERVAL '1 hour') AS stale
-      FROM players`;
-    const have = r[0].teams as number;
-    if (have >= teams.length && !r[0].stale) return { refreshed: 0 };
+  let teams = allTeams;
+  if (!force && allTeams.length) {
+    // obnovit jen týmy, které soupisku nemají nebo ji mají zastaralou (po týmech – přibývají kluby z dalších soutěží)
+    const rows = await sql`
+      SELECT team_id FROM players
+      WHERE team_id = ANY(${allTeams.map(t => t.id)})
+      GROUP BY team_id
+      HAVING MIN(updated_at) > NOW() - (${SQUAD_MAX_AGE_HOURS} * INTERVAL '1 hour')`;
+    const fresh = new Set(rows.map(r => r.team_id as number));
+    teams = allTeams.filter(t => !fresh.has(t.id));
+    if (!teams.length) return { refreshed: 0 };
   }
 
   let refreshed = 0;

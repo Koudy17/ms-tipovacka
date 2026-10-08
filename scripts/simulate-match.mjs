@@ -56,15 +56,15 @@ log(`Zápas ${home.name} ${fx.goals.home}:${fx.goals.away} ${away.name}, ${event
 
 await cleanup();
 await sql`
-  INSERT INTO matches (id, home_team, away_team, kickoff, stage, matchday, status, home_score, away_score, home_team_id, away_team_id, home_logo, away_logo)
-  VALUES (${FID}, ${home.name}, ${away.name}, NOW() - INTERVAL '1 minute', 'DEMO', 6, 'live', 0, 0, ${home.id}, ${away.id}, ${home.logo}, ${away.logo})`;
+  INSERT INTO matches (id, home_team, away_team, kickoff, stage, status, featured, home_score, away_score, home_team_id, away_team_id, home_logo, away_logo, league_id, league_name, league_logo)
+  VALUES (${FID}, ${home.name}, ${away.name}, NOW() - INTERVAL '1 minute', 'DEMO', 'live', TRUE, 0, 0, ${home.id}, ${away.id}, ${home.logo}, ${away.logo}, ${fx.league.id}, ${fx.league.name}, ${fx.league.logo})`;
 
-// Tip: 2:3 (správný vítěz i rozdíl = 6 b), střelec Haaland (+3 b), na zápas double → (6 + 3) × 2 = 18 b
+// Tip: 2:3 (správný vítěz i rozdíl = 6 b), střelec Haaland (+3 b) → celkem 9 b
 for (const nick of NICKS) {
   const u = await sql`SELECT id FROM users WHERE nickname = ${nick}`;
   if (!u.length) { console.error(`Uživatel "${nick}" neexistuje – nejdřív ho zaregistruj.`); await cleanup(); process.exit(1); }
-  await sql`INSERT INTO tips (user_id, match_id, home_tip, away_tip, scorer_tip, scorer_player_id, is_double) VALUES (${u[0].id}, ${FID}, 2, 3, 'E. Haaland', 1100, TRUE)`;
-  log(`Tip pro ${nick}: 2:3, střelec E. Haaland, double.`);
+  await sql`INSERT INTO tips (user_id, match_id, home_tip, away_tip, scorer_tip, scorer_player_id) VALUES (${u[0].id}, ${FID}, 2, 3, 'E. Haaland', 1100)`;
+  log(`Tip pro ${nick}: 2:3, střelec E. Haaland.`);
 }
 
 const maxExtra = Math.max(0, ...events.filter(e => e.minute === 90).map(e => e.extra ?? 0));

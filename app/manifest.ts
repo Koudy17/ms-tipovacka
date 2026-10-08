@@ -2,9 +2,9 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Premier League Tipovačka',
-    short_name: 'PL Tipovačka',
-    description: 'Tipuj výsledky Premier League s přáteli.',
+    name: 'Emeho tipovačka',
+    short_name: 'Emeho tipovačka',
+    description: 'Tipuj výsledky zápasů s přáteli.',
     start_url: '/',
     display: 'standalone',
     background_color: '#0f172a',

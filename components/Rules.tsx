@@ -1,7 +1,7 @@
 'use client';
 
 // Pravidla hry – okno otevírané z hlavičky i z přihlašovací obrazovky.
-// Texty vychází z toho, co appka skutečně dělá (lib/scoring.ts, tipování, double, bonus za střelce).
+// Texty vychází z toho, co appka skutečně dělá (lib/scoring.ts, tipování, bonus za střelce).
 export default function Rules({ dark, onClose }: { dark: boolean; onClose: () => void }) {
   const d = {
     bg: dark ? 'bg-slate-900 text-white' : 'bg-white text-gray-900',
@@ -32,7 +32,7 @@ export default function Rules({ dark, onClose }: { dark: boolean; onClose: () =>
           <section>
             <h3 className={d.h}>Jak se hraje</h3>
             <ul className={`list-disc pl-5 space-y-1 ${d.sub}`}>
-              <li>Tipuješ výsledky zápasů Premier League, tipovačka začíná <b>6. kolem</b> sezóny 2026/27.</li>
+              <li>Tipuješ výsledky <b>vybraných zápasů</b> (rozpis se průběžně doplňuje, zápasy najdeš nahoře podle dnů).</li>
               <li>Tipuje se výsledek po <b>základní hrací době</b> (90 minut a nastavení).</li>
               <li>Tip můžeš měnit <b>až do výkopu</b> zápasu. Potom se zamkne a už ho nezměníš.</li>
               <li>Tipy ostatních uvidíš až po výkopu, aby od sebe nikdo nemohl opisovat.</li>
@@ -64,15 +64,6 @@ export default function Rules({ dark, onClose }: { dark: boolean; onClose: () =>
               <li>U každého zápasu můžeš vybrat hráče, který podle tebe skóruje. Je to <b>nepovinné</b>.</li>
               <li>Pokud hráč v zápase opravdu vstřelí gól, dostaneš <b>+3 b</b>. Počítá se i gól z penalty, <b>vlastní gól ne</b>.</li>
               <li>Bonus se přidělí automaticky po skončení zápasu.</li>
-            </ul>
-          </section>
-
-          <section>
-            <h3 className={d.h}>×2 Double</h3>
-            <ul className={`list-disc pl-5 space-y-1 ${d.sub}`}>
-              <li>V <b>každém kole</b> můžeš jednou použít double na libovolný zápas. Všechny body za něj (včetně bonusu za střelce) se zdvojnásobí.</li>
-              <li>Tlačítko <b>×2</b> je u zápasu a jde zapnout, až když tam máš zadaný tip.</li>
-              <li>Double můžeš přesunout na jiný zápas kola, dokud zápas, na kterém ho máš, nezačne. Pak je zamčený.</li>
             </ul>
           </section>
 

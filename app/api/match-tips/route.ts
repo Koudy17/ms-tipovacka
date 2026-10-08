@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
   }
 
   const tips = await sql`
-    SELECT t.home_tip, t.away_tip, t.scorer_tip, t.points, t.scorer_points, t.is_double, u.nickname, u.id as user_id
+    SELECT t.home_tip, t.away_tip, t.scorer_tip, t.points, t.scorer_points, u.nickname, u.id as user_id
     FROM tips t
     JOIN users u ON u.id = t.user_id
     WHERE t.match_id = ${Number(matchId)}

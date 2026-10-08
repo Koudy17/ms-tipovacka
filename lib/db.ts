@@ -103,6 +103,11 @@ export async function initSchema() {
   await sql`ALTER TABLE tips ADD COLUMN IF NOT EXISTS scorer_points INTEGER`;
   await sql`ALTER TABLE tips ADD COLUMN IF NOT EXISTS is_double BOOLEAN NOT NULL DEFAULT FALSE`;
   await sql`ALTER TABLE matches ADD COLUMN IF NOT EXISTS goal_scorers TEXT`;
+  // featured = zápas vybraný pro tipovačku (rozpis zápasů, na které se bude koukat na streamu); ostatní se nezobrazují
+  await sql`ALTER TABLE matches ADD COLUMN IF NOT EXISTS featured BOOLEAN NOT NULL DEFAULT FALSE`;
+  await sql`ALTER TABLE matches ADD COLUMN IF NOT EXISTS league_id INTEGER`;
+  await sql`ALTER TABLE matches ADD COLUMN IF NOT EXISTS league_name TEXT`;
+  await sql`ALTER TABLE matches ADD COLUMN IF NOT EXISTS league_logo TEXT`;
   await sql`ALTER TABLE matches ADD COLUMN IF NOT EXISTS home_team_id INTEGER`;
   await sql`ALTER TABLE matches ADD COLUMN IF NOT EXISTS away_team_id INTEGER`;
   await sql`ALTER TABLE matches ADD COLUMN IF NOT EXISTS scorer_ids TEXT`; // ID střelců z API (čárkou); NULL = ještě nezjištěno, '' = žádný gól

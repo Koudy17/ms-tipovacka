@@ -93,7 +93,7 @@ export default function AuthCard({ dark, onAuthed }: Props) {
       style={{ boxShadow: '0 0 24px 2px rgba(34,197,94,0.18)' }}>
       <div className="text-center mb-6">
         <div className="text-5xl mb-2">⚽</div>
-        <h1 className={`text-2xl font-bold ${dark ? 'text-white' : 'text-gray-900'}`}>Premier League Tipovačka</h1>
+        <h1 className={`text-2xl font-bold ${dark ? 'text-white' : 'text-gray-900'}`}>Emeho tipovačka</h1>
         <p className={`${muted} text-sm mt-1`}>{title}</p>
       </div>
 
@@ -149,7 +149,7 @@ export default function AuthCard({ dark, onAuthed }: Props) {
       </div>
 
       <p className="text-center text-xs mt-3"><button className={linkCls} onClick={() => setShowRules(true)}>📖 Pravidla hry</button></p>
-      <p className="text-center text-green-500 text-xs mt-3 opacity-80">⚽ Sezóna 2026/27 právě probíhá!</p>
+      <p className="text-center text-green-500 text-xs mt-3 opacity-80">⚽ Tipuj vybrané zápasy a poraž kamarády</p>
       {showRules && <Rules dark={dark} onClose={() => setShowRules(false)} />}
     </div>
   );

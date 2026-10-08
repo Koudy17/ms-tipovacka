@@ -1,15 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSql, initSchema } from '@/lib/db';
-import { calcPoints } from '@/lib/scoring';
 import { checkAdminAuth } from '@/lib/adminAuth';
 import { sendResults } from '@/lib/notify';
-import { applyGoalScorers, refreshSquadsIfStale } from '@/lib/scorers';
-import { fetchFixtures, matchState, roundNumber, PL_FIRST_MATCHDAY, type ApiFixture } from '@/lib/apifootball';
+import { refreshSquadsIfStale } from '@/lib/scorers';
+import { applyFixture, type DbMatch } from '@/lib/matchSync';
+import { fetchFixturesByIds } from '@/lib/apifootball';
 
-export const maxDuration = 60; // celá sezóna + soupisky 20 týmů může trvat déle než výchozích 10 s
+export const maxDuration = 60;
 
-// mode=full (výchozí): stáhne celou sezónu – nové zápasy, přesuny, výsledky. Cron 1× denně + admin.
-// mode=live: levný průchod kolem začátku zápasů – bez zápasu v okně nevolá API vůbec.
+// Synchronizuje JEN vybrané zápasy (featured), každý podle ID.
+// mode=full (výchozí): všechny nedohrané + čerstvě dohrané bez střelců. Cron 1× denně + admin.
+// mode=live: jen zápasy, které právě začínají nebo běží – bez takového zápasu nevolá API vůbec.
 export async function GET(req: NextRequest) {
   const authHeader = req.headers.get('authorization');
   const cronSecret = process.env.CRON_SECRET;
@@ -24,33 +25,9 @@ export async function GET(req: NextRequest) {
   const live = req.nextUrl.searchParams.get('mode') === 'live';
   const sql = getSql();
 
-  let fixtures: ApiFixture[];
+  // Sloupce a tabulky se doplní automaticky při prvním běhu po nasazení
   try {
-    if (live) {
-      // Zápasy, které začaly před <3 h nebo začnou za <10 min a nejsou dohrané
-      const active = await sql`
-        SELECT 1 FROM matches
-        WHERE status != 'finished'
-          AND kickoff > NOW() - INTERVAL '3 hours'
-          AND kickoff < NOW() + INTERVAL '10 minutes'
-        LIMIT 1`;
-      if (active.length === 0) return NextResponse.json({ ok: true, skipped: true });
-
-      // Dotaz po dnech: zachytí i zápas, který právě skončil (v live=all feedu už není)
-      const now = Date.now();
-      const days = [...new Set([now, now - 3 * 3600 * 1000].map(t => new Date(t).toISOString().slice(0, 10)))];
-      fixtures = (await Promise.all(days.map(date => fetchFixtures(apiKey, { date })))).flat();
-    } else {
-      fixtures = await fetchFixtures(apiKey, {});
-    }
-  } catch (e) {
-    return NextResponse.json({ error: String(e instanceof Error ? e.message : e) }, { status: 502 });
-  }
-
-  // Sloupce pro znaky klubů se doplní automaticky při prvním běhu
-  try {
-    await sql`SELECT home_logo FROM matches LIMIT 1`;
-    await sql`SELECT is_double FROM tips LIMIT 1`;
+    await sql`SELECT featured, league_name FROM matches LIMIT 1`;
     await sql`SELECT scorer_ids, home_team_id FROM matches LIMIT 1`;
     await sql`SELECT scorer_player_id FROM tips LIMIT 1`;
     await sql`SELECT id FROM players LIMIT 1`;
@@ -58,80 +35,42 @@ export async function GET(req: NextRequest) {
     await initSchema();
   }
 
-  const dbMatches = await sql`SELECT id, home_team, away_team, kickoff, status, home_score, away_score, matchday, scorer_ids, goal_scorers FROM matches`;
-  const db = new Map(dbMatches.map(m => [m.id as number, m]));
+  const rows = (live
+    ? await sql`
+        SELECT id, status, home_score, away_score, scorer_ids, goal_scorers, home_team_id, away_team_id, home_team, away_team FROM matches
+        WHERE featured AND status != 'finished'
+          AND kickoff > NOW() - INTERVAL '3 hours' AND kickoff < NOW() + INTERVAL '10 minutes'`
+    : await sql`
+        SELECT id, status, home_score, away_score, scorer_ids, goal_scorers, home_team_id, away_team_id, home_team, away_team FROM matches
+        WHERE featured AND (status != 'finished' OR (scorer_ids IS NULL AND kickoff > NOW() - INTERVAL '7 days'))`);
+  if (rows.length === 0) return NextResponse.json({ ok: true, skipped: true });
 
-  let inserted = 0, updated = 0, finishedNow = 0;
-  const finishedIds: number[] = [];
-
-  for (const f of fixtures) {
-    const id = f.fixture.id;
-    const home = f.teams.home.name;
-    const away = f.teams.away.name;
-    const kickoff = new Date(f.fixture.date).toISOString();
-    const state = matchState(f.fixture.status.short);
-    const matchday = roundNumber(f.league.round);
-    if (matchday != null && matchday < PL_FIRST_MATCHDAY) continue;
-    const hl = f.teams.home.logo, al = f.teams.away.logo;
-    const existing = db.get(id);
-
-    if (!existing) {
-      await sql`
-        INSERT INTO matches (id, home_team, away_team, kickoff, stage, matchday, status, home_logo, away_logo, home_team_id, away_team_id)
-        VALUES (${id}, ${home}, ${away}, ${kickoff}, 'REGULAR_SEASON', ${matchday}, 'scheduled', ${hl}, ${al}, ${f.teams.home.id}, ${f.teams.away.id})
-        ON CONFLICT (id) DO NOTHING`;
-      inserted++;
-      // pokračuj – zápas může být rovnou dohraný/živý (první import uprostřed sezóny)
-    }
-
-    const wasFinished = existing?.status === 'finished';
-    const hs = f.score.fulltime.home ?? f.goals.home;
-    const as = f.score.fulltime.away ?? f.goals.away;
-
-    // Údaje o zápase (přesuny termínu, názvy, znaky) – po dohrání už neměnit
-    if (existing && !wasFinished) {
-      await sql`
-        UPDATE matches SET home_team = ${home}, away_team = ${away}, kickoff = ${kickoff},
-          matchday = ${matchday}, home_logo = ${hl}, away_logo = ${al},
-          home_team_id = ${f.teams.home.id}, away_team_id = ${f.teams.away.id}
-        WHERE id = ${id}`;
-    }
-
-    if (state === 'live' && hs != null && as != null) {
-      await sql`UPDATE matches SET status = 'live', home_score = ${hs}, away_score = ${as} WHERE id = ${id}`;
-      updated++;
-    } else if (state === 'finished' && hs != null && as != null) {
-      const scoreChanged = existing && (existing.home_score !== hs || existing.away_score !== as);
-      if (wasFinished && !scoreChanged) {
-        // střelci se při dohrání nepodařilo zjistit (API je někdy zpozdí) – zkusit znovu, ale ne u ručně zadaných výsledků
-        const recent = new Date(kickoff).getTime() > Date.now() - 7 * 24 * 3600 * 1000;
-        if (existing?.scorer_ids == null && !existing?.goal_scorers && recent) await applyGoalScorers(apiKey, id);
-        continue;
-      }
-      await sql`UPDATE matches SET status = 'finished', home_score = ${hs}, away_score = ${as} WHERE id = ${id}`;
-      const tips = await sql`SELECT id, home_tip, away_tip FROM tips WHERE match_id = ${id}`;
-      for (const tip of tips) {
-        await sql`UPDATE tips SET points = ${calcPoints(hs, as, tip.home_tip, tip.away_tip)} WHERE id = ${tip.id}`;
-      }
-      await applyGoalScorers(apiKey, id); // střelci a bonus +3 b (před odesláním upozornění, ať v nich body sedí)
-      if (!wasFinished) { finishedNow++; finishedIds.push(id); }
-      updated++;
-    } else if (state === 'scheduled' && existing?.status === 'live') {
-      // zápas se vrátil do plánu (chybně označený live) – srovnat
-      await sql`UPDATE matches SET status = 'scheduled', home_score = NULL, away_score = NULL WHERE id = ${id}`;
-    }
+  let fixtures;
+  try {
+    fixtures = await fetchFixturesByIds(apiKey, rows.map(r => r.id as number));
+  } catch (e) {
+    return NextResponse.json({ error: String(e instanceof Error ? e.message : e) }, { status: 502 });
   }
 
-  // Soupisky pro výběr střelce: v plném běhu, jen když jsou prázdné/zastaralé (nebo ?squads=1)
+  const db = new Map(rows.map(r => [r.id as number, r as unknown as DbMatch]));
+  let updated = 0;
+  const finishedIds: number[] = [];
+  for (const f of fixtures) {
+    const existing = db.get(f.fixture.id);
+    if (!existing) continue;
+    const r = await applyFixture(apiKey, f, existing);
+    if (r.updated) updated++;
+    if (r.finishedNow) finishedIds.push(f.fixture.id);
+  }
+
+  // Soupisky pro výběr střelce: v plném běhu, jen týmům, které je nemají/mají zastaralé
   let squads;
   if (!live) {
     try {
       const teams = new Map<number, string>();
-      for (const f of fixtures) {
-        const md = roundNumber(f.league.round);
-        if (md != null && md < PL_FIRST_MATCHDAY) continue;
-        teams.set(f.teams.home.id, f.teams.home.name);
-        teams.set(f.teams.away.id, f.teams.away.name);
+      for (const r of rows) {
+        if (r.home_team_id) teams.set(r.home_team_id as number, r.home_team as string);
+        if (r.away_team_id) teams.set(r.away_team_id as number, r.away_team as string);
       }
       squads = await refreshSquadsIfStale(apiKey, [...teams].map(([id, name]) => ({ id, name })), req.nextUrl.searchParams.get('squads') === '1');
     } catch (e) {
@@ -147,5 +86,5 @@ export async function GET(req: NextRequest) {
     console.error('[sync] upozornění na výsledky selhalo', e);
   }
 
-  return NextResponse.json({ ok: true, mode: live ? 'live' : 'full', fixtures: fixtures.length, inserted, updated, finishedNow, notified, squads });
+  return NextResponse.json({ ok: true, mode: live ? 'live' : 'full', matches: rows.length, updated, finishedNow: finishedIds.length, notified, squads });
 }

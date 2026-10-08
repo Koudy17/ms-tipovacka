@@ -174,7 +174,7 @@ export default function AdminPage() {
     const lines = auditLog.map(e =>
       `${new Date(e.ts).toLocaleString('cs-CZ')}  ${e.action.padEnd(8)}  ${e.entity.padEnd(16)}  ${e.actor.padEnd(12)}  ${JSON.stringify(e.details)}`
     );
-    const header = `PL Tipovačka – Audit Log\nExport: ${new Date().toLocaleString('cs-CZ')}\n${'─'.repeat(80)}\n`;
+    const header = `Emeho tipovačka – Audit Log\nExport: ${new Date().toLocaleString('cs-CZ')}\n${'─'.repeat(80)}\n`;
     const blob = new Blob([header + lines.join('\n')], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');

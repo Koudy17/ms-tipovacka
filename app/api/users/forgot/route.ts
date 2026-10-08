@@ -46,8 +46,8 @@ export async function POST(req: NextRequest) {
   }
   await sendMail(
     email,
-    'PL Tipovačka – nové heslo',
-    `Ahoj ${user.nickname},\n\nněkdo (doufáme, že ty) požádal o nové heslo do PL Tipovačky.\n` +
+    'Emeho tipovačka – nové heslo',
+    `Ahoj ${user.nickname},\n\nněkdo (doufáme, že ty) požádal o nové heslo do Emeho tipovačky.\n` +
       `Nastavíš ho tady (odkaz platí 1 hodinu a jde použít jen jednou):\n\n${base}/?reset=${token}\n\n` +
       `Pokud jsi o heslo nežádal, tenhle e-mail ignoruj, nic se nestane.`,
   );

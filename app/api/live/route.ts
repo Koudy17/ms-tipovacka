@@ -17,14 +17,14 @@ export async function GET() {
   // Mimo zápasy API vůbec nevoláme
   const active = await sql`
     SELECT 1 FROM matches
-    WHERE status != 'finished' AND kickoff <= NOW() AND kickoff > NOW() - INTERVAL '4 hours'
+    WHERE featured AND status != 'finished' AND kickoff <= NOW() AND kickoff > NOW() - INTERVAL '4 hours'
     LIMIT 1`;
   if (!active.length) return json({ matches: [] });
 
   try {
     const live = (await cached('live', 30, () => fetchLive(key))).data;
     if (!live.length) return json({ matches: [] });
-    const known = new Set((await sql`SELECT id FROM matches WHERE id = ANY(${live.map(l => l.id)})`).map(r => r.id as number));
+    const known = new Set((await sql`SELECT id FROM matches WHERE featured AND id = ANY(${live.map(l => l.id)})`).map(r => r.id as number));
     const mine = live.filter(l => known.has(l.id));
     const matches = await Promise.all(mine.map(async l => {
       let events: unknown[] = [];

@@ -3,12 +3,10 @@ const BASE = 'https://v3.football.api-sports.io';
 
 export const PL_LEAGUE_ID = 39;
 export const PL_SEASON = Number(process.env.PL_SEASON ?? 2026); // sezóna 2026/27
-// Tipovačka startuje až od tohoto kola, dřívější kola se neimportují
-export const PL_FIRST_MATCHDAY = Number(process.env.PL_FIRST_MATCHDAY ?? 6);
 
 export interface ApiFixture {
   fixture: { id: number; date: string; status: { short: string } };
-  league: { round: string };
+  league: { id: number; name: string; logo: string | null; country?: string | null; round: string };
   teams: {
     home: { id: number; name: string; logo: string | null };
     away: { id: number; name: string; logo: string | null };
@@ -138,8 +136,8 @@ export interface LiveFixture {
 // Všechny právě hrané zápasy PL (jeden požadavek)
 export async function fetchLive(apiKey: string): Promise<LiveFixture[]> {
   const res: { league: { id: number }; fixture: { id: number; status: { short: string; elapsed: number | null; extra: number | null } }; teams: { home: { id: number; name: string }; away: { id: number; name: string } }; goals: { home: number | null; away: number | null } }[] =
-    await apiGet(apiKey, '/fixtures', { live: 'all' }); // API neumí filtr na jednu ligu, filtrujeme sami
-  return res.filter(f => f.league.id === PL_LEAGUE_ID).map(f => ({
+    await apiGet(apiKey, '/fixtures', { live: 'all' }); // všechny živé zápasy světa; appka si je filtruje podle vybraných
+  return res.map(f => ({
     id: f.fixture.id,
     status: f.fixture.status.short,
     minute: f.fixture.status.elapsed,
@@ -194,4 +192,37 @@ export async function fetchH2H(apiKey: string, teamA: number, teamB: number): Pr
       home: { id: f.teams.home.id, name: f.teams.home.name, goals: f.goals.home },
       away: { id: f.teams.away.id, name: f.teams.away.name, goals: f.goals.away },
     }));
+}
+
+// ---------- Vybrané zápasy z libovolné soutěže ----------
+
+// Zápasy podle ID (API umí max. 20 najednou)
+export async function fetchFixturesByIds(apiKey: string, ids: number[]): Promise<ApiFixture[]> {
+  const out: ApiFixture[] = [];
+  for (let i = 0; i < ids.length; i += 20) {
+    out.push(...(await apiGet(apiKey, '/fixtures', { ids: ids.slice(i, i + 20).join('-'), timezone: 'UTC' })));
+  }
+  return out;
+}
+
+// Všechny zápasy jednoho dne (kvůli hledání při přidávání zápasů do tipovačky)
+export async function fetchFixturesByDate(apiKey: string, date: string, league?: number): Promise<ApiFixture[]> {
+  const params: Record<string, string | number> = { date, timezone: 'UTC' };
+  if (league) { params.league = league; params.season = PL_SEASON; } // API u filtru na soutěž vyžaduje i sezónu (začátek sezóny = rok)
+  return apiGet(apiKey, '/fixtures', params);
+}
+
+// Forma týmu: výsledky posledních 5 dohraných zápasů v jakékoli soutěži, nejstarší první (např. "WDLWW")
+export async function fetchForm(apiKey: string, teamId: number): Promise<string> {
+  const res: { fixture: { date: string; status: { short: string } }; teams: { home: { id: number }; away: { id: number } }; goals: { home: number | null; away: number | null } }[] =
+    await apiGet(apiKey, '/fixtures', { team: teamId, last: 5 });
+  return res
+    .filter(f => FINISHED.has(f.fixture.status.short) && f.goals.home != null && f.goals.away != null)
+    .sort((a, b) => +new Date(a.fixture.date) - +new Date(b.fixture.date))
+    .map(f => {
+      const mine = f.teams.home.id === teamId ? f.goals.home! : f.goals.away!;
+      const theirs = f.teams.home.id === teamId ? f.goals.away! : f.goals.home!;
+      return mine > theirs ? 'W' : mine < theirs ? 'L' : 'D';
+    })
+    .join('');
 }

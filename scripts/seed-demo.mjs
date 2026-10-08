@@ -37,11 +37,11 @@ const rows = [
 ];
 
 let id = 9000001;
-for (const [home, away, shift, md, status, score] of rows) {
+for (const [home, away, shift, , status, score] of rows) {
   const kickoff = new Date(now + shift * h).toISOString();
   await sql`
-    INSERT INTO matches (id, home_team, away_team, kickoff, stage, matchday, status, home_score, away_score, home_logo, away_logo)
-    VALUES (${id}, ${T[home][0]}, ${T[away][0]}, ${kickoff}, 'DEMO', ${md}, ${status},
+    INSERT INTO matches (id, home_team, away_team, kickoff, stage, featured, status, home_score, away_score, home_logo, away_logo)
+    VALUES (${id}, ${T[home][0]}, ${T[away][0]}, ${kickoff}, 'DEMO', TRUE, ${status},
             ${score?.[0] ?? null}, ${score?.[1] ?? null}, ${logo(T[home][1])}, ${logo(T[away][1])})
     ON CONFLICT (id) DO UPDATE SET kickoff = EXCLUDED.kickoff, status = EXCLUDED.status,
       home_score = EXCLUDED.home_score, away_score = EXCLUDED.away_score`;

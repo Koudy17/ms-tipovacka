@@ -11,7 +11,7 @@ export async function sendMail(to: string, subject: string, text: string): Promi
       method: 'POST',
       headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        from: process.env.MAIL_FROM ?? 'PL Tipovačka <onboarding@resend.dev>',
+        from: process.env.MAIL_FROM ?? 'Emeho tipovačka <onboarding@resend.dev>',
         to: [to],
         subject,
         text,
