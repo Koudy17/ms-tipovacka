@@ -28,6 +28,10 @@ export async function POST(req: NextRequest) {
   if (nickname.length < 2 || nickname.length > 30) {
     return NextResponse.json({ error: 'Přezdívka musí mít 2 až 30 znaků.' }, { status: 400 });
   }
+  // Jen písmena (i s diakritikou), číslice, mezera, tečka, podtržítko a pomlčka – žádné neviditelné ani obracející znaky
+  if (!/^[\p{L}\p{N}][\p{L}\p{N} ._-]*$/u.test(nickname) || /  /.test(nickname)) {
+    return NextResponse.json({ error: 'Přezdívka smí obsahovat jen písmena, číslice, mezeru a znaky . _ -' }, { status: 400 });
+  }
   const policy = checkPassword(password);
   if (!policy.ok) {
     const failed = policy.rules.filter(r => !r.valid).map(r => r.label).join(', ');

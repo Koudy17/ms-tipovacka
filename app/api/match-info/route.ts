@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { cached } from '@/lib/apiCache';
 import { fetchForm, fetchH2H } from '@/lib/apifootball';
 import { getClientIp, rateLimit } from '@/lib/rateLimit';
+import { getSql } from '@/lib/db';
 
 // Před tipováním: forma obou týmů (posledních 5 zápasů v jakékoli soutěži) a posledních 5 vzájemných zápasů.
 export async function GET(req: NextRequest) {
@@ -15,6 +16,11 @@ export async function GET(req: NextRequest) {
   if (!Number.isInteger(home) || !Number.isInteger(away) || home <= 0 || away <= 0 || home === away) {
     return NextResponse.json({ error: 'Neplatné týmy.' }, { status: 400 });
   }
+
+  // Jen dvojice týmů z vybraných zápasů – jinak by šlo libovolnými ID pálit placené API
+  const known = await getSql()`
+    SELECT 1 FROM matches WHERE featured AND ((home_team_id = ${home} AND away_team_id = ${away}) OR (home_team_id = ${away} AND away_team_id = ${home})) LIMIT 1`;
+  if (!known.length) return NextResponse.json({ error: 'Neznámý zápas.' }, { status: 404 });
 
   const form = (id: number) => cached(`form:${id}`, 6 * 3600, () => fetchForm(key, id)).then(r => r.data).catch(() => null);
   const [homeForm, awayForm, h2h] = await Promise.all([

@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { nickname, password } = await req.json();
+  const { nickname, password } = await req.json().catch(() => ({}));
   // Proti hádání hesla: max. 8 pokusů za minutu na jednu přezdívku (nezávisle na IP)
   const nickKey = `login-nick:${String(nickname ?? '').trim().toLowerCase()}`;
   const nickLimit = rateLimit(nickKey, 8, 60_000);

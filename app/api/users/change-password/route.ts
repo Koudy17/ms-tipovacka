@@ -1,15 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSql } from '@/lib/db';
 import bcrypt from 'bcryptjs';
-import { randomBytes } from 'crypto';
+import { getSql } from '@/lib/db';
 import { checkPassword } from '@/lib/passwordPolicy';
-
-const COOKIE_MAX_AGE = 7 * 24 * 60 * 60;
+import { getSessionUserId } from '@/lib/auth';
+import { rateLimit } from '@/lib/rateLimit';
 
 export async function POST(req: NextRequest) {
-  const { userId, currentPassword, newPassword } = await req.json();
+  // Heslo si mění jen přihlášený uživatel – ID se bere ze session, ne z těla požadavku
+  const userId = await getSessionUserId(req);
+  if (!userId) return NextResponse.json({ error: 'Nejsi přihlášen.' }, { status: 401 });
 
-  if (!userId || !currentPassword || !newPassword) {
+  const limit = rateLimit(`chpw:${userId}`, 5, 15 * 60_000);
+  if (!limit.allowed) {
+    return NextResponse.json({ error: `Příliš mnoho pokusů. Zkus to za ${Math.ceil(limit.retryAfterSec / 60)} min.` }, { status: 429 });
+  }
+
+  const { currentPassword, newPassword } = await req.json().catch(() => ({}));
+  if (typeof currentPassword !== 'string' || typeof newPassword !== 'string' || !currentPassword || !newPassword) {
     return NextResponse.json({ error: 'Chybí parametry.' }, { status: 400 });
   }
   const policy = checkPassword(newPassword);
@@ -19,31 +26,15 @@ export async function POST(req: NextRequest) {
   }
 
   const sql = getSql();
-  const rows = await sql`SELECT * FROM users WHERE id = ${userId}`;
-  if (rows.length === 0) {
-    return NextResponse.json({ error: 'Uživatel nenalezen.' }, { status: 404 });
-  }
-
-  const user = rows[0];
-  const valid = await bcrypt.compare(currentPassword, user.password_hash);
-  if (!valid) {
+  const rows = await sql`SELECT password_hash FROM users WHERE id = ${userId}`;
+  const hash = rows[0]?.password_hash as string | null | undefined;
+  if (!hash) return NextResponse.json({ error: 'Účet nemá nastavené heslo. Kontaktuj admina.' }, { status: 400 });
+  if (!(await bcrypt.compare(currentPassword, hash))) {
     return NextResponse.json({ error: 'Špatné současné heslo.' }, { status: 401 });
   }
 
-  const hash = await bcrypt.hash(newPassword, 10);
-  const sessionToken = randomBytes(32).toString('hex');
-  const sessionExpiresAt = new Date(Date.now() + COOKIE_MAX_AGE * 1000);
-  await sql`UPDATE users SET password_hash = ${hash}, must_change_password = FALSE WHERE id = ${userId}`;
-  await sql`INSERT INTO sessions (token, user_id, expires_at) VALUES (${sessionToken}, ${userId}, ${sessionExpiresAt.toISOString()}) ON CONFLICT (token) DO NOTHING`;
-  await sql`DELETE FROM sessions WHERE user_id = ${userId} AND expires_at < NOW()`;
-
-  const res = NextResponse.json({ ok: true });
-  res.cookies.set('session_token', sessionToken, {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'lax',
-    maxAge: COOKIE_MAX_AGE,
-    path: '/',
-  });
-  return res;
+  const token = req.cookies.get('session_token')?.value ?? '';
+  await sql`UPDATE users SET password_hash = ${await bcrypt.hash(newPassword, 10)}, must_change_password = FALSE WHERE id = ${userId}`;
+  await sql`DELETE FROM sessions WHERE user_id = ${userId} AND token <> ${token}`; // ostatní zařízení se odhlásí
+  return NextResponse.json({ ok: true });
 }

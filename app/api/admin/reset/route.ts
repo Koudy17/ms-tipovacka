@@ -4,6 +4,10 @@ import { checkAdminAuth } from '@/lib/adminAuth';
 
 export async function POST(req: NextRequest) {
   if (!checkAdminAuth(req)) return NextResponse.json({ error: 'Neautorizováno.' }, { status: 401 });
+  // Smazání všech hráčů a tipů v ostrém provozu zakázáno (uniklý token by znamenal totální výmaz)
+  if (process.env.NODE_ENV === 'production' && process.env.ALLOW_ADMIN_RESET !== '1') {
+    return NextResponse.json({ error: 'Reset je v produkci vypnutý.' }, { status: 403 });
+  }
   const { confirmWord } = await req.json();
   if (confirmWord !== 'RESET') {
     return NextResponse.json({ error: 'Chybí potvrzení. Pošli confirmWord: "RESET".' }, { status: 400 });

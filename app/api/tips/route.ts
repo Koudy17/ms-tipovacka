@@ -14,7 +14,11 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const { userId, matchId, homeTip, awayTip, scorerPlayerId } = await req.json();
+  const { userId, matchId, homeTip, awayTip, scorerPlayerId } = await req.json().catch(() => ({}));
+  const hTip = Number(homeTip), aTip = Number(awayTip);
+  if (![hTip, aTip].every(n => Number.isInteger(n) && n >= 0 && n <= 20)) {
+    return NextResponse.json({ error: 'Tip musí být celé číslo od 0 do 20.' }, { status: 400 });
+  }
   const sessionToken = req.cookies.get('session_token')?.value;
   const sql = getSql();
 
@@ -42,7 +46,7 @@ export async function POST(req: NextRequest) {
   }
   await sql`
     INSERT INTO tips (user_id, match_id, home_tip, away_tip, scorer_tip, scorer_player_id)
-    VALUES (${Number(userId)}, ${Number(matchId)}, ${Number(homeTip)}, ${Number(awayTip)}, ${scorerName}, ${scorerId})
+    VALUES (${Number(userId)}, ${Number(matchId)}, ${hTip}, ${aTip}, ${scorerName}, ${scorerId})
     ON CONFLICT (user_id, match_id) DO UPDATE SET
       home_tip = EXCLUDED.home_tip,
       away_tip = EXCLUDED.away_tip,

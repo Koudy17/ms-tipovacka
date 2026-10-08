@@ -10,7 +10,9 @@ export async function POST(req: NextRequest) {
   const endpoint = subscription?.endpoint;
   const p256dh = subscription?.keys?.p256dh;
   const auth = subscription?.keys?.auth;
-  if (typeof endpoint !== 'string' || !endpoint.startsWith('https://') || endpoint.length > 1000 || !p256dh || !auth) {
+  // Jen skutečné push služby prohlížečů (jinak by server posílal požadavky na libovolnou adresu)
+  const PUSH_HOST = /^https:\/\/(fcm\.googleapis\.com|android\.googleapis\.com|[a-z0-9.-]+\.push\.services\.mozilla\.com|[a-z0-9.-]*push\.apple\.com|[a-z0-9.-]+\.notify\.windows\.com)\//;
+  if (typeof endpoint !== 'string' || !PUSH_HOST.test(endpoint) || endpoint.length > 1000 || !p256dh || !auth) {
     return NextResponse.json({ error: 'Neplatné předplatné.' }, { status: 400 });
   }
 
@@ -19,5 +21,9 @@ export async function POST(req: NextRequest) {
     INSERT INTO push_subscriptions (user_id, endpoint, p256dh, auth)
     VALUES (${userId}, ${endpoint}, ${p256dh}, ${auth})
     ON CONFLICT (endpoint) DO UPDATE SET user_id = EXCLUDED.user_id, p256dh = EXCLUDED.p256dh, auth = EXCLUDED.auth`;
+  // nejvýš 5 zařízení na uživatele (nejstarší se odstraní)
+  await getSql()`
+    DELETE FROM push_subscriptions WHERE user_id = ${userId} AND id NOT IN (
+      SELECT id FROM push_subscriptions WHERE user_id = ${userId} ORDER BY id DESC LIMIT 5)`;
   return NextResponse.json({ ok: true });
 }

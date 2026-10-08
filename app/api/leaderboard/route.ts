@@ -17,6 +17,7 @@ export async function GET() {
     FROM users u
     LEFT JOIN tips t ON t.user_id = u.id
     GROUP BY u.id, u.nickname
+    HAVING COUNT(t.id) > 0
     ORDER BY total_points DESC, u.nickname ASC
   `;
   return NextResponse.json(rows, { headers: { 'Cache-Control': 'public, s-maxage=20, stale-while-revalidate=60' } });

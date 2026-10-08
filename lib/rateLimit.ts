@@ -11,6 +11,12 @@ export function getClientIp(req: NextRequest): string {
   );
 }
 
+// Zjistí, jestli je klíč přes limit, aniž by počítadlo zvýšil
+export function isBlocked(key: string, max: number): boolean {
+  const e = buckets.get(key);
+  return !!e && Date.now() <= e.resetAt && e.count >= max;
+}
+
 export function resetRateLimit(key: string) {
   buckets.delete(key);
 }
