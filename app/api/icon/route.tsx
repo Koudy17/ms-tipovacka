@@ -18,13 +18,13 @@ export async function GET(req: NextRequest) {
           justifyContent: 'center',
           backgroundColor: '#0f172a',
           color: '#22c55e',
-          fontSize: size * 0.46,
+          fontSize: size * 0.34,
           fontWeight: 800,
-          letterSpacing: -size * 0.02,
+          letterSpacing: size * 0.01,
           fontFamily: 'sans-serif',
         }}
       >
-        PL
+        EME
       </div>
     ),
     { width: size, height: size },

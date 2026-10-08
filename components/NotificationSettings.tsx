@@ -133,7 +133,7 @@ export default function NotificationSettings({ dark, onClose }: { dark: boolean;
             <ol className="list-decimal pl-5 space-y-1">
               <li>V Safari klepni na tlačítko Sdílet (čtvereček se šipkou).</li>
               <li>Zvol „Přidat na plochu“.</li>
-              <li>Otevři PL Tipovačku z plochy a zapni upozornění tady.</li>
+              <li>Otevři Emeho tipovačku z plochy a zapni upozornění tady.</li>
             </ol>
             <p className="text-xs">Vyžaduje iOS 16.4 nebo novější.</p>
           </div>
