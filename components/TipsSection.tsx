@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { shortName } from '@/lib/teams';
 import MatchInfo from '@/components/MatchInfo';
 import LiveTimeline, { type LiveEvent } from '@/components/LiveTimeline';
+import ScorerPicker from '@/components/ScorerPicker';
 
 interface Match {
   id: number;
@@ -136,6 +137,55 @@ interface MatchTip {
   scorer_tip: string | null;
   points: number | null;
   scorer_points: number | null;
+}
+
+const normName = (x: string) => x.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+// Tipy ostatních hráčů u zápasu: vlastní tip nahoře, hledání podle přezdívky, dlouhé seznamy po 50
+function MatchTipsList({ tips, userId, dark }: { tips: MatchTip[]; userId: number; dark: boolean }) {
+  const [q, setQ] = useState('');
+  const [limit, setLimit] = useState(50);
+  const sub = dark ? 'text-slate-500' : 'text-gray-400';
+  if (tips.length === 0) return <p className={`text-xs text-center ${sub}`}>Nikdo netipoval</p>;
+
+  const own = tips.filter(t => t.user_id === userId);
+  const others = tips.filter(t => t.user_id !== userId);
+  const nq = normName(q.trim());
+  const filtered = [...own, ...others].filter(t => !nq || normName(t.nickname).includes(nq));
+  const shown = filtered.slice(0, limit);
+
+  return (
+    <div className="space-y-1.5">
+      {tips.length >= 8 && (
+        <input
+          type="search"
+          value={q}
+          onChange={e => { setQ(e.target.value); setLimit(50); }}
+          placeholder={`🔍 Hledat hráče (${tips.length} tipů)…`}
+          aria-label="Hledat hráče"
+          className={`w-full border rounded-md px-2 py-1.5 text-xs mb-1 focus:outline-none focus:border-green-500 ${dark ? 'bg-slate-900 border-slate-600 text-white placeholder-slate-500' : 'bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-400'}`}
+        />
+      )}
+      {shown.length === 0 && <p className={`text-xs text-center ${sub}`}>Nikdo takový nenatipoval.</p>}
+      {shown.map(mt => (
+        <div
+          key={mt.user_id}
+          className={`grid text-xs gap-1 ${mt.user_id === userId ? (dark ? 'text-green-400' : 'text-green-700') : (dark ? 'text-slate-300' : 'text-gray-700')}`}
+          style={{ gridTemplateColumns: '1fr 3rem 1fr 4.5rem' }}
+        >
+          <span className="font-semibold truncate">{mt.user_id === userId ? '👤 ' : ''}{mt.nickname}</span>
+          <span className="font-bold text-center">{mt.home_tip}:{mt.away_tip}</span>
+          <span className={`truncate ${dark ? 'text-yellow-500' : 'text-yellow-600'}`}>{mt.scorer_tip ? `⚽ ${mt.scorer_tip}` : ''}</span>
+          <span className="text-right">{mt.points !== null ? pointsBadge(mt.points, mt.scorer_points) : ''}</span>
+        </div>
+      ))}
+      {filtered.length > limit && (
+        <button type="button" onClick={() => setLimit(l => l + 50)} className={`w-full text-xs py-1.5 rounded-md ${dark ? 'bg-slate-700 text-slate-300 hover:bg-slate-600' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
+          Zobrazit dalších 50 (zbývá {filtered.length - limit})
+        </button>
+      )}
+    </div>
+  );
 }
 
 export default function TipsSection({ userId, dark = true, onSessionExpired }: { userId: number; dark?: boolean; onSessionExpired?: () => void }) {
@@ -401,20 +451,7 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
                           <LiveTimeline events={li.events} homeTeamId={m.home_team_id} dark={dark} />
                         </div>
                       )}
-                      {(matchTips.get(m.id) ?? []).length === 0 ? (
-                        <p className={`text-xs text-center ${d.empty}`}>Nikdo netipoval</p>
-                      ) : (
-                        <div className="space-y-1">
-                          {(matchTips.get(m.id) ?? []).map(mt => (
-                            <div key={mt.user_id} className={`flex items-center justify-between text-xs ${mt.user_id === userId ? (dark ? 'text-green-400' : 'text-green-700') : (dark ? 'text-slate-300' : 'text-gray-700')}`}>
-                              <span className="font-semibold w-24 truncate">{mt.user_id === userId ? '👤 ' : ''}{mt.nickname}</span>
-                              <span className="font-bold">{mt.home_tip}:{mt.away_tip}</span>
-                              <span className={dark ? 'text-yellow-500' : 'text-yellow-600'}>{mt.scorer_tip ? `⚽ ${mt.scorer_tip}` : ''}</span>
-                              <span className="min-w-[44px] text-right">{mt.points !== null ? pointsBadge(mt.points, mt.scorer_points) : ''}</span>
-                            </div>
-                          ))}
-                        </div>
-                      )}
+                      <MatchTipsList tips={matchTips.get(m.id) ?? []} userId={userId} dark={dark} />
                     </div>
                   )}
                 </div>
@@ -487,32 +524,13 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
                   </div>
                   {SCORER_ENABLED && hasPlayers && (
                     <div className="mt-2">
-                      <select
+                      <ScorerPicker
+                        players={matchPlayers}
+                        teams={[{ id: m.home_team_id, name: m.home_team }, { id: m.away_team_id, name: m.away_team }].filter((t): t is { id: number; name: string } => t.id != null)}
                         value={scorerInputs.get(m.id) ?? ''}
-                        onChange={e => setScorerInputs(new Map(scorerInputs.set(m.id, e.target.value)))}
-                        style={dark ? { backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 8L1 3h10z'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center', paddingRight: '28px', appearance: 'none' as const } : {}}
-                        className={`w-full border rounded-lg px-2 py-1.5 text-xs focus:outline-none ${d.select}`}
-                      >
-                        <option value="">⚽ Tip na střelce (+3b) — vyber ze soupisky</option>
-                        {[{ id: m.home_team_id, name: m.home_team }, { id: m.away_team_id, name: m.away_team }].map(t => {
-                          const list = matchPlayers.filter(p => p.team_id === t.id);
-                          return list.length ? (
-                            <optgroup key={t.id} label={`— ${t.name} —`}>
-                              {list.map(p => <option key={p.id} value={String(p.id)}>{p.name} ({p.position?.[0] ?? '?'})</option>)}
-                            </optgroup>
-                          ) : null;
-                        })}
-                      </select>
-                      {(() => {
-                        const sid = scorerInputs.get(m.id);
-                        const p = sid ? matchPlayers.find(x => String(x.id) === sid) : null;
-                        return p ? (
-                          <div className="flex items-center gap-2 mt-1.5">
-                            <img src={`https://media.api-sports.io/football/players/${p.id}.png`} alt="" className="h-9 w-9 rounded-full object-cover bg-slate-600" />
-                            <span className={`text-xs font-semibold ${d.scorerVal}`}>⚽ {p.name}</span>
-                          </div>
-                        ) : null;
-                      })()}
+                        onChange={v => setScorerInputs(new Map(scorerInputs.set(m.id, v)))}
+                        dark={dark}
+                      />
                     </div>
                   )}
                   {infoOpen === m.id && m.home_team_id && m.away_team_id && (
@@ -581,27 +599,7 @@ export default function TipsSection({ userId, dark = true, onSessionExpired }: {
                   {/* Tipy ostatních */}
                   {expandedMatch === m.id && (
                     <div className={`mt-2 pt-2 border-t ${dark ? 'border-slate-700' : 'border-gray-200'}`}>
-                      {(matchTips.get(m.id) ?? []).length === 0 ? (
-                        <p className={`text-xs text-center ${d.empty}`}>Nikdo netipoval</p>
-                      ) : (
-                        <div className="space-y-1">
-                          {(matchTips.get(m.id) ?? []).map(mt => (
-                            <div key={mt.user_id} className={`grid text-xs gap-1 ${mt.user_id === userId ? (dark ? 'text-green-400' : 'text-green-700') : (dark ? 'text-slate-300' : 'text-gray-700')}`}
-                              style={{ gridTemplateColumns: '1fr 3rem 1fr 4.5rem' }}>
-                              <span className="font-semibold truncate">
-                                {mt.user_id === userId ? '👤 ' : ''}{mt.nickname}
-                              </span>
-                              <span className="font-bold text-center">{mt.home_tip}:{mt.away_tip}</span>
-                              <span className={`truncate ${dark ? 'text-yellow-500' : 'text-yellow-600'}`}>
-                                {mt.scorer_tip ? `⚽ ${mt.scorer_tip}` : ''}
-                              </span>
-                              <span className="text-right">
-                                {mt.points !== null ? pointsBadge(mt.points, mt.scorer_points) : ''}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                      )}
+                      <MatchTipsList tips={matchTips.get(m.id) ?? []} userId={userId} dark={dark} />
                     </div>
                   )}
                 </div>
