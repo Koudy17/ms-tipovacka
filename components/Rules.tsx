@@ -41,6 +41,18 @@ export default function Rules({ dark, onClose }: { dark: boolean; onClose: () =>
           </section>
 
           <section>
+            <h3 className={d.h}>⏰ Deadline</h3>
+            <ul className={`list-disc pl-5 space-y-1 ${d.sub}`}>
+              <li>Uzávěrka tipů je u <b>každého zápasu zvlášť: výkop zápasu</b>. Čas výkopu (v pražském čase) vidíš u zápasu.</li>
+              <li>Tip na výsledek i tip na střelce můžeš do výkopu libovolně měnit. <b>V okamžiku výkopu se zamknou</b> a už je nezměníš, ani když zápas ještě nezačal doopravdy.</li>
+              <li>Zápasy, které se hrají později, tipuješ klidně hned, nemusíš čekat na jejich den.</li>
+              <li>Když se zápas <b>odloží</b>, tvůj tip platí dál a uzávěrka se posune na nový výkop.</li>
+              <li>Hodinu před výkopem ti může přijít <b>upozornění</b>, pokud nemáš natipováno (zapneš ho přes zvoneček 🔔 nahoře).</li>
+              <li>Body se připisují <b>po skončení zápasu</b>, obvykle během několika minut.</li>
+            </ul>
+          </section>
+
+          <section>
             <h3 className={d.h}>Body za zápas</h3>
             <div className="space-y-1.5">
               {points.map(p => (
@@ -70,7 +82,8 @@ export default function Rules({ dark, onClose }: { dark: boolean; onClose: () =>
           <section>
             <h3 className={d.h}>Tabulka</h3>
             <ul className={`list-disc pl-5 space-y-1 ${d.sub}`}>
-              <li>Hráči se řadí podle součtu bodů. Při shodě bodů podle přezdívky.</li>
+              <li>Hráči se řadí podle součtu bodů. Při shodě bodů mají <b>stejné pořadí</b> (a mezi sebou jsou podle přezdívky).</li>
+              <li>Tvoje pozice je vždy vidět nahoře nad tabulkou a hráče můžeš hledat podle přezdívky.</li>
               <li>Body se připisují po skončení zápasu. U odloženého zápasu platí tvůj tip dál a zamkne se novým výkopem.</li>
             </ul>
           </section>
