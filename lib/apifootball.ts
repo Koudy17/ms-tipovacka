@@ -74,6 +74,24 @@ export async function fetchSquad(apiKey: string, teamId: number): Promise<SquadP
   return players.map(p => ({ id: p.id, name: p.name, position: POSITIONS[p.position] ?? p.position }));
 }
 
+const LINEUP_POSITIONS: Record<string, string> = { G: 'Brankář', D: 'Obránce', M: 'Záložník', F: 'Útočník', A: 'Útočník' };
+
+// Hráči z posledního odehraného zápasu týmu (základ + lavička). Soupiska reprezentací z /players/squads
+// bývá zastaralá (soupiska z dřívějšího srazu), sestava posledního zápasu je spolehlivější.
+export async function fetchLastLineup(apiKey: string, teamId: number): Promise<SquadPlayer[]> {
+  const last = await apiGet(apiKey, '/fixtures', { team: teamId, last: 1, timezone: 'UTC' });
+  const fixtureId: number | undefined = last[0]?.fixture?.id;
+  if (!fixtureId) return [];
+  const lineups: { team: { id: number }; startXI: { player: { id: number; name: string; pos: string } }[]; substitutes: { player: { id: number; name: string; pos: string } }[] }[] =
+    await apiGet(apiKey, '/fixtures/lineups', { fixture: fixtureId });
+  const t = lineups.find(l => l.team.id === teamId);
+  if (!t) return [];
+  return [...t.startXI, ...t.substitutes]
+    .map(x => x.player)
+    .filter(p => p.id && p.name)
+    .map(p => ({ id: p.id, name: p.name, position: LINEUP_POSITIONS[p.pos] ?? p.pos }));
+}
+
 export interface GoalScorer { id: number; name: string }
 
 // Střelci zápasu: normální gól a penalta se počítají, vlastní gól ne

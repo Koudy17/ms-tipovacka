@@ -114,14 +114,23 @@ export async function initSchema() {
   await sql`ALTER TABLE tips ADD COLUMN IF NOT EXISTS scorer_player_id INTEGER`;
   await sql`
     CREATE TABLE IF NOT EXISTS players (
-      id INTEGER PRIMARY KEY,
+      id INTEGER NOT NULL,
       team_id INTEGER NOT NULL,
       team_name TEXT NOT NULL,
       name TEXT NOT NULL,
       position TEXT,
-      updated_at TIMESTAMP DEFAULT NOW()
+      updated_at TIMESTAMP DEFAULT NOW(),
+      PRIMARY KEY (id, team_id)
     )
   `;
+  // Hráč bývá zároveň v klubu i v reprezentaci → klíč je (id, tým), ne samotné id (starší DB měly PRIMARY KEY (id))
+  await sql`
+    DO $$ BEGIN
+      IF EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'players_pkey' AND conrelid = 'players'::regclass AND array_length(conkey, 1) = 1) THEN
+        ALTER TABLE players DROP CONSTRAINT players_pkey;
+        ALTER TABLE players ADD PRIMARY KEY (id, team_id);
+      END IF;
+    END $$`;
   await sql`CREATE INDEX IF NOT EXISTS players_team_idx ON players (team_id)`;
   await sql`ALTER TABLE matches ADD COLUMN IF NOT EXISTS home_logo TEXT`;
   await sql`ALTER TABLE matches ADD COLUMN IF NOT EXISTS away_logo TEXT`;

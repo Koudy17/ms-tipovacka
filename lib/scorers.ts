@@ -1,5 +1,5 @@
 import { getSql } from '@/lib/db';
-import { fetchGoalScorers, fetchSquad } from '@/lib/apifootball';
+import { fetchGoalScorers, fetchLastLineup, fetchSquad, type SquadPlayer } from '@/lib/apifootball';
 import { calcScorerBonus } from '@/lib/scoring';
 
 const SQUAD_MAX_AGE_HOURS = 20;
@@ -27,11 +27,17 @@ export async function refreshSquadsIfStale(apiKey: string, allTeams: { id: numbe
       try {
         const squad = await fetchSquad(apiKey, t.id);
         if (!squad.length) return; // prázdná odpověď nesmí smazat stávající soupisku
-        for (const p of squad) {
+        // + hráči z posledního zápasu (soupiska z API bývá u reprezentací zastaralá); selhání nesmí soupisku zrušit
+        const lineup = await fetchLastLineup(apiKey, t.id).catch(e => {
+          console.error('[squads] sestava týmu', t.id, e instanceof Error ? e.message : e);
+          return [] as SquadPlayer[];
+        });
+        // sestava jde jako druhá, ať má přednost její (správně diakritická) jména
+        for (const p of [...squad, ...lineup]) {
           await sql`
             INSERT INTO players (id, team_id, team_name, name, position, updated_at)
             VALUES (${p.id}, ${t.id}, ${t.name}, ${p.name}, ${p.position}, NOW())
-            ON CONFLICT (id) DO UPDATE SET team_id = EXCLUDED.team_id, team_name = EXCLUDED.team_name,
+            ON CONFLICT (id, team_id) DO UPDATE SET team_name = EXCLUDED.team_name,
               name = EXCLUDED.name, position = EXCLUDED.position, updated_at = NOW()`;
         }
         // hráči, kteří tým opustili, ze soupisky zmizí (tipy na ně zůstávají uložené se jménem)
