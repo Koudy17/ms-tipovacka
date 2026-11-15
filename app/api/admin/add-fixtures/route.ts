@@ -4,6 +4,7 @@ import { checkAdminAuth } from '@/lib/adminAuth';
 import { fetchFixturesByIds } from '@/lib/apifootball';
 import { applyFixture, insertFixture } from '@/lib/matchSync';
 import { refreshSquadsIfStale } from '@/lib/scorers';
+import { sendNewMatches } from '@/lib/notify';
 
 export const maxDuration = 60;
 
@@ -14,7 +15,7 @@ export async function POST(req: NextRequest) {
   const key = process.env.API_FOOTBALL_KEY;
   if (!key) return NextResponse.json({ error: 'Chybí API_FOOTBALL_KEY.' }, { status: 500 });
 
-  const { ids } = await req.json().catch(() => ({}));
+  const { ids, notify } = await req.json().catch(() => ({}));
   if (!Array.isArray(ids) || !ids.length || ids.length > 60 || ids.some((x: unknown) => !Number.isInteger(x))) {
     return NextResponse.json({ error: 'Pošli ids: [číslo, …] (max. 60).' }, { status: 400 });
   }
@@ -37,5 +38,16 @@ export async function POST(req: NextRequest) {
   const squads = await refreshSquadsIfStale(key, [...teams].map(([id, name]) => ({ id, name })));
   const missing = ids.filter((id: number) => !fixtures.some(f => f.fixture.id === id));
   await auditLog('ADD_FIXTURES', 'match', { ids, added: added.length }, 'admin');
-  return NextResponse.json({ ok: true, added, notFound: missing, squads });
+
+  // Upozornění hráčům na nové zápasy (vypnutelné: { "notify": false }). Selhání nesmí zrušit přidání zápasů.
+  let push: unknown = { skipped: true };
+  if (notify !== false) {
+    try {
+      push = await sendNewMatches(fixtures.map(f => f.fixture.id));
+    } catch (e) {
+      console.error('[add-fixtures] upozornění selhalo', e);
+      push = { error: e instanceof Error ? e.message : String(e) };
+    }
+  }
+  return NextResponse.json({ ok: true, added, notFound: missing, squads, push });
 }

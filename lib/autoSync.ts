@@ -2,6 +2,32 @@ import { after } from 'next/server';
 import { getSql } from '@/lib/db';
 import { cached } from '@/lib/apiCache';
 import { runSync } from '@/lib/syncFeatured';
+import { sendReminders } from '@/lib/notify';
+
+/**
+ * Připomínky „nemáš natipováno“ bez externího plánovače: kdykoli někdo appku otevře a nějaký zápas
+ * začíná za 60 minut nebo méně, pošle se (na pozadí, nejvýš jednou za 40 s) připomínka všem, komu tip chybí.
+ * Dvojí odeslání nehrozí – sendReminders si každou dvojici hráč+zápas zapíše dřív, než ji pošle.
+ */
+export async function triggerReminders(): Promise<void> {
+  try {
+    const due = await getSql()`
+      SELECT 1 FROM matches
+      WHERE featured AND status IN ('scheduled', 'upcoming')
+        AND kickoff > NOW() AND kickoff <= NOW() + INTERVAL '60 minutes'
+      LIMIT 1`;
+    if (!due.length) return;
+    after(async () => {
+      try {
+        await cached('reminders', 40, async () => sendReminders());
+      } catch (e) {
+        console.error('[reminders]', e instanceof Error ? e.message : e);
+      }
+    });
+  } catch (e) {
+    console.error('[reminders] kontrola selhala', e);
+  }
+}
 
 /**
  * Appka si zápasy synchronizuje sama, kdykoli ji někdo používá (živé sledování, otevření stránky).

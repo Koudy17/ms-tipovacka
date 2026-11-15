@@ -61,6 +61,50 @@ export async function sendReminders(dryRun = false) {
   return { users: perUser.size, pairs: claimed.length, delivered };
 }
 
+/**
+ * Nové zápasy: po přidání do tipovačky dostane každý hráč s povolenými upozorněními JEDNU zprávu
+ * (i když se přidalo víc zápasů). Posílá se jen o zápasech, které ještě nezačaly.
+ * Zapisuje se do notifications_sent (kind 'new'), takže opětovné přidání téhož zápasu nic neodešle.
+ * Řídí se přepínačem „Připomínky“ (notify_reminders).
+ */
+export async function sendNewMatches(matchIds: number[]) {
+  if (!matchIds.length) return { users: 0, matches: 0, delivered: 0 };
+  const sql = getSql();
+  const claimed = await sql`
+    INSERT INTO notifications_sent (kind, user_id, match_id)
+    SELECT 'new', u.id, m.id
+    FROM matches m CROSS JOIN users u
+    WHERE m.id = ANY(${matchIds})
+      AND m.featured AND m.status IN ('scheduled', 'upcoming')
+      AND m.kickoff > NOW()
+      AND u.notify_reminders
+      AND EXISTS (SELECT 1 FROM push_subscriptions s WHERE s.user_id = u.id)
+    ON CONFLICT DO NOTHING
+    RETURNING user_id, match_id`;
+  if (!claimed.length) return { users: 0, matches: 0, delivered: 0 };
+
+  const ids = [...new Set(claimed.map(c => c.match_id as number))];
+  const matches = await sql`SELECT id, home_team, away_team, kickoff FROM matches WHERE id = ANY(${ids}) ORDER BY kickoff, id`;
+  const byId = new Map(matches.map(m => [m.id as number, m]));
+
+  const perUser = new Map<number, number[]>();
+  for (const c of claimed) perUser.set(c.user_id, [...(perUser.get(c.user_id) ?? []), c.match_id]);
+
+  let delivered = 0;
+  for (const [userId, mids] of perUser) {
+    const list = mids.map(id => byId.get(id)!).sort((a, b) => +new Date(a.kickoff) - +new Date(b.kickoff));
+    const names = list.slice(0, 3).map(m => `${shortName(m.home_team)} – ${shortName(m.away_team)}`).join(', ');
+    const more = list.length > 3 ? ` a další (${list.length - 3})` : '';
+    delivered += await sendToUser(userId, {
+      title: list.length === 1 ? '⚽ Nový zápas k tipování' : `⚽ Nové zápasy k tipování (${list.length})`,
+      body: `${names}${more}. Natipuj před výkopem.`,
+      url: '/',
+      tag: 'new-matches', // další dávka nahradí předchozí, ať se na telefonu nehromadí
+    });
+  }
+  return { users: perUser.size, matches: ids.length, delivered };
+}
+
 /** Výsledek: zápas skončil a uživatel tipoval. Volá se po dopočtení bodů. */
 export async function sendResults(matchIds: number[]) {
   if (!matchIds.length) return { users: 0, delivered: 0 };

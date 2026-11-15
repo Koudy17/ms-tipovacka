@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSql } from '@/lib/db';
-import { triggerAutoSync } from '@/lib/autoSync';
+import { triggerAutoSync, triggerReminders } from '@/lib/autoSync';
 import { cached } from '@/lib/apiCache';
 import { fetchEvents, fetchLive } from '@/lib/apifootball';
 
@@ -13,7 +13,10 @@ const json = (body: unknown) =>
 export async function GET() {
   const key = process.env.API_FOOTBALL_KEY;
   if (!key) return json({ matches: [] });
-  await triggerAutoSync(); // skóre, body, střelci a upozornění po zápase se řeší na pozadí
+  await Promise.all([
+    triggerAutoSync(), // skóre, body, střelci a upozornění po zápase se řeší na pozadí
+    triggerReminders(), // připomínky před zápasem také
+  ]);
   const sql = getSql();
 
   // Mimo zápasy API vůbec nevoláme

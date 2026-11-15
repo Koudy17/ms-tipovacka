@@ -145,7 +145,7 @@ export default function NotificationSettings({ dark, onClose }: { dark: boolean;
 
         {status === 'off' && (
           <div className="space-y-2">
-            <p className={`text-sm ${d.sub}`}>Dostaneš připomínku, když ti hodinu před zápasem chybí tip, a hned po zápase své body.</p>
+            <p className={`text-sm ${d.sub}`}>Dostaneš zprávu o nových zápasech, připomínku, když ti hodinu před zápasem chybí tip, a hned po zápase své body.</p>
             <button onClick={enable} disabled={busy} className={`${d.btn} bg-green-600 hover:bg-green-500 text-white`}>
               {busy ? '⏳ …' : 'Zapnout upozornění'}
             </button>
@@ -155,7 +155,7 @@ export default function NotificationSettings({ dark, onClose }: { dark: boolean;
         {status === 'on' && (
           <div>
             <p className="text-sm text-green-500 mb-1">✓ Upozornění jsou na tomhle zařízení zapnutá.</p>
-            <Toggle label="Připomínka před zápasem" hint="Hodinu před výkopem, když nemáš natipováno" value={prefs.reminders} onChange={v => setPref('reminders', v)} />
+            <Toggle label="Nové zápasy a připomínky" hint="Když přibudou zápasy a hodinu před výkopem, když nemáš natipováno" value={prefs.reminders} onChange={v => setPref('reminders', v)} />
             <Toggle label="Výsledek mého tipu" hint="Po skončení zápasu s body, které jsi získal" value={prefs.results} onChange={v => setPref('results', v)} />
             <div className="grid grid-cols-2 gap-2 mt-3">
               <button onClick={sendTest} disabled={busy} className={`${d.btn} border ${d.border}`}>Zkušební upozornění</button>
